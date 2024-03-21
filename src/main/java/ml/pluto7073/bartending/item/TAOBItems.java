@@ -7,7 +7,7 @@ import net.minecraft.registry.Registry;
 
 public class TAOBItems {
 
-    public static final Item UNFINALIZED_ALCOHOLIC_DRINK_ITEM = new UnfinalizedAlcoholicDrinkItem(new Item.Settings());
+    public static final Item UNFINALIZED_ALCOHOLIC_DRINK_ITEM = new UnfinalizedAlcoholicDrinkItem(new Item.Settings().maxCount(1));
 
     private static void register(String id, Item item) {
         Registry.register(Registries.ITEM, TheArtOfBartending.asId(id), item);

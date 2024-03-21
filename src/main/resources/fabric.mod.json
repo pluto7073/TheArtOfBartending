@@ -11,6 +11,7 @@
 		"homepage": "https://github.com/pluto7073/TheArtOfBartending-Fabric",
 		"sources": "https://github.com/pluto7073/TheArtOfBartending-Fabric"
 	},
+	"accessWidener": "bartending.accesswidener",
 	"license": "MIT",
 	"icon": "assets/bartending/icon.png",
 	"environment": "*",

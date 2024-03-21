@@ -1,6 +1,8 @@
 package ml.pluto7073.bartending;
 
 import ml.pluto7073.bartending.alcohol.AlcoholicDrinkRegistry;
+import ml.pluto7073.bartending.alcohol.ItemToAlcoholRegistry;
+import ml.pluto7073.bartending.item.TAOBItems;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +15,9 @@ public class TheArtOfBartending implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        TAOBItems.init();
         AlcoholicDrinkRegistry.init();
+        ItemToAlcoholRegistry.init();
         LOGGER.info("Oh no its alcohol time...");
     }
 

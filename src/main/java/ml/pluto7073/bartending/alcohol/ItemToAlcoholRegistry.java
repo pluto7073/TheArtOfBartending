@@ -15,6 +15,8 @@ public class ItemToAlcoholRegistry {
         return REGISTRY.get(item);
     }
 
+    public static void init() {}
+
     static {
         REGISTRY.put(Items.WHEAT, AlcoholicDrinkRegistry.BEER);
         REGISTRY.put(Items.SWEET_BERRIES, AlcoholicDrinkRegistry.RED_WINE);
