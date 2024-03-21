@@ -1,9 +1,9 @@
 {
 	"required": true,
-	"package": "com.example.mixin",
+	"package": "ml.pluto7073.bartending.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"BrewingStandBlockEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
