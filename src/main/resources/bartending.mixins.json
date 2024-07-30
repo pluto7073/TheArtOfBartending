@@ -1,10 +1,8 @@
 {
   "required": true,
-  "package": "ml.pluto7073.bartending.mixin",
+  "package": "ml.pluto7073.bartending.foundations.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "BrewingStandBlockEntityMixin",
-    "BrewingStandScreenHandlerIngSocMixin"
   ],
   "injectors": {
     "defaultRequire": 1

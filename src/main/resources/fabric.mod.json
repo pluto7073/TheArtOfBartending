@@ -18,6 +18,9 @@
 	"entrypoints": {
 		"main": [
 			"ml.pluto7073.bartending.TheArtOfBartending"
+		],
+		"client": [
+			"ml.pluto7073.bartending.client.TheArtOfClient"
 		]
 	},
 	"mixins": [
