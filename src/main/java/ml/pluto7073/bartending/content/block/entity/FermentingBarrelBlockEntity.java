@@ -1,15 +1,23 @@
 package ml.pluto7073.bartending.content.block.entity;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.content.item.TAOBItems;
+import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -32,10 +40,10 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
     private NonNullList<ItemStack> contents;
     private final ContainerOpenersCounter counter;
 
-    public FermentingBarrelBlockEntity(BlockEntityType<?> type, WoodType woodType, BlockPos pos, BlockState blockState) {
-        super(type, pos, blockState);
+    public FermentingBarrelBlockEntity(WoodType woodType, BlockPos pos, BlockState blockState) {
+        super(TAOBBlockEntities.FERMENTING_BARREL_BLOCK_ENTITY_TYPE, pos, blockState);
         this.woodType = woodType;
-        contents = NonNullList.withSize(5, ItemStack.EMPTY);
+        contents = NonNullList.withSize(9, ItemStack.EMPTY);
         counter = new ContainerOpenersCounter() {
             protected void onOpen(Level level, BlockPos pos, BlockState state) {
                 FermentingBarrelBlockEntity.this.playSound( SoundEvents.BARREL_OPEN);
@@ -61,6 +69,66 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
         };
     }
 
+    public void startOpen(Player player) {
+        if (!this.remove && !player.isSpectator()) {
+            this.counter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+
+    }
+
+    public void stopOpen(Player player) {
+        if (!this.remove && !player.isSpectator()) {
+            this.counter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+
+    }
+
+    public void recheckOpen() {
+        if (!this.remove) {
+            this.counter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
+        }
+    }
+
+    public static void tick(Level level, BlockPos pos, BlockState state, FermentingBarrelBlockEntity entity) {
+        for (ItemStack stack : entity.getItems()) {
+            if (!stack.is(TAOBItems.CONCOCTION)) continue;
+            ListTag steps = stack.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
+            CompoundTag data = steps.getCompound(steps.size() - 1);
+            if (!FermentingBrewerStep.TYPE_ID.equals(data.getString("type")) ||
+                    !(TheArtOfBartending.asId(entity.woodType.name() + "_fermenting_barrel"))
+                            .toString().equals(data.getString("barrel"))) {
+                CompoundTag tag = new CompoundTag();
+                tag.putString("type", FermentingBrewerStep.TYPE_ID);
+                tag.putString("barrel", TheArtOfBartending.asId(entity.woodType.name() + "_fermenting_barrel").toString());
+                tag.putInt("ticks", 1);
+                steps.add(tag);
+            } else {
+                int ticks = data.getInt("ticks");
+                data.putInt("ticks", ++ticks);
+                steps.set(steps.size() - 1, data);
+            }
+            stack.getOrCreateTag().put("BrewingSteps", steps);
+        }
+
+    }
+
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        contents = NonNullList.withSize(9, ItemStack.EMPTY);
+        if (!this.tryLoadLootTable(tag)) {
+            ContainerHelper.loadAllItems(tag, contents);
+        }
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        if (!this.trySaveLootTable(tag)) {
+            ContainerHelper.saveAllItems(tag, contents);
+        }
+    }
+
     @Override
     protected NonNullList<ItemStack> getItems() {
         return contents;
@@ -78,12 +146,12 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return null;
+        return ChestMenu.oneRow(containerId, inventory);
     }
 
     @Override
     public int getContainerSize() {
-        return 0;
+        return 9;
     }
 
     void updateBlockState(BlockState state, boolean open) {
