@@ -11,7 +11,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
 
 import static ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity.DATA_COUNT;
 import static ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity.INVENTORY_SIZE;
@@ -27,7 +26,7 @@ public class BoilerMenu extends AbstractContainerMenu {
     }
 
     public BoilerMenu(int containerId, Inventory inventory, Container container, ContainerData data) {
-        super(TAOBMenuTypes.BOILER_MENU_TYPE, containerId);
+        super(BartendingMenuTypes.BOILER_MENU_TYPE, containerId);
         checkContainerSize(container, INVENTORY_SIZE);
         checkContainerDataCount(data, DATA_COUNT);
         this.container = container;

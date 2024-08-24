@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.content.block.entity;
 
 import ml.pluto7073.bartending.content.gui.BoilerMenu;
-import ml.pluto7073.bartending.foundations.tags.TAOBTags;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -57,7 +57,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     private int prevTickCount;
 
     public BoilerBlockEntity(BlockPos pos, BlockState blockState) {
-        super(TAOBBlockEntities.BOILER_BLOCK_ENTITY_TYPE, pos, blockState);
+        super(BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, pos, blockState);
         this.inventory = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
         this.data = new ContainerData() {
             @Override
@@ -113,7 +113,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
             if (entity.waterInMB <= (1000 - water) || entity.waterInMB < 25) {
                 entity.waterInMB += water;
                 if (entity.waterInMB > 1000) entity.waterInMB = 1000;
-                waterStack = new ItemStack(waterStack.getItem().asItem(), 1);
+                waterStack = new ItemStack(waterStack.getItem().asItem().getCraftingRemainingItem(), 1);
             }
         }
         entity.inventory.set(WATER_INPUT_SLOT_INDEX, waterStack);
@@ -173,7 +173,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         boolean heated = below.is(BlockTags.CAMPFIRES);
         heated = heated || below.is(BlockTags.FIRE);
         heated = heated || below.is(Blocks.LAVA);
-        return heated || below.is(TAOBTags.EXTRA_BOILER_HEATERS);
+        return heated || below.is(BartendingTags.EXTRA_BOILER_HEATERS);
     }
 
     public boolean isBoiling() {

@@ -1,6 +1,6 @@
 package ml.pluto7073.bartending.foundations.mixin;
 
-import ml.pluto7073.bartending.content.enchantment.AlcoholEnchantments;
+import ml.pluto7073.bartending.content.enchantment.BartendingEnchantments;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -21,11 +21,11 @@ public class SweetBerryBushBlockMixin {
     @Inject(at = @At("HEAD"), method = "entityInside", cancellable = true)
     public void bartending$NegateDamageAndSlownessForVineyardWalker(BlockState state, Level level, BlockPos pos, Entity entity, CallbackInfo ci) {
         if (entity instanceof Player player && EnchantmentHelper.getEnchantments(player.getItemBySlot(EquipmentSlot.LEGS))
-                .containsKey(AlcoholEnchantments.VINEYARD_WALKER)) {
+                .containsKey(BartendingEnchantments.VINEYARD_WALKER)) {
             ci.cancel();
         }
         if (entity instanceof Mob mob && EnchantmentHelper.getEnchantments(mob.getItemBySlot(EquipmentSlot.LEGS))
-                .containsKey(AlcoholEnchantments.VINEYARD_WALKER)) {
+                .containsKey(BartendingEnchantments.VINEYARD_WALKER)) {
             ci.cancel();
         }
     }

@@ -1,10 +1,10 @@
 package ml.pluto7073.bartending.content.gui;
 
-import ml.pluto7073.bartending.content.item.TAOBItems;
+import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.item.slot.DisplaySlot;
 import ml.pluto7073.bartending.foundations.item.slot.MaxOneSlot;
 import ml.pluto7073.bartending.foundations.item.slot.NoInsertMaxOne;
-import ml.pluto7073.bartending.foundations.tags.TAOBTags;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -28,7 +28,7 @@ public class BottlerMenu extends AbstractContainerMenu {
     }
 
     public BottlerMenu(int containerId, Inventory inventory, Container container, ContainerData data) {
-        super(TAOBMenuTypes.BOTTLER_MENU_TYPE, containerId);
+        super(BartendingMenuTypes.BOTTLER_MENU_TYPE, containerId);
         checkContainerSize(container, CONTAINER_SIZE);
         checkContainerDataCount(data, DATA_COUNT);
         this.container = container;
@@ -64,11 +64,11 @@ public class BottlerMenu extends AbstractContainerMenu {
             ItemStack itemStack2 = slot.getItem();
             itemStack = itemStack2.copy();
             if (index < 0 || index > CONTAINER_SIZE - 1) {
-                if (slots.get(CONCOCTION_INPUT_SLOT).mayPlace(itemStack2) && itemStack2.is(TAOBItems.CONCOCTION)) {
+                if (slots.get(CONCOCTION_INPUT_SLOT).mayPlace(itemStack2) && itemStack2.is(BartendingItems.CONCOCTION)) {
                     if (!this.moveItemStackTo(itemStack2, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (slots.get(BOTTLE_INSERT_SLOT).mayPlace(itemStack2) && itemStack2.is(TAOBTags.EMPTY_GLASS_BOTTLES)) {
+                } else if (slots.get(BOTTLE_INSERT_SLOT).mayPlace(itemStack2) && itemStack2.is(BartendingTags.EMPTY_GLASS_BOTTLES)) {
                     if (!this.moveItemStackTo(itemStack2, 2, 3, false)) {
                         return ItemStack.EMPTY;
                     }

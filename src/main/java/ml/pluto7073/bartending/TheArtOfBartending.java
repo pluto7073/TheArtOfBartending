@@ -1,15 +1,15 @@
 package ml.pluto7073.bartending;
 
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
-import ml.pluto7073.bartending.content.block.TAOBBlocks;
-import ml.pluto7073.bartending.content.block.entity.TAOBBlockEntities;
-import ml.pluto7073.bartending.content.enchantment.AlcoholEnchantments;
-import ml.pluto7073.bartending.content.gui.TAOBMenuTypes;
-import ml.pluto7073.bartending.content.item.TAOBItems;
-import ml.pluto7073.bartending.content.sound.TAOBSounds;
+import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
+import ml.pluto7073.bartending.content.enchantment.BartendingEnchantments;
+import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
+import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.content.sound.BartendingSounds;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholData;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
-import ml.pluto7073.bartending.foundations.item.AlcoholCreativeTabs;
+import ml.pluto7073.bartending.foundations.item.BartendingCreativeTabs;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
@@ -26,13 +26,13 @@ public class TheArtOfBartending implements ModInitializer {
         SharedConstants.IS_RUNNING_IN_IDE = true;
         AlcoholData.init();
         AlcoholHandler.init();
-        TAOBSounds.init();
-        TAOBBlocks.init();
-        TAOBBlockEntities.init();
-        TAOBMenuTypes.init();
-        TAOBItems.init();
-        AlcoholEnchantments.init();
-        AlcoholCreativeTabs.init();
+        BartendingSounds.init();
+        BartendingBlocks.init();
+        BartendingBlockEntities.init();
+        BartendingMenuTypes.init();
+        BartendingItems.init();
+        BartendingEnchantments.init();
+        BartendingCreativeTabs.init();
         AlcoholicDrinks.init();
         LOGGER.info("Oh no its alcohol time...");
     }

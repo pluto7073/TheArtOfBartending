@@ -61,7 +61,7 @@ public class BoilerScreen extends AbstractContainerScreen<BoilerMenu> {
         // Time
         int timeSeconds = menu.getBoilTime() / 20;
         if (timeSeconds > 0) {
-            guiGraphics.blit(TEXTURE, i + 75, j + 28, 176, 32, 8, 11);
+            guiGraphics.blit(TEXTURE, i + 75, j + 27, 176, 32, 8, 11);
         }
         if (mouseX >= i + 75 && mouseX <= i + 75 + 8) {
             if (mouseY >= j + 28 && mouseY <= j + 28 + 11) {

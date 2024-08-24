@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L_L",
+    "L L",
+    "L_L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:stripped_warped_stem"
+    },
+    "_": {
+      "item": "minecraft:warped_slab"
+    }
+  },
+  "result": {
+    "item": "bartending:warped_fermenting_barrel"
+  }
+}

@@ -1,8 +1,8 @@
 package ml.pluto7073.bartending.foundations;
 
+import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
-import ml.pluto7073.bartending.content.item.TAOBItems;
 import ml.pluto7073.bartending.foundations.step.*;
 import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
@@ -25,7 +25,7 @@ public class BrewingUtil {
         data.putString("item", BuiltInRegistries.ITEM.getKey(base.getItem()).toString());
         data.putInt("count", base.getCount());
         data.putInt("ticks", ticks);
-        ItemStack stack = new ItemStack(TAOBItems.CONCOCTION, 1);
+        ItemStack stack = new ItemStack(BartendingItems.CONCOCTION, 1);
         ListTag list = new ListTag();
         list.add(data);
         stack.getOrCreateTag().put("BrewingSteps", list);
@@ -39,7 +39,7 @@ public class BrewingUtil {
     }
 
     public static int getColorForConcoction(ItemStack concoction) {
-        return ItemColors.get(getBaseItemFromConcoction(concoction).toString());
+        return ColorUtil.get(getBaseItemFromConcoction(concoction).toString());
     }
 
     public static int getColorForDrinkWithDefault(ItemStack drink, int normal) {
@@ -115,21 +115,22 @@ public class BrewingUtil {
     }
 
     public static ItemStack constructFailedConcoction(ItemStack og) {
-        ItemStack failed = new ItemStack(TAOBItems.CONCOCTION);
-        int ticksBoiled = 0, ticksFermented = 0, ticksDistilled = 0;
+        ItemStack failed = new ItemStack(BartendingItems.CONCOCTION);
+        int ticksBoiled = 0, ticksFermented = 0;
+        boolean distilled = false;
         ListTag steps = og.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
         for (Tag tag : steps) {
             if (!(tag instanceof CompoundTag data)) continue;
             switch (data.getString("type")) {
                 case BoilingBrewerStep.TYPE_ID -> ticksBoiled += data.getInt("ticks");
                 case FermentingBrewerStep.TYPE_ID -> ticksFermented += data.getInt("ticks");
-                case DistillingBrewerStep.TYPE_ID -> ticksDistilled += data.getInt("ticks");
+                case DistillingBrewerStep.TYPE_ID -> distilled = true;
             }
         }
         CompoundTag data = new CompoundTag();
         data.putInt("ticksBoiled", ticksBoiled);
         data.putInt("ticksFermented", ticksFermented);
-        data.putInt("ticksDistilled", ticksDistilled);
+        data.putBoolean("distilled", distilled);
         failed.getOrCreateTag().put("FailedConcoctionData", data);
         return failed;
     }

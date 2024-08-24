@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L_L",
+    "L L",
+    "L_L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:stripped_mangrove_log"
+    },
+    "_": {
+      "item": "minecraft:mangrove_slab"
+    }
+  },
+  "result": {
+    "item": "bartending:mangrove_fermenting_barrel"
+  }
+}

@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.content.block.entity.BottlerBlockEntity;
-import ml.pluto7073.bartending.content.block.entity.TAOBBlockEntities;
+import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.Containers;
@@ -36,7 +36,7 @@ public class BottlerBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, TAOBBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntity::tick);
     }
 
     @Override

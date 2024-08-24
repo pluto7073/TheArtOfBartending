@@ -1,16 +1,13 @@
 package ml.pluto7073.bartending.content.block.entity;
 
-import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.gui.BottlerMenu;
-import ml.pluto7073.bartending.content.item.ConcoctionItem;
-import ml.pluto7073.bartending.content.item.TAOBItems;
+import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
-import ml.pluto7073.bartending.foundations.tags.TAOBTags;
-import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -19,23 +16,18 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
-import net.minecraft.world.inventory.SimpleContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-
-import java.util.Map;
 
 @MethodsReturnNonnullByDefault
 public class BottlerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
@@ -63,7 +55,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
     private ItemStack currentResult;
 
     public BottlerBlockEntity(BlockPos pos, BlockState blockState) {
-        super(TAOBBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, pos, blockState);
+        super(BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, pos, blockState);
         container = NonNullList.withSize(CONTAINER_SIZE, ItemStack.EMPTY);
         currentResult = ItemStack.EMPTY;
         data = new ContainerData() {
@@ -92,7 +84,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
         ItemStack output = entity.getItem(RESULT_SLOT);
 
         // Testing for start of bottling
-        if (concoction.is(TAOBItems.CONCOCTION) && display.isEmpty() && concoction.getOrCreateTag().contains("BrewingSteps") && entity.bottleTick == 0) {
+        if (concoction.is(BartendingItems.CONCOCTION) && display.isEmpty() && concoction.getOrCreateTag().contains("BrewingSteps") && entity.bottleTick == 0) {
             ListTag steps = concoction.getOrCreateTag().getList("BrewingSteps", CompoundTag.TAG_COMPOUND);
             AlcoholicDrink match = null;
             for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
@@ -148,7 +140,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
             }
         }
 
-        if (display.is(TAOBItems.CONCOCTION) && bottle.is(Items.GLASS_BOTTLE) && output.isEmpty()) {
+        if (display.is(BartendingItems.CONCOCTION) && bottle.is(Items.GLASS_BOTTLE) && output.isEmpty()) {
             output = display;
             bottle.shrink(1);
             display = ItemStack.EMPTY;
@@ -265,8 +257,8 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
 
     public boolean isValid(int slot, ItemStack stack) {
         return switch (slot) {
-            case CONCOCTION_INPUT_SLOT -> stack.is(TAOBItems.CONCOCTION);
-            case BOTTLE_INSERT_SLOT -> stack.is(TAOBTags.EMPTY_GLASS_BOTTLES);
+            case CONCOCTION_INPUT_SLOT -> stack.is(BartendingItems.CONCOCTION);
+            case BOTTLE_INSERT_SLOT -> stack.is(BartendingTags.EMPTY_GLASS_BOTTLES);
             default -> false;
         };
     }

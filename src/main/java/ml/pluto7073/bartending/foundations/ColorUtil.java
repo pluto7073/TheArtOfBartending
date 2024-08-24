@@ -1,13 +1,8 @@
-package ml.pluto7073.bartending.foundations.step;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.MapColor;
+package ml.pluto7073.bartending.foundations;
 
 import java.util.HashMap;
 
-public class ItemColors {
+public class ColorUtil {
 
     public static final HashMap<String, Integer> COLORS_REGISTRY = new HashMap<>();
 
@@ -20,6 +15,11 @@ public class ItemColors {
         COLORS_REGISTRY.put("minecraft:wheat", 9402184);
         COLORS_REGISTRY.put("minecraft:sweet_berries", 9321518);
         COLORS_REGISTRY.put("minecraft:glow_berries", 12223780);
+        COLORS_REGISTRY.put("minecraft:potato", 0xf2e6ab);
+
+        COLORS_REGISTRY.put("bartending:oak_fermenting_barrel", 0xc29d62);
+        COLORS_REGISTRY.put("bartending:cherry_fermenting_barrel", 0xefd0ef);
+        COLORS_REGISTRY.put("bartending:bamboo_fermenting_barrel", 0xe3cc6a);
     }
 
 }

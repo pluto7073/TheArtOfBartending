@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.content.alcohol;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
-import ml.pluto7073.bartending.content.item.TAOBItems;
+import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BarrelPredicate;
 import ml.pluto7073.bartending.foundations.step.BoilingBrewerStep;
@@ -12,7 +12,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -25,18 +24,18 @@ public final class AlcoholicDrinks {
     public static final AlcoholicDrink BEER = register("beer", new AlcoholicDrink.Builder().proof(10).ounces(12)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.WHEAT), 5, 9600, 600))
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 72000))
-            .bottle(TAOBItems.BEER_BOTTLE).build());
+            .bottle(BartendingItems.BEER_BOTTLE).build());
     public static final AlcoholicDrink RED_WINE = register("red_wine", new AlcoholicDrink.Builder().proof(24).ounces(5)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.SWEET_BERRIES), 64, 9600, 600))
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 24000, 6000))
-            .bottle(TAOBItems.WINE_BOTTLE).build());
+            .bottle(BartendingItems.WINE_BOTTLE).build());
     public static final AlcoholicDrink WHITE_WINE = register("white_wine", new AlcoholicDrink.Builder().proof(24).ounces(5)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.GLOW_BERRIES), 64, 9600, 600))
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 24000, 6000))
-            .bottle(TAOBItems.WINE_BOTTLE).build());
+            .bottle(BartendingItems.WINE_BOTTLE).build());
     public static final AlcoholicDrink VODKA = register("vodka", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.POTATO, Items.POISONOUS_POTATO), 10, 12000, 1200))
-            .addStep(new DistillingBrewerStep()).bottle(TAOBItems.LIQUOR_BOTTLE).build());
+            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).build());
 
     public static AlcoholicDrink register(ResourceLocation id, AlcoholicDrink drink) {
         REGISTRY.put(id, drink);

@@ -1,14 +1,13 @@
 package ml.pluto7073.bartending.content.block.entity;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
-import ml.pluto7073.bartending.content.item.TAOBItems;
+import ml.pluto7073.bartending.content.block.FermentingBarrelBlock;
+import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -26,8 +25,6 @@ import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.entity.BarrelBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -42,17 +39,17 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
     private final ContainerOpenersCounter counter;
 
     public FermentingBarrelBlockEntity(WoodType woodType, BlockPos pos, BlockState blockState) {
-        super(TAOBBlockEntities.FERMENTING_BARREL_BLOCK_ENTITY_TYPE, pos, blockState);
+        super(BartendingBlockEntities.FERMENTING_BARREL_BLOCK_ENTITY_TYPE, pos, blockState);
         this.woodType = woodType;
         contents = NonNullList.withSize(9, ItemStack.EMPTY);
         counter = new ContainerOpenersCounter() {
             protected void onOpen(Level level, BlockPos pos, BlockState state) {
-                FermentingBarrelBlockEntity.this.playSound( SoundEvents.BARREL_OPEN);
+                FermentingBarrelBlockEntity.this.playSound(state,  SoundEvents.BARREL_OPEN);
                 FermentingBarrelBlockEntity.this.updateBlockState(state, true);
             }
 
             protected void onClose(Level level, BlockPos pos, BlockState state) {
-                FermentingBarrelBlockEntity.this.playSound(SoundEvents.BARREL_CLOSE);
+                FermentingBarrelBlockEntity.this.playSound(state, SoundEvents.BARREL_CLOSE);
                 FermentingBarrelBlockEntity.this.updateBlockState(state, false);
             }
 
@@ -92,7 +89,7 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
 
     public static void tick(Level level, BlockPos pos, BlockState state, FermentingBarrelBlockEntity entity) {
         for (ItemStack stack : entity.getItems()) {
-            if (!stack.is(TAOBItems.CONCOCTION)) continue;
+            if (!stack.is(BartendingItems.CONCOCTION)) continue;
             ListTag steps = stack.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
             CompoundTag data = steps.getCompound(steps.size() - 1);
             if (!FermentingBrewerStep.TYPE_ID.equals(data.getString("type")) ||
@@ -156,14 +153,15 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
     }
 
     void updateBlockState(BlockState state, boolean open) {
-        //this.level.setBlock(this.getBlockPos(), state.setValue(BarrelBlock.OPEN, open), 3);
+        this.level.setBlock(this.getBlockPos(), state.setValue(FermentingBarrelBlock.OPEN, open), 3);
     }
 
-    void playSound(SoundEvent sound) {
-        double d = (double)this.worldPosition.getX() + 0.5;
-        double e = (double)this.worldPosition.getY() + 0.5;
-        double f = (double)this.worldPosition.getZ() + 0.5;
-        this.level.playSound(null, d, e, f, sound, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+    void playSound(BlockState state, SoundEvent sound) {
+        Vec3i vec3i = state.getValue(BarrelBlock.FACING).getNormal();
+        double d = (double)this.worldPosition.getX() + 0.5 + (double)vec3i.getX() / 2.0;
+        double e = (double)this.worldPosition.getY() + 0.5 + (double)vec3i.getY() / 2.0;
+        double f = (double)this.worldPosition.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
+        this.level.playSound(null, d, e, f, sound, SoundSource.BLOCKS, 0.5f, this.level.random.nextFloat() * 0.1f + 0.9f);
     }
 
 }

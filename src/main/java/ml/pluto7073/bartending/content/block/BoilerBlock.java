@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
-import ml.pluto7073.bartending.content.block.entity.TAOBBlockEntities;
+import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -105,7 +105,7 @@ public class BoilerBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, TAOBBlockEntities.BOILER_BLOCK_ENTITY_TYPE, BoilerBlockEntity::tick);
+        return level.isClientSide ? null : createTickerHelper(blockEntityType, BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, BoilerBlockEntity::tick);
     }
 
     protected void openScreen(Level level, BlockPos pos, Player player) {

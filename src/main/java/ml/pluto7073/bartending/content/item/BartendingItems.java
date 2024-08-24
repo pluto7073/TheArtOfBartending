@@ -2,7 +2,7 @@ package ml.pluto7073.bartending.content.item;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
-import ml.pluto7073.bartending.content.block.TAOBBlocks;
+import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
 import ml.pluto7073.bartending.foundations.item.tier.GlassBottleTier;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 
 import java.util.HashMap;
 
-public class TAOBItems {
+public class BartendingItems {
 
     // Items
 
@@ -33,19 +33,20 @@ public class TAOBItems {
     public static final Item GLASS_OF_WHITE_WINE = new AlcoholicDrinkItem(AlcoholicDrinks.WHITE_WINE, Items.GLASS_BOTTLE, new Item.Properties().stacksTo(1).rarity(Rarity.UNCOMMON));
     public static final Item WHITE_WINE = new PourableBottleItem(GLASS_OF_WHITE_WINE, WINE_BOTTLE, AlcoholicDrinks.WHITE_WINE, new Item.Properties().defaultDurability(5).craftRemainder(WINE_BOTTLE).rarity(Rarity.UNCOMMON));
 
-    public static final Item SHOT_OF_VODKA = new AlcoholicShotItem(AlcoholicDrinks.VODKA, new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON));
+    public static final Item SHOT_OF_VODKA = new AlcoholicShotItem(AlcoholicDrinks.VODKA, new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE));
     public static final Item VODKA = new PourableBottleItem(SHOT_OF_VODKA, LIQUOR_BOTTLE, AlcoholicDrinks.VODKA, new Item.Properties().defaultDurability(20).craftRemainder(LIQUOR_BOTTLE).rarity(Rarity.UNCOMMON));
 
     public static final Item MIXED_DRINK = new MixedDrinkItem(new Item.Properties().stacksTo(1));
 
     // Block Items
 
-    public static final Item BOILER = new BlockItem(TAOBBlocks.BOILER, new Item.Properties());
-    public static final Item BOTTLER = new BlockItem(TAOBBlocks.BOTTLER, new Item.Properties());
+    public static final Item BOILER = new BlockItem(BartendingBlocks.BOILER, new Item.Properties());
+    public static final Item BOTTLER = new BlockItem(BartendingBlocks.BOTTLER, new Item.Properties());
+    public static final Item DISTILLERY = new BlockItem(BartendingBlocks.DISTILLERY, new Item.Properties());
 
     public static final HashMap<WoodType, BlockItem> FERMENTING_BARRELS = Util.make(() -> {
         HashMap<WoodType, BlockItem> map = new HashMap<>();
-        TAOBBlocks.BARRELS.forEach((type, block) -> map.put(type, new BlockItem(block, new Item.Properties())));
+        BartendingBlocks.BARRELS.forEach((type, block) -> map.put(type, new BlockItem(block, new Item.Properties())));
         return map;
     });
 
@@ -69,6 +70,7 @@ public class TAOBItems {
 
         register("boiler", BOILER);
         register("bottler", BOTTLER);
+        register("distillery", DISTILLERY);
         FERMENTING_BARRELS.forEach((type, item) -> register(type.name() + "_fermenting_barrel", item));
 
         InProgressItemRegistry.register(Items.GLASS_BOTTLE, MIXED_DRINK);

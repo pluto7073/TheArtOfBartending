@@ -1,11 +1,10 @@
 package ml.pluto7073.bartending.foundations.item;
 
-import ml.pluto7073.bartending.content.sound.TAOBSounds;
+import ml.pluto7073.bartending.content.sound.BartendingSounds;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
-import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalRegistry;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.network.chat.Component;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.List;
 
 @MethodsReturnNonnullByDefault
@@ -47,7 +45,7 @@ public class PourableBottleItem extends Item {
 
     @Override
     public SoundEvent getDrinkingSound() {
-        return TAOBSounds.LIQUID_POUR;
+        return BartendingSounds.LIQUID_POUR;
     }
 
     @Override

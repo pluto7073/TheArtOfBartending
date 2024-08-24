@@ -6,7 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.item.enchantment.Enchantment;
 
-public class AlcoholEnchantments {
+public class BartendingEnchantments {
 
     public static final Enchantment VINEYARD_WALKER = register("vineyard_walker", new VineyardWalkerEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.LEGS));
 

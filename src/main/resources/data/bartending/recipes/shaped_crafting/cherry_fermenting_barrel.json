@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L_L",
+    "L L",
+    "L_L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:stripped_cherry_log"
+    },
+    "_": {
+      "item": "minecraft:cherry_slab"
+    }
+  },
+  "result": {
+    "item": "bartending:cherry_fermenting_barrel"
+  }
+}

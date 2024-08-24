@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L_L",
+    "L L",
+    "L_L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:stripped_oak_log"
+    },
+    "_": {
+      "item": "minecraft:oak_slab"
+    }
+  },
+  "result": {
+    "item": "bartending:oak_fermenting_barrel"
+  }
+}

@@ -6,7 +6,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 
-public class TAOBTags {
+public class BartendingTags {
 
     public static final TagKey<Block> EXTRA_BOILER_HEATERS = TagKey.create(Registries.BLOCK, TheArtOfBartending.asId("extra_boiler_heaters"));
 

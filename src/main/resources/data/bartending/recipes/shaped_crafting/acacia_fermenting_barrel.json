@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L_L",
+    "L L",
+    "L_L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:stripped_acacia_log"
+    },
+    "_": {
+      "item": "minecraft:acacia_slab"
+    }
+  },
+  "result": {
+    "item": "bartending:acacia_fermenting_barrel"
+  }
+}

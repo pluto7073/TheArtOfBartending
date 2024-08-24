@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "L_L",
+    "L L",
+    "L_L"
+  ],
+  "key": {
+    "L": {
+      "item": "minecraft:stripped_jungle_log"
+    },
+    "_": {
+      "item": "minecraft:jungle_slab"
+    }
+  },
+  "result": {
+    "item": "bartending:jungle_fermenting_barrel"
+  }
+}
