@@ -1,0 +1,6 @@
+{
+  "parent": "bartending:item/bottle",
+  "textures": {
+    "layer0": "bartending:item/liquor_bottle"
+  }
+}

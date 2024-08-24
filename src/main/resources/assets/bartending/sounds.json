@@ -1,0 +1,9 @@
+{
+  "liquid_pour": {
+    "subtitle": "sound.bartending.liquid_pour",
+    "sounds": [
+      "block/brewing_stand/brew1",
+      "block/brewing_stand/brew2"
+    ]
+  }
+}

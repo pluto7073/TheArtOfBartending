@@ -11,6 +11,11 @@ public class ItemColors {
 
     public static final HashMap<String, Integer> COLORS_REGISTRY = new HashMap<>();
 
+    public static int get(String s) {
+        if (!COLORS_REGISTRY.containsKey(s)) return 0;
+        return COLORS_REGISTRY.get(s);
+    }
+
     static {
         COLORS_REGISTRY.put("minecraft:wheat", 9402184);
         COLORS_REGISTRY.put("minecraft:sweet_berries", 9321518);

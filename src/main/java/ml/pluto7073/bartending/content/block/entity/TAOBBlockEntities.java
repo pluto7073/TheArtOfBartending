@@ -15,12 +15,15 @@ public class TAOBBlockEntities {
             create("boiler", BlockEntityType.Builder.of(BoilerBlockEntity::new, TAOBBlocks.BOILER));
 
     public static final BlockEntityType<FermentingBarrelBlockEntity> FERMENTING_BARREL_BLOCK_ENTITY_TYPE =
-            create("oak_fermenting_barrel", BlockEntityType.Builder.of(
+            create("fermenting_barrel", BlockEntityType.Builder.of(
                     (pos, state) -> {
                         if (!(state.getBlock() instanceof FermentingBarrelBlock block)) throw new IllegalStateException();
                         return new FermentingBarrelBlockEntity(block.woodType, pos, state);
                     },
-                    TAOBBlocks.OAK_FERMENTING_BARREL));
+                    TAOBBlocks.BARRELS.values().toArray(new FermentingBarrelBlock[0])));
+
+    public static final BlockEntityType<BottlerBlockEntity> BOTTLER_BLOCK_ENTITY_TYPE =
+            create("bottler", BlockEntityType.Builder.of(BottlerBlockEntity::new, TAOBBlocks.BOTTLER));
 
     private static <T extends BlockEntity> BlockEntityType<T> create(String id, BlockEntityType.Builder<T> builder) {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, TheArtOfBartending.asId(id), builder.build(null));

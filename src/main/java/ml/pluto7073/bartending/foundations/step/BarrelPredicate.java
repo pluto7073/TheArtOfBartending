@@ -12,17 +12,7 @@ import java.util.function.Predicate;
 public class BarrelPredicate implements Predicate<Block> {
 
     public static final BarrelPredicate ANY = new BarrelPredicate(
-            TAOBBlocks.OAK_FERMENTING_BARREL,
-            TAOBBlocks.SPRUCE_FERMENTING_BARREL,
-            TAOBBlocks.BIRCH_FERMENTING_BARREL,
-            TAOBBlocks.JUNGLE_FERMENTING_BARREL,
-            TAOBBlocks.ACACIA_FERMENTING_BARREL,
-            TAOBBlocks.DARK_OAK_FERMENTING_BARREL,
-            TAOBBlocks.MANGROVE_FERMENTING_BARREL,
-            TAOBBlocks.CHERRY_FERMENTING_BARREL,
-            TAOBBlocks.BAMBOO_FERMENTING_BARREL,
-            TAOBBlocks.CRIMSON_FERMENTING_BARREL,
-            TAOBBlocks.WARPED_FERMENTING_BARREL
+            TAOBBlocks.BARRELS.values().toArray(new FermentingBarrelBlock[0])
     );
 
     private final List<FermentingBarrelBlock> allowed;

@@ -1,6 +1,9 @@
 package ml.pluto7073.bartending.content.gui;
 
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
+import ml.pluto7073.bartending.foundations.item.slot.DisplaySlot;
+import ml.pluto7073.bartending.foundations.item.slot.MaxOneSlot;
+import ml.pluto7073.bartending.foundations.item.slot.NoInsertMaxOne;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -30,44 +33,6 @@ public class BoilerMenu extends AbstractContainerMenu {
         this.container = container;
         this.data = data;
         this.level = inventory.player.level();
-        class MaxOneSlot extends Slot {
-
-            public MaxOneSlot(Container container, int slot, int x, int y) {
-                super(container, slot, x, y);
-            }
-
-            @Override
-            public int getMaxStackSize() {
-                return 1;
-            }
-        }
-        class NoInsertMaxOne extends MaxOneSlot {
-
-            public NoInsertMaxOne(Container container, int slot, int x, int y) {
-                super(container, slot, x, y);
-            }
-
-            @Override
-            public boolean mayPlace(ItemStack stack) {
-                return false;
-            }
-        }
-        class DisplaySlot extends MaxOneSlot {
-
-            public DisplaySlot(Container container, int slot, int x, int y) {
-                super(container, slot, x, y);
-            }
-
-            @Override
-            public boolean mayPickup(Player player) {
-                return false;
-            }
-
-            @Override
-            public boolean allowModification(Player player) {
-                return false;
-            }
-        }
         this.addSlot(new MaxOneSlot(container, BoilerBlockEntity.WATER_INPUT_SLOT_INDEX, 48, 42));
         this.addSlot(new Slot(container, BoilerBlockEntity.ITEM_INPUT_SLOT_INDEX, 48, 17));
         this.addSlot(new DisplaySlot(container, BoilerBlockEntity.DISPLAY_RESULT_ITEM_SLOT_INDEX, 124, 28));

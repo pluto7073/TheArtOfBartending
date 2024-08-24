@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.content.block.entity;
 
 import ml.pluto7073.bartending.content.gui.BoilerMenu;
-import ml.pluto7073.bartending.content.tags.TAOBlockTags;
+import ml.pluto7073.bartending.foundations.tags.TAOBTags;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -65,7 +65,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
                 return switch (index) {
                     case WATER_AMOUNT_DATA -> waterInMB;
                     case BOIL_TIME_DATA -> boilTicks;
-                    case HEATED_DATA -> isHeated(getBlockPos()) ? 1 : 0;
+                    case HEATED_DATA -> isHeated() ? 1 : 0;
                     default -> 0;
                 };
             }
@@ -91,6 +91,10 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         boilTicks = tag.getInt("BoilTicks");
         waterInMB = tag.getInt("WaterAmount");
         ContainerHelper.loadAllItems(tag, inventory);
+
+        ItemStack itemInput = getItem(ITEM_INPUT_SLOT_INDEX);
+        prevTickItem = itemInput.getItem();
+        prevTickCount = itemInput.getCount();
     }
 
     @Override
@@ -116,7 +120,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
 
         // Testing Boiling
 
-        if (!entity.isBoiling(pos)) {
+        if (!entity.isBoiling()) {
             entity.inventory.set(DISPLAY_RESULT_ITEM_SLOT_INDEX, ItemStack.EMPTY);
             return;
         }
@@ -162,18 +166,19 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         setChanged(level, pos, state);
     }
 
-    public boolean isHeated(BlockPos pos) {
+    public boolean isHeated() {
         // If heated from below
-        BlockState below = level.getBlockState(pos.below());
+        if (level == null) return false;
+        BlockState below = level.getBlockState(getBlockPos().below());
         boolean heated = below.is(BlockTags.CAMPFIRES);
         heated = heated || below.is(BlockTags.FIRE);
         heated = heated || below.is(Blocks.LAVA);
-        return heated || below.is(TAOBlockTags.EXTRA_BOILER_HEATERS);
+        return heated || below.is(TAOBTags.EXTRA_BOILER_HEATERS);
     }
 
-    public boolean isBoiling(BlockPos pos) {
+    public boolean isBoiling() {
         // If water
-        return waterInMB > 0 && isHeated(pos);
+        return waterInMB > 0 && isHeated();
     }
 
     @Override
@@ -218,7 +223,6 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     @Override
     public void setItem(int slot, ItemStack stack) {
         ItemStack s = this.inventory.get(slot);
-        boolean canInsert = !stack.isEmpty() && stack.getItem().equals(s.getItem()) && ItemStack.isSameItemSameTags(s, stack);
         this.inventory.set(slot, stack);
         if (stack.getCount() > this.getMaxStackSize()) {
             stack.setCount(this.getMaxStackSize());
@@ -267,7 +271,6 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         return switch (slot) {
             case WATER_INPUT_SLOT_INDEX -> ValidWaterSources.getAmountFromItem(stack) > 0;
             case ITEM_INPUT_SLOT_INDEX -> true;
-            case DISPLAY_RESULT_ITEM_SLOT_INDEX -> false;
             case GLASS_BOTTLE_INSERT_SLOT_INDEX -> stack.is(Items.GLASS_BOTTLE);
             default -> false;
         };

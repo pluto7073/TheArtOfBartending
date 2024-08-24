@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.content.block.entity.FermentingBarrelBlockEntity;
 import ml.pluto7073.bartending.content.block.entity.TAOBBlockEntities;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.stats.Stats;
@@ -14,6 +15,7 @@ import net.minecraft.world.entity.monster.piglin.PiglinAi;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
@@ -23,6 +25,7 @@ import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
+@MethodsReturnNonnullByDefault
 public class FermentingBarrelBlock extends BaseEntityBlock {
 
     public final WoodType woodType;
@@ -30,6 +33,11 @@ public class FermentingBarrelBlock extends BaseEntityBlock {
     public FermentingBarrelBlock(WoodType type, Properties properties) {
         super(properties);
         this.woodType = type;
+    }
+
+    @Override
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {

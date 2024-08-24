@@ -87,7 +87,7 @@ public class BoilerBlock extends BaseEntityBlock {
         double z = pos.getZ() + 0.4 + (double) random.nextFloat() * 0.2;
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof BoilerBlockEntity steamerBlockEntity) {
-            if (steamerBlockEntity.isBoiling(pos)) {
+            if (steamerBlockEntity.isBoiling()) {
                 level.addParticle(ParticleTypes.SPLASH, x, y, z, 0.0, 0.0, 0.0);
                 if (random.nextDouble() < 0.1) {
                     level.playLocalSound(x, y, z, SoundEvents.BUBBLE_COLUMN_UPWARDS_AMBIENT, SoundSource.BLOCKS, 1.0F, 1.0F, false);

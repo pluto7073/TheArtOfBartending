@@ -21,7 +21,21 @@
 		],
 		"client": [
 			"ml.pluto7073.bartending.client.TheArtOfClient"
+		],
+		"modmenu": [
+			"ml.pluto7073.bartending.compat.modmenu.TheArtOfModMenu"
 		]
+	},
+	"custom": {
+		"modmenu": {
+			"update_checker": true,
+			"parent": {
+				"id": "plutosdrinks",
+				"name": "Pluto's Drinks Series",
+				"description": "Every mod in the Pluto's Drinks collection",
+				"icon": "assets/pdapi/icon.png"
+			}
+		}
 	},
 	"mixins": [
 		"bartending.mixins.json"

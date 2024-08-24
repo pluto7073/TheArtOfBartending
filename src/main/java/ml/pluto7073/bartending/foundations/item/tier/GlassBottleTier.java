@@ -1,4 +1,4 @@
-package ml.pluto7073.bartending.content.item.tier;
+package ml.pluto7073.bartending.foundations.item.tier;
 
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.item.Items;

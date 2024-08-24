@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/potion",
+  "textures": {
+    "layer0": "bartending:item/mixed_drink_overlay"
+  }
+}

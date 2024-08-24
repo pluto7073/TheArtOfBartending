@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "bartending:item/wine_in_glass",
+    "layer1": "bartending:item/wine_glass"
+  }
+}

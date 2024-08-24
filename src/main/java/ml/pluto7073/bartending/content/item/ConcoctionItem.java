@@ -1,7 +1,9 @@
 package ml.pluto7073.bartending.content.item;
 
 import ml.pluto7073.bartending.foundations.step.BoilingBrewerStep;
+import ml.pluto7073.bartending.foundations.step.DistillingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.nbt.CompoundTag;
@@ -10,12 +12,11 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +28,21 @@ public class ConcoctionItem extends Item {
 
     public ConcoctionItem(Properties properties) {
         super(properties);
+    }
+
+    @Override
+    public int getUseDuration(ItemStack stack) {
+        return 32;
+    }
+
+    @Override
+    public UseAnim getUseAnimation(ItemStack stack) {
+        return UseAnim.DRINK;
+    }
+
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
+        return ItemUtils.startUsingInstantly(world, user, hand);
     }
 
     @Override
@@ -59,6 +75,10 @@ public class ConcoctionItem extends Item {
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag isAdvanced) {
+        if (!stack.getOrCreateTag().contains("BrewingSteps")) {
+            tooltip.add(Component.translatable("tooltip.bartending.risky_drink").withStyle(ChatFormatting.GRAY));
+            return;
+        }
         ListTag steps = stack.getOrCreateTag().getList("BrewingSteps", ListTag.TAG_COMPOUND);
         for (Tag tag : steps) {
             if (!(tag instanceof CompoundTag data)) continue;
@@ -66,6 +86,7 @@ public class ConcoctionItem extends Item {
             switch (type) {
                 case BoilingBrewerStep.TYPE_ID -> BoilingBrewerStep.appendInProgressText(data, tooltip);
                 case FermentingBrewerStep.TYPE_ID -> FermentingBrewerStep.appendInProgressText(data, tooltip);
+                case DistillingBrewerStep.TYPE_ID -> DistillingBrewerStep.appendInProgressText(data, tooltip);
             }
         }
     }
@@ -81,4 +102,9 @@ public class ConcoctionItem extends Item {
         }
         return super.getDescriptionId(stack);
     }
+
+    public static boolean isFailed(ItemStack stack) {
+        return stack.getOrCreateTag().contains("FailedConcoctionData");
+    }
+
 }

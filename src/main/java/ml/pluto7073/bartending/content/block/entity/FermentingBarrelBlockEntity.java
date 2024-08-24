@@ -22,6 +22,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
@@ -109,7 +110,7 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
             }
             stack.getOrCreateTag().put("BrewingSteps", steps);
         }
-
+        setChanged(level, pos, state);
     }
 
     @Override
@@ -146,7 +147,7 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
 
     @Override
     protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
-        return ChestMenu.oneRow(containerId, inventory);
+        return new ChestMenu(MenuType.GENERIC_9x1, containerId, inventory, this, 1);
     }
 
     @Override
@@ -155,7 +156,7 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
     }
 
     void updateBlockState(BlockState state, boolean open) {
-        this.level.setBlock(this.getBlockPos(), (BlockState)state.setValue(BarrelBlock.OPEN, open), 3);
+        //this.level.setBlock(this.getBlockPos(), state.setValue(BarrelBlock.OPEN, open), 3);
     }
 
     void playSound(SoundEvent sound) {

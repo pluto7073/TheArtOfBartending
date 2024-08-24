@@ -12,6 +12,7 @@ import net.minecraft.world.inventory.MenuType;
 public class TAOBMenuTypes {
 
     public static final MenuType<BoilerMenu> BOILER_MENU_TYPE = register("boiler", BoilerMenu::new);
+    public static final MenuType<BottlerMenu> BOTTLER_MENU_TYPE = register("bottler", BottlerMenu::new);
 
     public static void init() {}
 

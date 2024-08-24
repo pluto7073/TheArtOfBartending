@@ -3,6 +3,8 @@
   "package": "ml.pluto7073.bartending.foundations.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "SweetBerryBushBlockMixin",
+    "WitherRoseBlockMixin"
   ],
   "injectors": {
     "defaultRequire": 1

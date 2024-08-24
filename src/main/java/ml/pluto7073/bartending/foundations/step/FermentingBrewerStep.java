@@ -6,6 +6,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -38,6 +39,13 @@ public class FermentingBrewerStep implements BrewerStep {
         int ticks = data.getInt("ticks");
         int diff = Math.abs(ticks - wantedTicks);
         return diff < tickLeeway;
+    }
+
+    @Override
+    public int getDeviation(CompoundTag data, float standard) {
+        int ticks = data.getInt("ticks");
+        return Math.round(Mth.clampedMap(ticks, wantedTicks - tickLeeway,
+                wantedTicks + tickLeeway, -0.5f, 0.5f) * standard);
     }
 
     public static void appendInProgressText(CompoundTag data, List<Component> tooltips) {

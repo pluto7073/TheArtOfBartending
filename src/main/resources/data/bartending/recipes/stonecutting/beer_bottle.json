@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:stonecutting",
+  "category": "equipment",
+  "group": "bottles",
+  "ingredient": {
+    "item": "minecraft:brown_stained_glass"
+  },
+  "result": "bartending:beer_bottle",
+  "count": 4
+}

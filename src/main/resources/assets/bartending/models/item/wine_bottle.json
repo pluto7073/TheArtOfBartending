@@ -1,5 +1,5 @@
 {
-  "parent": "minecraft:item/handheld",
+  "parent": "bartending:item/bottle",
   "textures": {
     "layer0": "bartending:item/wine_bottle"
   }
