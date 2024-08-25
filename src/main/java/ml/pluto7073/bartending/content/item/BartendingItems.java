@@ -36,6 +36,9 @@ public class BartendingItems {
     public static final Item SHOT_OF_VODKA = new AlcoholicShotItem(AlcoholicDrinks.VODKA, new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE));
     public static final Item VODKA = new PourableBottleItem(SHOT_OF_VODKA, LIQUOR_BOTTLE, AlcoholicDrinks.VODKA, new Item.Properties().defaultDurability(20).craftRemainder(LIQUOR_BOTTLE).rarity(Rarity.UNCOMMON));
 
+    public static final Item SHOT_OF_APPLE_LIQUEUR = new AlcoholicShotItem(AlcoholicDrinks.APPLE_LIQUEUR, new Item.Properties().stacksTo(16).rarity(Rarity.UNCOMMON).craftRemainder(Items.GLASS_BOTTLE));
+    public static final Item APPLE_LIQUEUR = new PourableBottleItem(SHOT_OF_APPLE_LIQUEUR, LIQUOR_BOTTLE, AlcoholicDrinks.APPLE_LIQUEUR, new Item.Properties().defaultDurability(20).craftRemainder(LIQUOR_BOTTLE).rarity(Rarity.UNCOMMON));
+
     public static final Item MIXED_DRINK = new MixedDrinkItem(new Item.Properties().stacksTo(1));
 
     // Block Items
@@ -65,6 +68,8 @@ public class BartendingItems {
         register("glass_of_red_wine", GLASS_OF_RED_WINE);
         register("white_wine", WHITE_WINE);
         register("glass_of_white_wine", GLASS_OF_WHITE_WINE);
+        register("shot_of_apple_liqueur", SHOT_OF_APPLE_LIQUEUR);
+        register("apple_liqueur", APPLE_LIQUEUR);
         register("shot_of_vodka", SHOT_OF_VODKA);
         register("vodka", VODKA);
 
@@ -79,6 +84,7 @@ public class BartendingItems {
         AlcoholicDrinks.registerFinalDrink(AlcoholicDrinks.RED_WINE, RED_WINE);
         AlcoholicDrinks.registerFinalDrink(AlcoholicDrinks.WHITE_WINE, WHITE_WINE);
         AlcoholicDrinks.registerFinalDrink(AlcoholicDrinks.VODKA, VODKA);
+        AlcoholicDrinks.registerFinalDrink(AlcoholicDrinks.APPLE_LIQUEUR, APPLE_LIQUEUR);
     }
 
 }

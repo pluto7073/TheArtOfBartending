@@ -4,6 +4,7 @@
   "concoction.alcohol.minecraft.glow_berries": "Glow Berry Juice",
   "concoction.alcohol.minecraft.potato": "Potato Mash",
   "concoction.alcohol.minecraft.poisonous_potato": "Potato Mash",
+  "concoction.alcohol.minecraft.apple": "Apple Juice",
   "item.bartending.concoction": "Ruined Concoction",
   "item.bartending.wine_bottle": "Wine Bottle",
   "item.bartending.beer_bottle": "Beer Bottle",
@@ -13,12 +14,16 @@
   "item.bartending.beer": "Beer",
   "item.bartending.glass_of_red_wine": "Glass of Red Wine",
   "item.bartending.glass_of_white_wine": "Glass of White Wine",
+  "item.bartending.shot_of_apple_liqueur": "Shot of Apple Liqueur",
+  "item.bartending.apple_liqueur": "Apple Liqueur",
   "item.bartending.shot_of_vodka": "Shot of Vodka",
   "item.bartending.vodka": "Vodka",
   "item.bartending.mixed_drink": "Mixed Drink",
   "enchantment.bartending.vineyard_walker": "Vineyard Walker",
   "enchantment.bartending.vineyard_walker.desc": "Allows the wearer to walk among sweet berries and other bush blocks without being slowed or taking damage",
   "drink_addition.bartending.shot_of_vodka": "Shot of Vodka x%1$s",
+  "drink_addition.bartending.shot_of_apple_liqueur": "Shot of Apple Liqueur x%1$s",
+  "drink.bartending.specialty_drinks/appletini": "Appletini",
   "block.bartending.boiler": "Boiler",
   "block.bartending.bottler": "Bottler",
   "block.bartending.distillery": "Distillery",
@@ -53,5 +58,5 @@
   "option.bartending.alcohol_display": "Alcohol Display Type",
   "option.bartending.alcohol_display.tooltip": "What way should the alcohol content of drinks be displayed to the user (will always be shown in grams for any mixed drinks",
   "tooltip.bartending.risky_drink": "Drink at your own risk",
-  "command.drink.alcohol.get": "Your BAC is currently %1$s%"
+  "command.drink.alcohol.get": "Your BAC is currently %1$s"
 }

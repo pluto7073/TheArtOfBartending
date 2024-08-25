@@ -1,0 +1,234 @@
+{
+  "multipart": [
+    {
+      "apply": {
+        "model": "bartending:block/distillery"
+      },
+      "when": {
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery",
+        "y": 180
+      },
+      "when": {
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery",
+        "y": 90
+      },
+      "when": {
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery",
+        "y": 270
+      },
+      "when": {
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_input"
+      },
+      "when": {
+        "has_input": "true",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_input",
+        "y": 180
+      },
+      "when": {
+        "has_input": "true",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_input",
+        "y": 90
+      },
+      "when": {
+        "has_input": "true",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_input",
+        "y": 270
+      },
+      "when": {
+        "has_input": "true",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_output"
+      },
+      "when": {
+        "has_output": "true",
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_output",
+        "y": 180
+      },
+      "when": {
+        "has_output": "true",
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_output",
+        "y": 90
+      },
+      "when": {
+        "has_output": "true",
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_output",
+        "y": 270
+      },
+      "when": {
+        "has_output": "true",
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_unstarted"
+      },
+      "when": {
+        "distill_state": 1,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_unstarted",
+        "y": 180
+      },
+      "when": {
+        "distill_state": 1,
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_unstarted",
+        "y": 90
+      },
+      "when": {
+        "distill_state": 1,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_unstarted",
+        "y": 270
+      },
+      "when": {
+        "distill_state": 1,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_in_progress"
+      },
+      "when": {
+        "distill_state": 2,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_in_progress",
+        "y": 180
+      },
+      "when": {
+        "distill_state": 2,
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_in_progress",
+        "y": 90
+      },
+      "when": {
+        "distill_state": 2,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_in_progress",
+        "y": 270
+      },
+      "when": {
+        "distill_state": 2,
+        "facing": "west"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_done"
+      },
+      "when": {
+        "distill_state": 3,
+        "facing": "north"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_done",
+        "y": 180
+      },
+      "when": {
+        "distill_state": 3,
+        "facing": "south"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_done",
+        "y": 90
+      },
+      "when": {
+        "distill_state": 3,
+        "facing": "east"
+      }
+    },
+    {
+      "apply": {
+        "model": "bartending:block/distillery_bottle_done",
+        "y": 270
+      },
+      "when": {
+        "distill_state": 3,
+        "facing": "west"
+      }
+    }
+  ]
+}

@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Inventory;
 
 public class DistilleryScreen extends AbstractContainerScreen<DistilleryMenu> {
 
-    public static final ResourceLocation TEXTURE = new ResourceLocation("textures/gui/container/furnace.png");
+    public static final ResourceLocation TEXTURE = TheArtOfBartending.asId("textures/gui/container/distillery.png");
 
     public DistilleryScreen(DistilleryMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);

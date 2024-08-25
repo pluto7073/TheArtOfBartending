@@ -13,8 +13,10 @@ import ml.pluto7073.bartending.foundations.ColorUtil;
 import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.registries.BuiltInRegistries;
 
 import java.util.Arrays;
@@ -27,6 +29,7 @@ public class TheArtOfClient implements ClientModInitializer {
     public void onInitializeClient() {
         initColors();
         registerScreens();
+        initRenderMap();
     }
 
     public static ClientConfig config() {
@@ -58,12 +61,18 @@ public class TheArtOfClient implements ClientModInitializer {
             return i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, array[0].getColor());
         }, BartendingItems.MIXED_DRINK);
 
+        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0xbc8a49, BartendingItems.APPLE_LIQUEUR, BartendingItems.SHOT_OF_APPLE_LIQUEUR);
+
         BartendingBlocks.BARRELS.forEach((type, barrel) -> {
             String id = BuiltInRegistries.BLOCK.getKey(barrel).toString();
             int color = ColorUtil.COLORS_REGISTRY.containsKey(id) ? ColorUtil.get(BuiltInRegistries.BLOCK.getKey(barrel).toString()) : barrel.defaultMapColor().col;
             ColorProviderRegistry.BLOCK.register((state, getter, pos, index) -> color, barrel);
             ColorProviderRegistry.ITEM.register((stack, i) -> color, barrel);
         });
+    }
+
+    private static void initRenderMap() {
+        BlockRenderLayerMap.INSTANCE.putBlock(BartendingBlocks.DISTILLERY, RenderType.translucent());
     }
 
     private static void registerScreens() {

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "G|G",
+    "C| ",
+    "___"
+  ],
+  "key": {
+    "_": {
+      "item": "minecraft:deepslate_tile_slab"
+    },
+    "G": {
+      "item": "minecraft:glass"
+    },
+    "C": {
+      "item": "minecraft:candle"
+    },
+    "|": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "bartending:distillery"
+  }
+}

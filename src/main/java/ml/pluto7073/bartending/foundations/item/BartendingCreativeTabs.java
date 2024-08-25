@@ -52,11 +52,13 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.RED_WINE);
             stacks.accept(BartendingItems.WHITE_WINE);
             stacks.accept(BartendingItems.BEER);
+            stacks.accept(BartendingItems.APPLE_LIQUEUR);
             stacks.accept(BartendingItems.VODKA);
 
             // Servings
             stacks.accept(BartendingItems.GLASS_OF_RED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_WHITE_WINE);
+            stacks.accept(BartendingItems.SHOT_OF_APPLE_LIQUEUR);
             stacks.accept(BartendingItems.SHOT_OF_VODKA);
         });
     }

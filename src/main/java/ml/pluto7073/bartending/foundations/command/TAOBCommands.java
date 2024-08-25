@@ -29,7 +29,7 @@ public final class TAOBCommands {
                             String s = String.valueOf(bac);
                             s = s.length() >= 4 ? s.substring(0, 4) : s;
                             TheArtOfBartending.LOGGER.info(s);
-                            String finalS = s;
+                            final String finalS = s;
                             ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.get", finalS), true);
                             return 1;
                         }));

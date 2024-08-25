@@ -1,6 +1,7 @@
 package ml.pluto7073.bartending.content.alcohol;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BarrelPredicate;
@@ -12,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
 import java.util.*;
 
@@ -33,8 +35,13 @@ public final class AlcoholicDrinks {
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.GLOW_BERRIES), 64, 9600, 600))
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 24000, 6000))
             .bottle(BartendingItems.WINE_BOTTLE).build());
+    public static final AlcoholicDrink APPLE_LIQUEUR = register("apple_liqueur", new AlcoholicDrink.Builder().proof(60).ounces(1.5f)
+            .addStep(new BoilingBrewerStep(Ingredient.of(Items.APPLE, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE), 64, 24000, 6000))
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.CHERRY),
+                    BartendingBlocks.BARRELS.get(WoodType.ACACIA)), 144000, 24000))
+            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).build());
     public static final AlcoholicDrink VODKA = register("vodka", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
-            .addStep(new BoilingBrewerStep(Ingredient.of(Items.POTATO, Items.POISONOUS_POTATO), 10, 12000, 1200))
+            .addStep(new BoilingBrewerStep(Ingredient.of(Items.POTATO, Items.POISONOUS_POTATO), 10, 24000, 1200))
             .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).build());
 
     public static AlcoholicDrink register(ResourceLocation id, AlcoholicDrink drink) {

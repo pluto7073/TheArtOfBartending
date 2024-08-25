@@ -12,6 +12,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -57,7 +58,10 @@ public class ConcoctionItem extends Item {
         }
 
         if (playerEntity != null) {
-
+            playerEntity.awardStat(Stats.ITEM_USED.get(this));
+            if (!playerEntity.getAbilities().instabuild) {
+                stack.shrink(1);
+            }
         }
 
         if (playerEntity == null || !playerEntity.getAbilities().instabuild) {

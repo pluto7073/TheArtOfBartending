@@ -3,7 +3,13 @@ package ml.pluto7073.bartending.content.block;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.block.entity.DistilleryBlockEntity;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -26,7 +32,10 @@ import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.HashMap;
 
 @MethodsReturnNonnullByDefault
 public class DistilleryBlock extends BaseEntityBlock {
@@ -100,6 +109,32 @@ public class DistilleryBlock extends BaseEntityBlock {
             }
             return InteractionResult.CONSUME;
         }
+    }
+
+    private static final HashMap<Direction, Vec3> DIRECTION_TO_FLAME_OFFSET = Util.make(() -> {
+        HashMap<Direction, Vec3> map = new HashMap<>();
+        map.put(Direction.NORTH, new Vec3(0.78125f, 0.375f, 0.46875f));
+        map.put(Direction.EAST, new Vec3(0.46875f, 0.375f, 0.78125f));
+        map.put(Direction.SOUTH, new Vec3(0.15625f, 0.375f, 0.46875f));
+        map.put(Direction.WEST, new Vec3(0.78125f, 0.375f, 0.15625f));
+        return map;
+    });
+
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (!state.getValue(HEATED)) return;
+        Vec3 offset = DIRECTION_TO_FLAME_OFFSET.get(state.getValue(FACING));
+        addParticlesAndSound(level, new Vec3(pos.getX() + offset.x, pos.getY() + offset.y, pos.getZ() + offset.z), random);
+    }
+
+    private static void addParticlesAndSound(Level level, Vec3 offset, RandomSource random) {
+        float f = random.nextFloat();
+        if (f < 0.3f) {
+            level.addParticle(ParticleTypes.SMOKE, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
+            if (f < 0.17f) {
+                level.playLocalSound(offset.x + 0.5, offset.y + 0.5, offset.z + 0.5, SoundEvents.CANDLE_AMBIENT, SoundSource.BLOCKS, 1.0f + random.nextFloat(), random.nextFloat() * 0.7f + 0.3f, false);
+            }
+        }
+        level.addParticle(ParticleTypes.SMALL_FLAME, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
     }
 
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {

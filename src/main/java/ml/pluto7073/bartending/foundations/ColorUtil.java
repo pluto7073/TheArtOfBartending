@@ -16,6 +16,7 @@ public class ColorUtil {
         COLORS_REGISTRY.put("minecraft:sweet_berries", 9321518);
         COLORS_REGISTRY.put("minecraft:glow_berries", 12223780);
         COLORS_REGISTRY.put("minecraft:potato", 0xf2e6ab);
+        COLORS_REGISTRY.put("minecraft:apple", 0xbc8a49);
 
         COLORS_REGISTRY.put("bartending:oak_fermenting_barrel", 0xc29d62);
         COLORS_REGISTRY.put("bartending:cherry_fermenting_barrel", 0xefd0ef);

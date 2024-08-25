@@ -69,6 +69,7 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
             list.add(new MobEffectInstance(MobEffects.CONFUSION, 30 * 20, 0, true, true));
             list.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30 * 20, 0, true, true));
             list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 1, true, true));
+            list.add(new MobEffectInstance(MobEffects.DARKNESS, 30 * 20, 1, true, true));
         }
         if (bac > 0.21f) {
             list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 2, true, true));
