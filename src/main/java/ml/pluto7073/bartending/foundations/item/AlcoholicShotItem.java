@@ -81,6 +81,6 @@ public class AlcoholicShotItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltipComponents, TooltipFlag isAdvanced) {
         super.appendHoverText(stack, level, tooltipComponents, isAdvanced);
-        AlcoholHandler.INSTANCE.appendTooltip(tooltipComponents, alcohol, stack);
+        if (isAdvanced.isCreative() || isAdvanced.isAdvanced()) AlcoholHandler.INSTANCE.appendTooltip(tooltipComponents, alcohol, stack);
     }
 }

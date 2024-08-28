@@ -11,17 +11,29 @@ base {
 }
 
 repositories {
-	maven { url "https://maven.shedaniel.me/" }
-	maven { url "https://maven.terraformersmc.com/releases/" }
-	maven { url "https://pluto-mod-maven.web.app/maven" }
-	maven { url = "https://maven.parchmentmc.org" }
-	maven { url = "https://maven.quiltmc.org/repository/release" }
+	maven { url = "https://maven.shedaniel.me/" } // Cloth Config, REI
+	maven { url = "https://maven.terraformersmc.com/releases/" } // Modmenu
+	maven { url = "https://pluto-mod-maven.web.app/maven" } // PDAPI
+	maven { url = "https://maven.parchmentmc.org" } // Parchment
+	maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+
+	// Optional mod addons
+	maven { url = "https://mvn.devos.one/releases/" }
+	maven { url = "https://mvn.devos.one/snapshots/" } // Create & Dep
+	maven { url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" } // FCAPI ( Create )
+	maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
+	maven { url = "https://jitpack.io/" } // MixinExtras, ASM
+	maven { url = "https://maven.tterrag.com/" } // Flywheel
 }
 
 loom {
 
 	accessWidenerPath = file("src/main/resources/bartending.accesswidener")
 
+}
+
+fabricApi {
+	configureDataGeneration()
 }
 
 dependencies {
@@ -43,6 +55,7 @@ dependencies {
 
 	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
 
+	modCompileOnly "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}"
 }
 
 processResources {

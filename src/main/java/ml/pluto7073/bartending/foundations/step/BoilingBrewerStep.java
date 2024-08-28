@@ -56,7 +56,7 @@ public class BoilingBrewerStep implements BrewerStep {
         if (count > this.count) fromCount = 0;
         int ticks = data.getInt("ticks");
         int fromTicks = Math.round(Mth.clampedMap(ticks, wantedTicks - tickLeeway,
-                wantedTicks + tickLeeway, -0.5f, 0.5f) * standard);
+                wantedTicks + tickLeeway, -0.05f, 0.05f) * standard);
         if (Math.abs(fromTicks) > Math.abs(fromCount)) return fromTicks;
         else if (Math.abs(fromCount) > Math.abs(fromTicks)) return fromCount;
         else return Math.min(fromTicks, fromCount);

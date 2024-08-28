@@ -1,18 +1,25 @@
 package ml.pluto7073.bartending.content.block.entity;
 
+import ml.pluto7073.bartending.compat.create.TheArtOfCreate;
 import ml.pluto7073.bartending.content.gui.BoilerMenu;
+import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.ColorUtil;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.EntitySelector;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -23,11 +30,20 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.Hopper;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class BoilerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
@@ -41,31 +57,38 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     public static final int WATER_AMOUNT_DATA = 0;
     public static final int BOIL_TIME_DATA = 1;
     public static final int HEATED_DATA = 2;
-    public static final int DATA_COUNT = 3;
+    public static final int COLOR_DATA = 3;
+    public static final int DATA_COUNT = 4;
 
     public static final int[] TOP_SLOTS = { 1, 3 };
-    public static final int[] SIDE_SLOTS = { 0, 1 };
-    public static final int[] BOTTOM_SLOTS = { 0, 3 };
+    public static final int[] SIDE_SLOTS = { 0, 1, 4 };
+    public static final int[] BOTTOM_SLOTS = { 0, 3, 4 };
 
     public final ContainerData data;
+
+    private static final VoxelShape INSIDE = Block.box(2.0, 11.0, 2.0, 14.0, 16.0, 14.0);
+    private static final VoxelShape ABOVE = Block.box(0.0, 16.0, 0.0, 16.0, 20.0, 16.0);
+    private static final VoxelShape SUCK = Shapes.or(INSIDE, ABOVE);
 
     public NonNullList<ItemStack> inventory;
     public int waterInMB;
     public int boilTicks;
 
-    private Item prevTickItem;
-    private int prevTickCount;
+    private ItemStack currentBoilingStack;
 
     public BoilerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, pos, blockState);
         this.inventory = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
+        currentBoilingStack = ItemStack.EMPTY;
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index) {
                     case WATER_AMOUNT_DATA -> waterInMB;
                     case BOIL_TIME_DATA -> boilTicks;
-                    case HEATED_DATA -> isHeated() ? 1 : 0;
+                    case HEATED_DATA -> getHeatedData();
+                    case COLOR_DATA -> currentBoilingStack.isEmpty() ? 4210943 :
+                        ColorUtil.get(BuiltInRegistries.ITEM.getKey(currentBoilingStack.getItem()).toString());
                     default -> 0;
                 };
             }
@@ -91,10 +114,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         boilTicks = tag.getInt("BoilTicks");
         waterInMB = tag.getInt("WaterAmount");
         ContainerHelper.loadAllItems(tag, inventory);
-
-        ItemStack itemInput = getItem(ITEM_INPUT_SLOT_INDEX);
-        prevTickItem = itemInput.getItem();
-        prevTickCount = itemInput.getCount();
+        currentBoilingStack = ItemStack.of(tag.getCompound("CurrentStack"));
     }
 
     @Override
@@ -102,6 +122,9 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         super.saveAdditional(tag);
         tag.putInt("BoilTicks", boilTicks);
         tag.putInt("WaterAmount", (short) waterInMB);
+        CompoundTag current = new CompoundTag();
+        currentBoilingStack.save(current);
+        tag.put("CurrentStack", current);
         ContainerHelper.saveAllItems(tag, inventory);
     }
 
@@ -113,72 +136,98 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
             if (entity.waterInMB <= (1000 - water) || entity.waterInMB < 25) {
                 entity.waterInMB += water;
                 if (entity.waterInMB > 1000) entity.waterInMB = 1000;
-                waterStack = new ItemStack(waterStack.getItem().asItem().getCraftingRemainingItem(), 1);
+                Item remaining = waterStack.getItem().getCraftingRemainingItem();
+                entity.setItem(WATER_INPUT_SLOT_INDEX, remaining == null ? ItemStack.EMPTY : new ItemStack(remaining, 1));
             }
         }
-        entity.inventory.set(WATER_INPUT_SLOT_INDEX, waterStack);
+        int maxConcoctions = entity.waterInMB / 250;
 
-        // Testing Boiling
+        List<ItemEntity> aboveItems = getItemsAtAndAbove(level, entity);
 
-        if (!entity.isBoiling()) {
-            entity.inventory.set(DISPLAY_RESULT_ITEM_SLOT_INDEX, ItemStack.EMPTY);
-            return;
+        ItemStack input = entity.getItem(ITEM_INPUT_SLOT_INDEX);
+
+        for (ItemEntity item : aboveItems) {
+            if ((item.getItem().is(entity.currentBoilingStack.getItem()) || entity.currentBoilingStack.isEmpty()) && entity.waterInMB >= 250) {
+                if (input.isEmpty()) {
+                    input = item.getItem().copy();
+                } else {
+                    input.grow(item.getItem().getCount());
+                }
+                item.discard();
+            }
         }
 
-        ItemStack itemInput = entity.getItem(ITEM_INPUT_SLOT_INDEX);
-
-        if (itemInput.isEmpty()) {
-            entity.boilTicks = 0;
-            entity.prevTickItem = Items.AIR;
-            entity.prevTickCount = 0;
-            entity.inventory.set(DISPLAY_RESULT_ITEM_SLOT_INDEX, PotionUtils.setPotion(new ItemStack(Items.POTION), Potions.WATER));
-            return;
+        if (!input.isEmpty() && entity.waterInMB >= 250) {
+            if (entity.currentBoilingStack.isEmpty()) {
+                entity.currentBoilingStack = input.copy();
+                entity.setItem(ITEM_INPUT_SLOT_INDEX, ItemStack.EMPTY);
+                entity.boilTicks = 0;
+            } else if (entity.currentBoilingStack.is(input.getItem())) {
+                entity.currentBoilingStack.grow(input.getCount());
+                entity.setItem(ITEM_INPUT_SLOT_INDEX, ItemStack.EMPTY);
+                entity.boilTicks = 0;
+            }
         }
 
-        if (itemInput.getCount() != entity.prevTickCount) {
-            entity.boilTicks = 0;
-            entity.prevTickCount = itemInput.getCount();
+        if (entity.isBoiling()) {
+            entity.boilTicks += (int) Math.pow(2, entity.getHeatedData() - 1);
         }
 
-        if (itemInput.getItem() != entity.prevTickItem) {
-            entity.boilTicks = 0;
-            entity.prevTickItem = itemInput.getItem();
+        if (entity.currentBoilingStack.isEmpty()) {
+            entity.setItem(DISPLAY_RESULT_ITEM_SLOT_INDEX, ItemStack.EMPTY);
+        } else {
+            ItemStack display = BrewingUtil.createConcoctionFromBaseTicks(entity.currentBoilingStack, entity.boilTicks);
+            ItemStack currentDisplay = entity.getItem(DISPLAY_RESULT_ITEM_SLOT_INDEX);
+            if (!currentDisplay.is(BartendingItems.CONCOCTION) || currentDisplay.getCount() > maxConcoctions) {
+                display.setCount(maxConcoctions);
+            } else display.setCount(currentDisplay.getCount());
+            entity.setItem(DISPLAY_RESULT_ITEM_SLOT_INDEX, display);
         }
 
-        ItemStack display = BrewingUtil.createConcoctionFromBaseTicks(itemInput, entity.boilTicks);
+        ItemStack bottle = entity.getItem(GLASS_BOTTLE_INSERT_SLOT_INDEX);
+        ItemStack display = entity.getItem(DISPLAY_RESULT_ITEM_SLOT_INDEX);
 
-        entity.inventory.set(DISPLAY_RESULT_ITEM_SLOT_INDEX, display);
-
-        entity.boilTicks++;
-
-        ItemStack glassBottle = entity.getItem(GLASS_BOTTLE_INSERT_SLOT_INDEX);
-
-        if (glassBottle.isEmpty()) return;
-        if (glassBottle.is(Items.GLASS_BOTTLE) && entity.waterInMB >= 250) {
-            glassBottle = ItemStack.EMPTY;
+        if (!bottle.isEmpty() && !display.isEmpty() && entity.getItem(RESULT_SLOT_INDEX).isEmpty()) {
             entity.waterInMB -= 250;
+            bottle.shrink(1);
+            if (bottle.isEmpty()) entity.setItem(GLASS_BOTTLE_INSERT_SLOT_INDEX, ItemStack.EMPTY);
+            ItemStack res = display.copy();
+            res.setCount(1);
+            entity.setItem(RESULT_SLOT_INDEX, res);
+            display.shrink(1);
+            if (display.isEmpty()) {
+                entity.setItem(DISPLAY_RESULT_ITEM_SLOT_INDEX, ItemStack.EMPTY);
+                entity.currentBoilingStack = ItemStack.EMPTY;
+                entity.boilTicks = 0;
+            }
         }
-
-        entity.inventory.set(GLASS_BOTTLE_INSERT_SLOT_INDEX, glassBottle);
-        entity.inventory.set(RESULT_SLOT_INDEX, display.copy());
-        entity.inventory.set(ITEM_INPUT_SLOT_INDEX, ItemStack.EMPTY);
 
         setChanged(level, pos, state);
     }
 
-    public boolean isHeated() {
+    public static List<ItemEntity> getItemsAtAndAbove(Level level, BoilerBlockEntity entity) {
+        return SUCK.toAabbs().stream().flatMap((box) ->
+                level.getEntitiesOfClass(ItemEntity.class, box.move(entity.worldPosition.getX(), entity.worldPosition.getY(), entity.worldPosition.getZ()),
+                EntitySelector.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
+    }
+
+    public int getHeatedData() {
         // If heated from below
-        if (level == null) return false;
+        if (level == null) return 0;
         BlockState below = level.getBlockState(getBlockPos().below());
         boolean heated = below.is(BlockTags.CAMPFIRES);
         heated = heated || below.is(BlockTags.FIRE);
         heated = heated || below.is(Blocks.LAVA);
-        return heated || below.is(BartendingTags.EXTRA_BOILER_HEATERS);
+        boolean superheated = below.is(BartendingTags.SUPERHEATING_BLOCKS);
+        if (FabricLoader.getInstance().isModLoaded("create")) {
+            if (TheArtOfCreate.isBlockSuperheatedBlazeBurner(below)) return 3;
+        }
+        return superheated ? 2 : heated ? 1 : 0;
     }
 
     public boolean isBoiling() {
         // If water
-        return waterInMB > 0 && isHeated();
+        return waterInMB > 0 && getHeatedData() != 0;
     }
 
     @Override

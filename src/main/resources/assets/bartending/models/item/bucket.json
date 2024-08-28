@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer1": "bartending:item/liquid",
+    "layer0": "minecraft:item/bucket"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "bartending:block/bottler"
+    },
+    "facing=south": {
+      "model": "bartending:block/bottler",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "bartending:block/bottler",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "bartending:block/bottler",
+      "y": 270
+    }
+  }
+}

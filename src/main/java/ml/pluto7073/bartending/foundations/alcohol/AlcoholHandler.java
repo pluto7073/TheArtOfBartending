@@ -2,7 +2,8 @@ package ml.pluto7073.bartending.foundations.alcohol;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import ml.pluto7073.bartending.client.TheArtOfClient;
-import ml.pluto7073.bartending.foundations.command.TAOBCommands;
+import ml.pluto7073.bartending.content.entity.effect.BartendingMobEffects;
+import ml.pluto7073.bartending.foundations.command.BartendingCommands;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
@@ -17,7 +18,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
-import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -69,14 +69,13 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
             list.add(new MobEffectInstance(MobEffects.CONFUSION, 30 * 20, 0, true, true));
             list.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30 * 20, 0, true, true));
             list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 1, true, true));
-            list.add(new MobEffectInstance(MobEffects.DARKNESS, 30 * 20, 1, true, true));
         }
         if (bac > 0.21f) {
             list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 2, true, true));
             list.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30 * 20, 1, true, true));
         }
         if (bac > 0.35f) {
-            list.add(new MobEffectInstance(MobEffects.POISON, 30 * 20, 1, true, true));
+            list.add(new MobEffectInstance(BartendingMobEffects.ALCOHOL_POISON, 30 * 20, 0, true, true));
         }
         return list;
     }
@@ -141,11 +140,11 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
 
     @Override
     public @Nullable LiteralArgumentBuilder<CommandSourceStack> getDrinkSubcommand() {
-        return TAOBCommands.alcohol();
+        return BartendingCommands.alcohol();
     }
 
     public static void init() {
-        INSTANCE.appendTooltip(new ArrayList<>(), 0, ItemStack.EMPTY);
+        INSTANCE.getName();
     }
 
 }

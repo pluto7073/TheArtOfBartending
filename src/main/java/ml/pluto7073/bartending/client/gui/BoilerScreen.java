@@ -44,6 +44,9 @@ public class BoilerScreen extends AbstractContainerScreen<BoilerMenu> {
         if (menu.isHeated()) {
             guiGraphics.blit(TEXTURE, i + 48, j + 60, 176, 0, 17, 11);
         }
+        if (menu.isSuperHeated()) {
+            guiGraphics.blit(TEXTURE, i + 48, j + 60, 176, 56, 17, 11);
+        }
 
         // Water
         int water = menu.getWater();

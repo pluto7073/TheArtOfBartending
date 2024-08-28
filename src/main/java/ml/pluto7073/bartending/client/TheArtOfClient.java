@@ -1,10 +1,14 @@
 package ml.pluto7073.bartending.client;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.client.block.renderer.BottlerBlockEntityRenderer;
 import ml.pluto7073.bartending.client.gui.BoilerScreen;
 import ml.pluto7073.bartending.client.gui.BottlerScreen;
 import ml.pluto7073.bartending.client.gui.DistilleryScreen;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
+import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
@@ -12,24 +16,42 @@ import ml.pluto7073.bartending.client.config.ClientConfig;
 import ml.pluto7073.bartending.foundations.ColorUtil;
 import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
+import ml.pluto7073.pdapi.item.PDItems;
+import ml.pluto7073.pdapi.specialty.SpecialtyDrink;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
 
+@Environment(EnvType.CLIENT)
 public class TheArtOfClient implements ClientModInitializer {
 
     private static ClientConfig CONFIG = null;
 
     @Override
     public void onInitializeClient() {
+        FabricLoader.getInstance().getModContainer(TheArtOfBartending.MOD_ID).ifPresent(container ->
+                ResourceManagerHelper.registerBuiltinResourcePack(TheArtOfBartending.asId("pdapi_overrides"), container,
+                        Component.translatable("pack.bartending.pdapi_overrides"), ResourcePackActivationType.ALWAYS_ENABLED));
         initColors();
         registerScreens();
-        initRenderMap();
+        initRendering();
+        registerItemProperties();
     }
 
     public static ClientConfig config() {
@@ -62,6 +84,8 @@ public class TheArtOfClient implements ClientModInitializer {
         }, BartendingItems.MIXED_DRINK);
 
         ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0xbc8a49, BartendingItems.APPLE_LIQUEUR, BartendingItems.SHOT_OF_APPLE_LIQUEUR);
+        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0x825424, BartendingItems.RUM, BartendingItems.SHOT_OF_RUM);
+        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0x211304, BartendingItems.COFFEE_LIQUEUR, BartendingItems.SHOT_OF_COFFEE_LIQUEUR);
 
         BartendingBlocks.BARRELS.forEach((type, barrel) -> {
             String id = BuiltInRegistries.BLOCK.getKey(barrel).toString();
@@ -71,14 +95,37 @@ public class TheArtOfClient implements ClientModInitializer {
         });
     }
 
-    private static void initRenderMap() {
+    private static void initRendering() {
         BlockRenderLayerMap.INSTANCE.putBlock(BartendingBlocks.DISTILLERY, RenderType.translucent());
+        BlockEntityRenderers.register(BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntityRenderer::new);
+
+        // Fluids
+        registerFluidRenderer(BartendingFluids.BEER, 9402184);
+        registerFluidRenderer(BartendingFluids.RED_WINE, 0x2b0010);
+        registerFluidRenderer(BartendingFluids.WHITE_WINE, 0xe2c36c);
+        registerFluidRenderer(BartendingFluids.APPLE_LIQUEUR, 0xbc8a49);
+        registerFluidRenderer(BartendingFluids.VODKA, 0xFFFFFF);
+        registerFluidRenderer(BartendingFluids.RUM, 0x825424);
+    }
+
+    private static void registerFluidRenderer(BartendingFluids.FluidHolder holder, int color) {
+        FluidRenderHandlerRegistry.INSTANCE.register(holder.still(), holder.flowing(), SimpleFluidRenderHandler.coloredWater(color));
+        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? color : -1, holder.still().getBucket());
+        BlockRenderLayerMap.INSTANCE.putBlock(holder.still().getLegacyBlock(), RenderType.translucent());
     }
 
     private static void registerScreens() {
         MenuScreens.register(BartendingMenuTypes.BOILER_MENU_TYPE, BoilerScreen::new);
         MenuScreens.register(BartendingMenuTypes.BOTTLER_MENU_TYPE, BottlerScreen::new);
         MenuScreens.register(BartendingMenuTypes.DISTILLERY_MENU_TYPE, DistilleryScreen::new);
+    }
+
+    private static void registerItemProperties() {
+        ItemProperties.register(PDItems.SPECIALTY_DRINK, TheArtOfBartending.asId("mixed_drink"), (stack, level, entity, i) -> {
+            if (!stack.getOrCreateTag().contains("Drink")) return 0;
+            SpecialtyDrink drink = DrinkUtil.getSpecialDrink(stack);
+            return drink.base() == BartendingItems.MIXED_DRINK ? 1 : 0;
+        });
     }
 
 }

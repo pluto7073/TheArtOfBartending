@@ -10,10 +10,12 @@ public class AlcoholicDrinkItem extends AbstractCustomizableDrinkItem {
 
     public final int alcohol;
     public final AlcoholicDrink source;
+    public final Item bottle;
 
     public AlcoholicDrinkItem(AlcoholicDrink source, Item bottle, Properties settings) {
         super(bottle, Temperature.NORMAL, settings);
         this.source = source;
+        this.bottle = bottle;
         alcohol = BrewingUtil.getStandardAlcohol(source);
     }
 

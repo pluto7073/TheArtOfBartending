@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.content.alcohol;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BarrelPredicate;
@@ -25,24 +26,29 @@ public final class AlcoholicDrinks {
 
     public static final AlcoholicDrink BEER = register("beer", new AlcoholicDrink.Builder().proof(10).ounces(12)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.WHEAT), 5, 9600, 600))
-            .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 72000))
-            .bottle(BartendingItems.BEER_BOTTLE).build());
+            .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 84000, 24000))
+            .bottle(BartendingItems.BEER_BOTTLE).fluid(BartendingFluids.BEER).build());
     public static final AlcoholicDrink RED_WINE = register("red_wine", new AlcoholicDrink.Builder().proof(24).ounces(5)
-            .addStep(new BoilingBrewerStep(Ingredient.of(Items.SWEET_BERRIES), 64, 9600, 600))
-            .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 24000, 6000))
-            .bottle(BartendingItems.WINE_BOTTLE).build());
+            .addStep(new BoilingBrewerStep(Ingredient.of(Items.SWEET_BERRIES), 64 + 32, 6000, 600))
+            .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 36000, 18000))
+            .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.RED_WINE).build());
     public static final AlcoholicDrink WHITE_WINE = register("white_wine", new AlcoholicDrink.Builder().proof(24).ounces(5)
-            .addStep(new BoilingBrewerStep(Ingredient.of(Items.GLOW_BERRIES), 64, 9600, 600))
-            .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 24000, 6000))
-            .bottle(BartendingItems.WINE_BOTTLE).build());
+            .addStep(new BoilingBrewerStep(Ingredient.of(Items.GLOW_BERRIES), 64 + 32, 6000, 600))
+            .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 36000, 18000))
+            .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.WHITE_WINE).build());
     public static final AlcoholicDrink APPLE_LIQUEUR = register("apple_liqueur", new AlcoholicDrink.Builder().proof(60).ounces(1.5f)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.APPLE, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE), 64, 24000, 6000))
             .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.CHERRY),
-                    BartendingBlocks.BARRELS.get(WoodType.ACACIA)), 144000, 24000))
-            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).build());
+                    BartendingBlocks.BARRELS.get(WoodType.ACACIA)), 156000, 24000))
+            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).fluid(BartendingFluids.APPLE_LIQUEUR).build());
     public static final AlcoholicDrink VODKA = register("vodka", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
             .addStep(new BoilingBrewerStep(Ingredient.of(Items.POTATO, Items.POISONOUS_POTATO), 10, 24000, 1200))
-            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).build());
+            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).fluid(BartendingFluids.VODKA).build());
+    public static final AlcoholicDrink RUM = register("rum", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
+            .addStep(new BoilingBrewerStep(Ingredient.of(Items.SUGAR_CANE), 50, 2400, 600))
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.OAK), BartendingBlocks.BARRELS.get(WoodType.DARK_OAK)),
+                    204000, 24000))
+            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE).fluid(BartendingFluids.RUM).build());
 
     public static AlcoholicDrink register(ResourceLocation id, AlcoholicDrink drink) {
         REGISTRY.put(id, drink);
@@ -64,6 +70,10 @@ public final class AlcoholicDrinks {
             if (entry.getValue().equals(drink)) return entry.getKey();
         }
         throw new IllegalArgumentException("Unregistered value: " + drink);
+    }
+
+    public static void addItem(AlcoholicDrink drink, Item item) {
+
     }
 
     public static Collection<AlcoholicDrink> values() {

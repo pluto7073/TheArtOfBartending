@@ -1,0 +1,16 @@
+{
+  "values": [
+    "bartending:beer",
+    "bartending:flowing_beer",
+    "bartending:red_wine",
+    "bartending:flowing_red_wine",
+    "bartending:white_wine",
+    "bartending:flowing_white_wine",
+    "bartending:vodka",
+    "bartending:flowing_vodka",
+    "bartending:apple_liqueur",
+    "bartending:flowing_apple_liqueur",
+    "bartending:rum",
+    "bartending:flowing_rum"
+  ]
+}

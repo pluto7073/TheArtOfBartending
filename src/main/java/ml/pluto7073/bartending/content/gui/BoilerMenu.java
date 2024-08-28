@@ -12,8 +12,7 @@ import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
-import static ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity.DATA_COUNT;
-import static ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity.INVENTORY_SIZE;
+import static ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity.*;
 
 public class BoilerMenu extends AbstractContainerMenu {
 
@@ -58,6 +57,8 @@ public class BoilerMenu extends AbstractContainerMenu {
     public int getBoilTime() {
         return data.get(BoilerBlockEntity.BOIL_TIME_DATA);
     }
+
+    public boolean isSuperHeated() { return data.get(HEATED_DATA) == 2 || data.get(HEATED_DATA) == 3; }
 
     public boolean isHeated() {
         return data.get(BoilerBlockEntity.HEATED_DATA) == 1;

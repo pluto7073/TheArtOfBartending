@@ -1,5 +1,6 @@
 package ml.pluto7073.bartending.foundations.step;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -45,7 +46,7 @@ public class FermentingBrewerStep implements BrewerStep {
     public int getDeviation(CompoundTag data, float standard) {
         int ticks = data.getInt("ticks");
         return Math.round(Mth.clampedMap(ticks, wantedTicks - tickLeeway,
-                wantedTicks + tickLeeway, -0.5f, 0.5f) * standard);
+                wantedTicks + tickLeeway, -0.25f, 0.25f) * standard);
     }
 
     public static void appendInProgressText(CompoundTag data, List<Component> tooltips) {

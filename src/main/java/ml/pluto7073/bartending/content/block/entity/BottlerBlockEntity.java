@@ -39,7 +39,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
             CONTAINER_SIZE = 4;
 
     public static final int[] TOP_SLOTS = { CONCOCTION_INPUT_SLOT },
-            SIDE_SLOTS = { BOTTLE_INSERT_SLOT, CONCOCTION_INPUT_SLOT },
+            SIDE_SLOTS = { BOTTLE_INSERT_SLOT, CONCOCTION_INPUT_SLOT, RESULT_SLOT },
             BOTTOM_SLOTS = { RESULT_SLOT };
 
     public static final int BOTTLE_TIME_DATA = 0;

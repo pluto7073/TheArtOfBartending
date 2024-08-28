@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
-public final class TAOBCommands {
+public final class BartendingCommands {
 
     public static LiteralArgumentBuilder<CommandSourceStack> alcohol() {
         return literal("alcohol").then(alcoholGet());
@@ -28,8 +28,7 @@ public final class TAOBCommands {
                             if (bac < 0.01f) bac = 0.00f;
                             String s = String.valueOf(bac);
                             s = s.length() >= 4 ? s.substring(0, 4) : s;
-                            TheArtOfBartending.LOGGER.info(s);
-                            final String finalS = s;
+                            final String finalS = s + "%";
                             ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.get", finalS), true);
                             return 1;
                         }));

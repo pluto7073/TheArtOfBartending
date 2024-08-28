@@ -85,7 +85,7 @@ public class PourableBottleItem extends Item {
     public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag isAdvanced) {
         int amount = BrewingUtil.getStandardAlcohol(drink);
         amount += BrewingUtil.getAlcoholDeviation(stack);
-        AlcoholHandler.INSTANCE.appendTooltip(tooltip, amount, stack, AlcDisplayType.PROOF);
+        if (isAdvanced.isAdvanced() || isAdvanced.isCreative()) AlcoholHandler.INSTANCE.appendTooltip(tooltip, amount, stack, AlcDisplayType.PROOF);
         super.appendHoverText(stack, level, tooltip, isAdvanced);
     }
 }

@@ -1,5 +1,6 @@
 package ml.pluto7073.bartending.foundations.alcohol;
 
+import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
 import net.minecraft.nbt.CompoundTag;
@@ -7,10 +8,64 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.BiConsumer;
 
-public record AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle) {
+public class AlcoholicDrink {
+
+    private final BrewerStep[] steps;
+    private final int standardProof;
+    private final float standardOunces;
+    private final int color;
+    private final Item bottle;
+    @Nullable private final BartendingFluids.FluidHolder fluid;
+    private final HashMap<Item, Integer> itemToAmountMap;
+
+    public AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, @Nullable BartendingFluids.FluidHolder fluid) {
+        this.steps = steps;
+        this.standardProof = standardProof;
+        this.standardOunces = standardOunces;
+        this.color = color;
+        this.bottle = bottle;
+        this.fluid = fluid;
+        itemToAmountMap = new HashMap<>();
+    }
+
+    public void addItem(Item item, int mb) {
+        itemToAmountMap.put(item, mb);
+    }
+
+    public void forEach(BiConsumer<Item, Integer> consumer) {
+        itemToAmountMap.forEach(consumer);
+    }
+
+    public BrewerStep[] steps() {
+        return steps;
+    }
+
+    public int standardProof() {
+        return standardProof;
+    }
+
+    public float standardOunces() {
+        return standardOunces;
+    }
+
+    public int color() {
+        return color;
+    }
+
+    public Item bottle() {
+        return bottle;
+    }
+
+    @Nullable
+    public BartendingFluids.FluidHolder fluid() {
+        return fluid;
+    }
 
     public boolean matches(ListTag steps) {
         if (steps.size() != this.steps.length) return false;
@@ -47,6 +102,7 @@ public record AlcoholicDrink(BrewerStep[] steps, int standardProof, float standa
         private int standardProof = 0, color = 0;
         private float standardOunces = 0f;
         private Item bottle = Items.GLASS_BOTTLE;
+        private BartendingFluids.FluidHolder fluid;
 
         public Builder addStep(BrewerStep step) {
             steps.add(step);
@@ -73,8 +129,13 @@ public record AlcoholicDrink(BrewerStep[] steps, int standardProof, float standa
             return this;
         }
 
+        public Builder fluid(BartendingFluids.FluidHolder fluid) {
+            this.fluid = fluid;
+            return this;
+        }
+
         public AlcoholicDrink build() {
-            return new AlcoholicDrink(steps.toArray(new BrewerStep[0]), standardProof, standardOunces, color, bottle);
+            return new AlcoholicDrink(steps.toArray(new BrewerStep[0]), standardProof, standardOunces, color, bottle, fluid);
         }
 
     }

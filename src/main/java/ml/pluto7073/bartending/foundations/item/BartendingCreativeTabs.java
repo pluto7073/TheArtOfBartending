@@ -5,6 +5,7 @@ import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -49,17 +50,29 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.LIQUOR_BOTTLE);
 
             // Drinks
+            stacks.accept(BartendingItems.BEER);
             stacks.accept(BartendingItems.RED_WINE);
             stacks.accept(BartendingItems.WHITE_WINE);
-            stacks.accept(BartendingItems.BEER);
             stacks.accept(BartendingItems.APPLE_LIQUEUR);
             stacks.accept(BartendingItems.VODKA);
+            stacks.accept(BartendingItems.RUM);
+            if (FabricLoader.getInstance().isModLoaded("plutoscoffee")) stacks.accept(BartendingItems.COFFEE_LIQUEUR);
 
             // Servings
             stacks.accept(BartendingItems.GLASS_OF_RED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_WHITE_WINE);
             stacks.accept(BartendingItems.SHOT_OF_APPLE_LIQUEUR);
             stacks.accept(BartendingItems.SHOT_OF_VODKA);
+            stacks.accept(BartendingItems.SHOT_OF_RUM);
+            if (FabricLoader.getInstance().isModLoaded("plutoscoffee")) stacks.accept(BartendingItems.SHOT_OF_COFFEE_LIQUEUR);
+
+            // Buckets
+            stacks.accept(BartendingItems.BEER_BUCKET);
+            stacks.accept(BartendingItems.RED_WINE_BUCKET);
+            stacks.accept(BartendingItems.WHITE_WINE_BUCKET);
+            stacks.accept(BartendingItems.APPLE_LIQUEUR_BUCKET);
+            stacks.accept(BartendingItems.VODKA_BUCKET);
+            stacks.accept(BartendingItems.RUM_BUCKET);
         });
     }
 

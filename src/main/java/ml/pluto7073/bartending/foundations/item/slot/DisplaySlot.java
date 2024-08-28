@@ -18,4 +18,9 @@ public class DisplaySlot extends MaxOneSlot {
     public boolean allowModification(Player player) {
         return false;
     }
+
+    @Override
+    public int getMaxStackSize() {
+        return 256;
+    }
 }

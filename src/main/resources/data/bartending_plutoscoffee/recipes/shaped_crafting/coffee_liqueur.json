@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "food",
+  "pattern": [
+    "SSS",
+    "CCC",
+    " R "
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:sugar"
+    },
+    "C": {
+      "tag": "plutoscoffee:roasted_coffee_beans"
+    },
+    "R": {
+      "item": "bartending:rum"
+    }
+  },
+  "result": {
+    "item": "bartending:coffee_liqueur"
+  },
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "plutoscoffee"
+      ]
+    }
+  ]
+}

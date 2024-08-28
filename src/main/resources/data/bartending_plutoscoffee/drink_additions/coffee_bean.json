@@ -1,0 +1,18 @@
+{
+  "caffeine": 5,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 1,
+      "saturation": 0
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "plutoscoffee"
+      ]
+    }
+  ]
+}
