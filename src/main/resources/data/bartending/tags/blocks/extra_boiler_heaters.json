@@ -1,13 +1,8 @@
 {
   "values": [
-    "create:lit_blaze_burner"
-  ],
-  "fabric:load_conditions": [
     {
-      "condition": "fabric:all_mods_loaded",
-      "values": [
-        "create"
-      ]
+      "id": "create:lit_blaze_burner",
+      "required": false
     }
   ]
 }

@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    { "required": false, "id": "farmersdelight:tree_bark" },
+    "minecraft:hanging_roots",
+    "#minecraft:flowers",
+    "#minecraft:villager_plantable_seeds"
+  ]
+}

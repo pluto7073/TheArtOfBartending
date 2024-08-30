@@ -100,8 +100,13 @@ public class ConcoctionItem extends Item {
         if (stack.getOrCreateTag().contains("BrewingSteps")) {
             ListTag list = stack.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
             if (!list.isEmpty()) {
-                ResourceLocation id = new ResourceLocation(list.getCompound(0).getString("item"));
-                return "concoction.alcohol." + id.getNamespace() + "." + id.getPath();
+                CompoundTag data = list.getCompound(0);
+                if (data.contains("item", Tag.TAG_STRING)) {
+                    ResourceLocation id = new ResourceLocation(data.getString("item"));
+                    return "concoction.alcohol." + id.getNamespace() + "." + id.getPath();
+                } else if (data.contains("Items")) {
+                    return "concoction.alcohol.mixed";
+                }
             }
         }
         return super.getDescriptionId(stack);

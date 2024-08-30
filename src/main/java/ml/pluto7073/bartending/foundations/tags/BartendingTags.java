@@ -8,9 +8,18 @@ import net.minecraft.world.level.block.Block;
 
 public class BartendingTags {
 
-    public static final TagKey<Block> EXTRA_BOILER_HEATERS = TagKey.create(Registries.BLOCK, TheArtOfBartending.asId("extra_boiler_heaters"));
-    public static final TagKey<Block> SUPERHEATING_BLOCKS = TagKey.create(Registries.BLOCK, TheArtOfBartending.asId("superheating_blocks"));
+    public static final TagKey<Block> EXTRA_BOILER_HEATERS = block("extra_boiler_heaters");
+    public static final TagKey<Block> SUPERHEATING_BLOCKS = block("superheating_blocks");
 
-    public static final TagKey<Item> EMPTY_GLASS_BOTTLES = TagKey.create(Registries.ITEM, TheArtOfBartending.asId("empty_glass_bottles"));
+    public static final TagKey<Item> EMPTY_GLASS_BOTTLES = item("empty_glass_bottles");
+    public static final TagKey<Item> BOILABLES = item("boilables");
+
+    private static TagKey<Item> item(String name) {
+        return TagKey.create(Registries.ITEM, TheArtOfBartending.asId(name));
+    }
+
+    private static TagKey<Block> block(String name) {
+        return TagKey.create(Registries.BLOCK, TheArtOfBartending.asId(name));
+    }
 
 }

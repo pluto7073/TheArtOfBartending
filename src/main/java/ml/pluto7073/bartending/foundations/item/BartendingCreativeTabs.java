@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.foundations.item;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
@@ -56,6 +57,7 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.APPLE_LIQUEUR);
             stacks.accept(BartendingItems.VODKA);
             stacks.accept(BartendingItems.RUM);
+            stacks.accept(BartendingItems.GIN);
             if (FabricLoader.getInstance().isModLoaded("plutoscoffee")) stacks.accept(BartendingItems.COFFEE_LIQUEUR);
 
             // Servings
@@ -64,15 +66,18 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.SHOT_OF_APPLE_LIQUEUR);
             stacks.accept(BartendingItems.SHOT_OF_VODKA);
             stacks.accept(BartendingItems.SHOT_OF_RUM);
+            stacks.accept(BartendingItems.SHOT_OF_GIN);
             if (FabricLoader.getInstance().isModLoaded("plutoscoffee")) stacks.accept(BartendingItems.SHOT_OF_COFFEE_LIQUEUR);
 
             // Buckets
-            stacks.accept(BartendingItems.BEER_BUCKET);
-            stacks.accept(BartendingItems.RED_WINE_BUCKET);
-            stacks.accept(BartendingItems.WHITE_WINE_BUCKET);
-            stacks.accept(BartendingItems.APPLE_LIQUEUR_BUCKET);
-            stacks.accept(BartendingItems.VODKA_BUCKET);
-            stacks.accept(BartendingItems.RUM_BUCKET);
+            stacks.accept(BartendingFluids.BEER.bucket());
+            stacks.accept(BartendingFluids.RED_WINE.bucket());
+            stacks.accept(BartendingFluids.WHITE_WINE.bucket());
+            stacks.accept(BartendingFluids.APPLE_LIQUEUR.bucket());
+            stacks.accept(BartendingFluids.VODKA.bucket());
+            stacks.accept(BartendingFluids.RUM.bucket());
+            stacks.accept(BartendingFluids.GIN.bucket());
+            if (FabricLoader.getInstance().isModLoaded("plutoscoffee")) stacks.accept(BartendingFluids.COFFEE_LIQUEUR.bucket());
         });
     }
 

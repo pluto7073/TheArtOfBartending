@@ -11,6 +11,10 @@
     "bartending:apple_liqueur",
     "bartending:flowing_apple_liqueur",
     "bartending:rum",
-    "bartending:flowing_rum"
+    "bartending:flowing_rum",
+    "bartending:coffee_liqueur",
+    "bartending:flowing_coffee_liqueur",
+    "bartending:gin",
+    "bartending:flowing_gin"
   ]
 }

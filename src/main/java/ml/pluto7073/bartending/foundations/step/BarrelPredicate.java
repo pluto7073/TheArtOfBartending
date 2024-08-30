@@ -22,6 +22,7 @@ public class BarrelPredicate implements Predicate<Block> {
 
     @Override
     public boolean test(Block block) {
+        if (this == ANY) return true;
         if (!(block instanceof FermentingBarrelBlock fermentingBarrelBlock)) return false;
         return allowed.contains(fermentingBarrelBlock);
     }

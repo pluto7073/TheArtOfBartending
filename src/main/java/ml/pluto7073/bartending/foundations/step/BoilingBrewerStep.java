@@ -1,9 +1,12 @@
 package ml.pluto7073.bartending.foundations.step;
 
+import com.mojang.datafixers.util.Pair;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -11,49 +14,82 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-import java.util.List;
+import java.util.*;
 
 public class BoilingBrewerStep implements BrewerStep {
 
     public static final String TYPE_ID = "boiling";
 
-    private final Ingredient base;
+    private final HashMap<Ingredient, Pair<Integer, Integer>> ingredients;
     private final int wantedTicks;
-    private final int count;
     private final int tickLeeway;
 
-    public BoilingBrewerStep(Ingredient base, int count, int wantedTicks) {
-        this(base, wantedTicks, count, 1200);
+    private BoilingBrewerStep(HashMap<Ingredient, Pair<Integer, Integer>> ingredients, int ticks, int leeway) {
+        this.ingredients = ingredients;
+        this.wantedTicks = ticks;
+        this.tickLeeway = leeway;
     }
 
-    public BoilingBrewerStep(Ingredient base, int count, int wantedTicks, int tickLeeway) {
-        this(base, count, wantedTicks, tickLeeway, 5);
-    }
-
-    public BoilingBrewerStep(Ingredient base, int count, int wantedTicks, int tickLeeway, int countLeeway) {
-        this.base = base;
-        this.count = count;
-        this.wantedTicks = wantedTicks;
-        this.tickLeeway = tickLeeway;
-    }
-
+    @SuppressWarnings("unchecked")
     @Override
     public boolean matches(CompoundTag data) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int ticks = data.getInt("ticks");
         if (Math.abs(wantedTicks - ticks) > tickLeeway) return false;
-        ResourceLocation itemId = new ResourceLocation(data.getString("item"));
-        Item item = BuiltInRegistries.ITEM.get(itemId);
-        if (!base.test(new ItemStack(item))) return false;
-        int count = data.getInt("count");
-        return this.count == count;
+        if (data.contains("item", CompoundTag.TAG_STRING)) {
+            if (ingredients.size() > 1) return false;
+            Ingredient base = List.copyOf(ingredients.keySet()).get(0);
+            int wantedCount = ingredients.get(base).getFirst();
+            int countLeeway = ingredients.get(base).getSecond();
+            ResourceLocation itemId = new ResourceLocation(data.getString("item"));
+            Item item = BuiltInRegistries.ITEM.get(itemId);
+            if (!base.test(new ItemStack(item))) return false;
+            int count = data.getInt("count");
+            return count >= wantedCount - countLeeway && count <= wantedCount + countLeeway;
+        } else if (data.contains("items", Tag.TAG_LIST)) {
+            ListTag items = data.getList("items", Tag.TAG_COMPOUND);
+            if (items.size() != ingredients.size()) return false;
+            HashMap<Ingredient, Pair<Integer, Integer>> map =
+                    (HashMap<Ingredient, Pair<Integer, Integer>>) ingredients.clone();
+            for (Tag t : items) {
+                if (!(t instanceof CompoundTag item)) continue;
+                ItemStack stack = ItemStack.of(item);
+                Optional<Ingredient> match = findMatching(stack, List.copyOf(map.keySet()));
+                if (match.isEmpty()) return false;
+                Ingredient base = match.get();
+                int count = map.get(base).getFirst();
+                int leeway = map.get(base).getSecond();
+                if (stack.getCount() >= count - leeway &&
+                        stack.getCount() <= count + leeway) {
+                    map.remove(base);
+                } else return false;
+            }
+            return map.isEmpty();
+        } else return false;
     }
 
     @Override
     public int getDeviation(CompoundTag data, float standard) {
-        int count = data.getInt("count");
-        int fromCount = Math.round(Mth.clampedMap(count, 0, this.count, -standard, 0));
-        if (count > this.count) fromCount = 0;
+        int fromCount = 0;
+        if (data.contains("item", Tag.TAG_STRING)) {
+            int count = data.getInt("count");
+            int wantedCount = ingredients.get(new ArrayList<>(ingredients.keySet()).get(0)).getFirst();
+            fromCount = Math.round(Mth.clampedMap(count, 0, wantedCount, -standard, 0));
+            if (count > wantedCount) fromCount = 0;
+        } else if (data.contains("Items", Tag.TAG_LIST)) {
+            ListTag list = data.getList("Items", Tag.TAG_COMPOUND);
+            for (Tag t : list) {
+                if (!(t instanceof CompoundTag c)) continue;
+                ItemStack stack = ItemStack.of(c);
+                Ingredient base = findMatching(stack, List.copyOf(this.ingredients.keySet()))
+                        .orElseThrow(IllegalStateException::new);
+                int count = ingredients.get(base).getFirst();
+                int tempCount = Math.round(Mth.clampedMap(stack.getCount(), 0, count, -standard, 0));
+                if (stack.getCount() > count) tempCount = 0;
+                if (-tempCount > -fromCount) fromCount = tempCount;
+            }
+        }
+
         int ticks = data.getInt("ticks");
         int fromTicks = Math.round(Mth.clampedMap(ticks, wantedTicks - tickLeeway,
                 wantedTicks + tickLeeway, -0.05f, 0.05f) * standard);
@@ -64,12 +100,68 @@ public class BoilingBrewerStep implements BrewerStep {
 
     public static void appendInProgressText(CompoundTag data, List<Component> tooltips) {
         int ticks = data.getInt("ticks");
-        Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(data.getString("item")));
-        int count = data.getInt("count");
-        tooltips.add(Component.literal(count + "x ").append(Component.translatable(item.getDescriptionId()))
-                .withStyle(ChatFormatting.GRAY));
+        if (data.contains("item", Tag.TAG_STRING)) {
+            Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(data.getString("item")));
+            int count = data.getInt("count");
+            appendItem(item, count, tooltips);
+        }
+        if (data.contains("Items", Tag.TAG_LIST)) {
+            for (Tag t : data.getList("Items", Tag.TAG_COMPOUND)) {
+                if (!(t instanceof CompoundTag item)) continue;
+                ItemStack stack = ItemStack.of(item);
+                appendItem(stack.getItem(), stack.getCount(), tooltips);
+            }
+        }
         String time = BrewingUtil.getTimeString(ticks / 20);
         tooltips.add(Component.translatable("tooltip.bartending.boiling_in_progress", time).withStyle(ChatFormatting.GRAY));
+    }
+
+    private static void appendItem(Item item, int count, List<Component> tooltips) {
+        tooltips.add(Component.literal(count + "x ").append(Component.translatable(item.getDescriptionId()))
+                .withStyle(ChatFormatting.GRAY));
+    }
+
+    private static Optional<Ingredient> findMatching(ItemStack stack, List<Ingredient> list) {
+        for (Ingredient item : list) {
+            if (item.test(stack)) return Optional.of(item);
+        }
+        return Optional.empty();
+    }
+
+    public static class Builder {
+
+        private final HashMap<Ingredient, Pair<Integer, Integer>> ingredients;
+        private int wantedTicks, tickLeeway;
+
+        public Builder() {
+            ingredients = new HashMap<>();
+            wantedTicks = 6000;
+            tickLeeway = 1200;
+        }
+
+        public Builder setTicks(int ticks) {
+            wantedTicks = ticks;
+            return this;
+        }
+
+        public Builder setLeeway(int leeway) {
+            tickLeeway = leeway;
+            return this;
+        }
+
+        public Builder addIngredient(Ingredient ingredient, int count, int leeway) {
+            ingredients.put(ingredient, new Pair<>(count, leeway));
+            return this;
+        }
+
+        public Builder addIngredient(Ingredient ingredient, int count) {
+            return addIngredient(ingredient, count, 5);
+        }
+
+        public BoilingBrewerStep build() {
+            return new BoilingBrewerStep(ingredients, wantedTicks, tickLeeway);
+        }
+
     }
 
 }

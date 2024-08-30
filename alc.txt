@@ -7,3 +7,46 @@
 0.21 - 0.35 - Total mental confusion; needs assistance walking; loss of consciousness.
 
 > 0.35 - Slowed heart rate and breathing; potential coma or death.
+
+12 oz = 1 bottle = 250 mb
+
+Recipe 	Ingredients 	Boiling Time 	Distilling 	Ageing/Wood 	Alc 	Effects
+Beer 	6 Wheat 	    8 Minutes 	    No 	        3 Years
+                                                    Any 	        I
+Wheatbeer3 Wheat 	    8 Minutes 	    No 	        2 Years
+                                                    Birch 	        I
+Darkbeer 6 Wheat 	    8 Minutes 	    No 	        3 times Beer
+                                                    Dark Oak 	    I'
+Red Wine 5 Sweet Berries 5 Minutes 	    No 	        Short
+                                                    Any 	        I'
+Mead 	 6 Sugar Cane 	3 Minutes 	    No 	        4 Years
+                                                    Oak 	        I'
+Apple Mead|6 Sugar Cane
+         Apple 	        Similar to Mead No 	        4 Years
+                                                    Oak 	        II 	   +
+Apple Cider|Lots of Apple|7/8 Minutes 	No 	        3 Years
+                                                    Any 	        I'
+Apple Liquor|Lots of Apple|Long 	        Yes 	    6 Years
+                                                    Acacia 	        II'
+Whiskey  Wheat 	        1 min. per Wheat Yes 	    Very Long
+                                                    darker 	        III'
+Rum 	Lots of Sugar Cane|Short 	    Yes 	    Long
+                                                    Oak 	        IIII 	+
+Vodka 	A Sixth of a Stack Potatoes|Long Yes 	    No 	            III 	-
+Mushroom Vodka|Potatoes, Mushrooms|Very Long Yes 	No 	            II' 	+-
+Gin 	9 Wheat
+        Some blue -flowers
+        Apple 	Short 	Yes 	No 	III
+Tequila 	Some Cactus 	Long 	Yes 	Long
+Birch 	III
+Absinthe 	Lots of Grass 	Short 	Yes 	No 	IIIII' 	-
+Green Absinthe 	Lots of Grass
+Another Greenish thing 	Normal 	Yes 	No 	IIIIII 	+-
+Potato Soup 	5 Potatoes
+Some Grass 	Short 	No 	No 		+
+Coffee 	Lots of Cocoa Beans
+2 Milk Buckets 	Short 	No 	No 		++
+Eggnog 	5 Eggs
+A little sugar
+1 Milk Bucket 	Short 	No 	Short
+Any 	I'

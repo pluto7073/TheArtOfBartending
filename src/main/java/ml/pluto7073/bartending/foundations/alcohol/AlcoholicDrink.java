@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.foundations.alcohol;
 
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -21,10 +22,10 @@ public class AlcoholicDrink {
     private final float standardOunces;
     private final int color;
     private final Item bottle;
-    @Nullable private final BartendingFluids.FluidHolder fluid;
+    @Nullable private final FluidHolder fluid;
     private final HashMap<Item, Integer> itemToAmountMap;
 
-    public AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, @Nullable BartendingFluids.FluidHolder fluid) {
+    public AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, @Nullable FluidHolder fluid) {
         this.steps = steps;
         this.standardProof = standardProof;
         this.standardOunces = standardOunces;
@@ -63,7 +64,7 @@ public class AlcoholicDrink {
     }
 
     @Nullable
-    public BartendingFluids.FluidHolder fluid() {
+    public FluidHolder fluid() {
         return fluid;
     }
 
@@ -81,8 +82,8 @@ public class AlcoholicDrink {
 
     /**
      * Returns the total deviation in grams of alcohol from the standard recipe.
+     * This should only be performed on a list of steps that is known to match this Alcoholic drink, as this method does not check whether the list of steps is correct or not
      * @param steps The <code>ListTag</code> of steps from the concoction
-     * @apiNote This should only be performed on a list of steps that is known to match this Alcoholic drink, as this method does not check whether the list of steps is correct or not
      * @return The amount of alcohol in grams to be added or removed from the standard amount
      */
     public int getTotalDeviation(ListTag steps) {
@@ -99,10 +100,10 @@ public class AlcoholicDrink {
     public static class Builder {
 
         private final List<BrewerStep> steps = new ArrayList<>();
-        private int standardProof = 0, color = 0;
+        private int standardProof = 0, color = 0xFFFFFF;
         private float standardOunces = 0f;
         private Item bottle = Items.GLASS_BOTTLE;
-        private BartendingFluids.FluidHolder fluid;
+        private FluidHolder fluid;
 
         public Builder addStep(BrewerStep step) {
             steps.add(step);
@@ -129,7 +130,7 @@ public class AlcoholicDrink {
             return this;
         }
 
-        public Builder fluid(BartendingFluids.FluidHolder fluid) {
+        public Builder fluid(FluidHolder fluid) {
             this.fluid = fluid;
             return this;
         }

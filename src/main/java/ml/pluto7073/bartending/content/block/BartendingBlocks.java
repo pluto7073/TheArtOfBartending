@@ -30,32 +30,14 @@ public class BartendingBlocks {
         return blocks;
     });
 
-    public static final Block BEER = fluid(BartendingFluids.BEER);
-    public static final Block RED_WINE = fluid(BartendingFluids.RED_WINE);
-    public static final Block WHITE_WINE = fluid(BartendingFluids.WHITE_WINE);
-    public static final Block APPLE_LIQUEUR = fluid(BartendingFluids.APPLE_LIQUEUR);
-    public static final Block VODKA = fluid(BartendingFluids.VODKA);
-    public static final Block RUM = fluid(BartendingFluids.RUM);
-
     private static void register(String id, Block block) {
         Registry.register(BuiltInRegistries.BLOCK, TheArtOfBartending.asId(id), block);
-    }
-
-    private static Block fluid(BartendingFluids.FluidHolder holder) {
-        return new LiquidBlock(holder.still(), BlockBehaviour.Properties.copy(Blocks.WATER));
     }
 
     public static void init() {
         register("boiler", BOILER);
         register("bottler", BOTTLER);
         register("distillery", DISTILLERY);
-
-        register("beer", BEER);
-        register("red_wine", RED_WINE);
-        register("white_wine", WHITE_WINE);
-        register("apple_liqueur", APPLE_LIQUEUR);
-        register("vodka", VODKA);
-        register("rum", RUM);
 
         BARRELS.forEach((type, block) -> register(type.name() + "_fermenting_barrel", block));
     }

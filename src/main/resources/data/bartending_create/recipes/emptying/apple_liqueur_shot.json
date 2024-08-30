@@ -1,0 +1,25 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:emptying",
+  "ingredients": [
+    {
+      "item": "bartending:shot_of_apple_liqueur"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:glass_bottle"
+    },
+    {
+      "fluid": "bartending:apple_liqueur",
+      "amount": 2531.25
+    }
+  ]
+}

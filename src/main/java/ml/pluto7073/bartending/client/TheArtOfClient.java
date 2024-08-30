@@ -5,15 +5,19 @@ import ml.pluto7073.bartending.client.block.renderer.BottlerBlockEntityRenderer;
 import ml.pluto7073.bartending.client.gui.BoilerScreen;
 import ml.pluto7073.bartending.client.gui.BottlerScreen;
 import ml.pluto7073.bartending.client.gui.DistilleryScreen;
+import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.content.item.ConcoctionItem;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.client.config.ClientConfig;
 import ml.pluto7073.bartending.foundations.ColorUtil;
+import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
+import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.PDItems;
@@ -69,7 +73,7 @@ public class TheArtOfClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 4210943, BartendingItems.BOILER);
 
-        ColorProviderRegistry.ITEM.register((stack, index) -> index > 0 ? -1 : BrewingUtil.getColorForConcoction(stack), BartendingItems.CONCOCTION);
+        ColorProviderRegistry.ITEM.register((stack, index) -> index > 0 ? -1 : ConcoctionItem.isFailed(stack) ? 0x545252 : BrewingUtil.getColorForConcoction(stack), BartendingItems.CONCOCTION);
 
         ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0x2b0010, BartendingItems.RED_WINE);
         ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, 0x2b0010), BartendingItems.GLASS_OF_RED_WINE);
@@ -100,18 +104,17 @@ public class TheArtOfClient implements ClientModInitializer {
         BlockEntityRenderers.register(BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntityRenderer::new);
 
         // Fluids
-        registerFluidRenderer(BartendingFluids.BEER, 9402184);
-        registerFluidRenderer(BartendingFluids.RED_WINE, 0x2b0010);
-        registerFluidRenderer(BartendingFluids.WHITE_WINE, 0xe2c36c);
-        registerFluidRenderer(BartendingFluids.APPLE_LIQUEUR, 0xbc8a49);
-        registerFluidRenderer(BartendingFluids.VODKA, 0xFFFFFF);
-        registerFluidRenderer(BartendingFluids.RUM, 0x825424);
+        for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
+            FluidHolder holder = drink.fluid();
+            if (holder == null) continue;
+            registerFluidRenderer(holder, drink.color());
+        }
     }
 
-    private static void registerFluidRenderer(BartendingFluids.FluidHolder holder, int color) {
+    private static void registerFluidRenderer(FluidHolder holder, int color) {
         FluidRenderHandlerRegistry.INSTANCE.register(holder.still(), holder.flowing(), SimpleFluidRenderHandler.coloredWater(color));
         ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? color : -1, holder.still().getBucket());
-        BlockRenderLayerMap.INSTANCE.putBlock(holder.still().getLegacyBlock(), RenderType.translucent());
+        BlockRenderLayerMap.INSTANCE.putBlock(holder.block(), RenderType.translucent());
     }
 
     private static void registerScreens() {

@@ -7,24 +7,34 @@ import ml.pluto7073.bartending.foundations.step.*;
 import ml.pluto7073.pdapi.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class BrewingUtil {
 
-    public static ItemStack createConcoctionFromBaseTicks(ItemStack base, int ticks) {
+    public static ItemStack createConcoctionFromBaseTicks(NonNullList<ItemStack> base, int ticks) {
         CompoundTag data = new CompoundTag();
         data.putString("type", BoilingBrewerStep.TYPE_ID);
-        data.putString("item", BuiltInRegistries.ITEM.getKey(base.getItem()).toString());
-        data.putInt("count", base.getCount());
         data.putInt("ticks", ticks);
+        if (isInventorySingleItem(base)) {
+            data.putString("item", BuiltInRegistries.ITEM.getKey(base.get(0).getItem()).toString());
+            data.putInt("count", base.get(0).getCount());
+        } else {
+            ContainerHelper.saveAllItems(data, base, false);
+        }
         ItemStack stack = new ItemStack(BartendingItems.CONCOCTION, 1);
         ListTag list = new ListTag();
         list.add(data);
@@ -32,31 +42,67 @@ public class BrewingUtil {
         return stack;
     }
 
-    public static ResourceLocation getBaseItemFromConcoction(ItemStack concoction) {
-        if (!concoction.getOrCreateTag().contains("BrewingSteps")) return new ResourceLocation("minecraft:air");
+    public static boolean isInventorySingleItem(NonNullList<ItemStack> inventory) {
+        return inventory.stream().filter(s -> !s.isEmpty()).toArray().length == 1;
+    }
+
+    public static ResourceLocation[] getBaseItemFromConcoction(ItemStack concoction) {
+        if (!concoction.getOrCreateTag().contains("BrewingSteps"))
+            return new ResourceLocation[] {new ResourceLocation("minecraft:air")};
         ListTag list = concoction.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
-        return new ResourceLocation(list.getCompound(0).getString("item"));
+        CompoundTag data = list.getCompound(0);
+        if (data.contains("item", Tag.TAG_STRING)) {
+            return new ResourceLocation[] {
+                    new ResourceLocation(data.getString("item"))
+            };
+        } else if (data.contains("Items", Tag.TAG_LIST)) {
+            NonNullList<ItemStack> stacks = NonNullList.withSize(4, ItemStack.EMPTY);
+            ContainerHelper.loadAllItems(data, stacks);
+            return stacks.stream().filter(Predicate.not(ItemStack::isEmpty)).map(ItemStack::getItem)
+                    .map(BuiltInRegistries.ITEM::getKey).toList().toArray(new ResourceLocation[0]);
+        }
+        return new ResourceLocation[0];
     }
 
     public static int getColorForConcoction(ItemStack concoction) {
-        return ColorUtil.get(getBaseItemFromConcoction(concoction).toString());
+        ResourceLocation[] items = getBaseItemFromConcoction(concoction);
+        if (items.length == 1) {
+            return ColorUtil.get(items[0].toString());
+        }
+        List<Integer> colors = Arrays.stream(items).map(ResourceLocation::toString)
+                .filter(ColorUtil.COLORS_REGISTRY::containsKey).map(ColorUtil::get).toList();
+        return averageColors(colors);
     }
 
     public static int getColorForDrinkWithDefault(ItemStack drink, int normal) {
         DrinkAddition[] additions = DrinkUtil.getAdditionsFromStack(drink);
-        List<Integer> colors = Arrays.stream(additions).filter(DrinkAddition::changesColor).map(DrinkAddition::getColor).toList();
-        float r = (normal >> 16 & 255) / 255F;
-        float g = (normal >> 8 & 255) / 255F;
-        float b = (normal & 255) / 255f;
-        for (int color : colors) {
-            r += (color >> 16 & 255) / 255f;
-            g += (color >> 8 & 255) / 255f;
-            b += (color & 255) / 255f;
+        List<Integer> colors = Arrays.stream(additions).filter(DrinkAddition::changesColor)
+                .map(DrinkAddition::getColor).collect(Collectors.toCollection(ArrayList::new));
+        colors.add(0, normal);
+        return averageColors(colors);
+    }
+
+    public static boolean isEmpty(NonNullList<ItemStack> items) {
+        for (ItemStack s : items) {
+            if (!s.isEmpty()) return false;
         }
-        r = r / (colors.size() + 1) * 255f;
-        g = g / (colors.size() + 1) * 255f;
-        b = b / (colors.size() + 1) * 255f;
-        return (int) r << 16 | (int) g << 8 | (int) b;
+        return true;
+    }
+
+    public static int averageColors(Collection<Integer> colors) {
+        if (colors.isEmpty()) return 0xFFFFFF;
+        int r = 0;
+        int g = 0;
+        int b = 0;
+        for (int color : colors) {
+            r += (color >> 16 & 255);
+            g += (color >> 8 & 255);
+            b += (color & 255);
+        }
+        r /= colors.size();
+        g /= colors.size();
+        b /= colors.size();
+        return r << 16 | g << 8 | b;
     }
 
     public static String getTimeString(int seconds) {
