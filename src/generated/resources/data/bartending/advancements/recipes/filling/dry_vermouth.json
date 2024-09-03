@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bartending:filling/dry_vermouth"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "obtain_result": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bartending:dry_vermouth"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_result",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bartending:filling/dry_vermouth"
+    ]
+  },
+  "sends_telemetry_event": false
+}

@@ -1,10 +1,9 @@
 {
   "values": [
-    "#minecraft:flowers",
-    "#minecraft:villager_plantable_seeds",
     "#c:foods",
     "minecraft:wheat",
     "minecraft:sugar_cane",
-    "minecraft:nether_wart"
+    "minecraft:nether_wart",
+    "#bartending:botanical_elements"
   ]
 }

@@ -3,11 +3,13 @@ package ml.pluto7073.bartending.content.block.entity;
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.block.FermentingBarrelBlock;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
+@SuppressWarnings("UnstableApiUsage")
 public class BartendingBlockEntities {
 
     public static final BlockEntityType<BoilerBlockEntity> BOILER_BLOCK_ENTITY_TYPE =
@@ -31,6 +33,8 @@ public class BartendingBlockEntities {
         return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, TheArtOfBartending.asId(id), builder.build(null));
     }
 
-    public static void init() {}
+    public static void init() {
+        FluidStorage.SIDED.registerForBlockEntity((entity, dir) -> entity.exposed, BOILER_BLOCK_ENTITY_TYPE);
+    }
 
 }

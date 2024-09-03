@@ -16,6 +16,7 @@ repositories {
 	maven { url = "https://pluto-mod-maven.web.app/maven" } // PDAPI
 	maven { url = "https://maven.parchmentmc.org" } // Parchment
 	maven { url = "https://maven.quiltmc.org/repository/release" } // Quilt Mappings
+	maven { url = "https://repo.greenhouse.house/releases/" } // Farmer's Delight
 
 	// Optional mod addons
 	maven { url = "https://mvn.devos.one/releases/" }
@@ -26,14 +27,41 @@ repositories {
 	maven { url = "https://maven.tterrag.com/" } // Flywheel
 }
 
+sourceSets {
+	main {
+		resources {
+			srcDir("src/generated/resources")
+			exclude(".cache")
+		}
+	}
+}
+
 loom {
 
 	accessWidenerPath = file("src/main/resources/bartending.accesswidener")
 
-}
+	runs {
+		configureEach {
+			vmArg "-XX:+AllowEnhancedClassRedefinition"
+			vmArg "-XX:+IgnoreUnrecognizedVMOptions"
+		}
 
-fabricApi {
-	configureDataGeneration()
+		datagen {
+			client()
+
+			name "Minecraft Datagen"
+
+			vmArg "-Dfabric-api.datagen"
+			vmArg "-Dfabric-api.datagen.output-dir=${file("src/generated/resources")}"
+			vmArg "-Dfabric-api.datagen.modid=bartending"
+			vmArg "-Dporting_lib.datagen.existing_resources=${file("src/main/resources")}"
+		}
+
+		server {
+			runDir "run/server"
+		}
+	}
+
 }
 
 dependencies {
@@ -53,7 +81,9 @@ dependencies {
 
 	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
 
-	modCompileOnly "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}"
+	modImplementation "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}"
+
+	modImplementation "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
 }
 
 processResources {

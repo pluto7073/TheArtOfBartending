@@ -7,7 +7,7 @@ import ml.pluto7073.bartending.foundations.command.BartendingCommands;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
-import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalHandler;
 import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalRegistry;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;

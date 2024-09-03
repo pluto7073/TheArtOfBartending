@@ -23,9 +23,11 @@ import java.util.List;
 public class AlcoholicShotItem extends Item {
 
     public final int alcohol;
+    public final AlcoholicDrink source;
 
     public AlcoholicShotItem(AlcoholicDrink source, Properties properties) {
         super(properties);
+        this.source = source;
         alcohol = BrewingUtil.getAlcohol(source, 1.5f);
     }
 

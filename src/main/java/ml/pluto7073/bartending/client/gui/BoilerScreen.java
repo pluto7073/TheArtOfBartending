@@ -11,6 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class BoilerScreen extends AbstractContainerScreen<BoilerMenu> {
 
     public static final ResourceLocation TEXTURE = TheArtOfBartending.asId("textures/gui/container/boiler.png");
@@ -27,9 +30,23 @@ public class BoilerScreen extends AbstractContainerScreen<BoilerMenu> {
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
+        int i = (this.width - this.imageWidth) / 2;
+        int j = (this.height - this.imageHeight) / 2;
         this.renderBackground(guiGraphics);
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);
+        if (mouseX >= i + 23 && mouseX <= i + 23 + 18) {
+            if (mouseY >= j + 35 && mouseY <= j + 35 + 4) {
+                guiGraphics.renderTooltip(font, Component.translatable("tooltip.bartending.water", menu.getWater() / 81)
+                        .withStyle(ChatFormatting.GRAY), mouseX, mouseY);
+            }
+        }
+        if (mouseX >= i + 75 && mouseX <= i + 75 + 8) {
+            if (mouseY >= j + 28 && mouseY <= j + 28 + 11) {
+                guiGraphics.renderTooltip(font, Component.translatable("tooltip.bartending.boilTime",
+                        BrewingUtil.getTimeString(menu.getBoilTime() / 20)).withStyle(ChatFormatting.GRAY), mouseX, mouseY);
+            }
+        }
     }
 
     @Override
@@ -50,27 +67,15 @@ public class BoilerScreen extends AbstractContainerScreen<BoilerMenu> {
 
         // Water
         int water = menu.getWater();
-        int clamped = Mth.clamp((18 * water + 1000 - 1) / 1000, 0, 18);
+        int clamped = Mth.clamp((18 * water + 81000 - 1) / 81000, 0, 18);
         if (clamped > 0) {
             guiGraphics.blit(TEXTURE, i + 23, j + 35, 176, 52, clamped, 4);
-        }
-        if (mouseX >= i + 23 && mouseX <= i + 23 + 18) {
-            if (mouseY >= j + 35 && mouseY <= j + 35 + 4) {
-                guiGraphics.renderTooltip(font, Component.translatable("tooltip.bartending.water", water)
-                        .withStyle(ChatFormatting.GRAY), mouseX, mouseY);
-            }
         }
 
         // Time
         int timeSeconds = menu.getBoilTime() / 20;
         if (timeSeconds > 0) {
             guiGraphics.blit(TEXTURE, i + 75, j + 27, 176, 32, 8, 11);
-        }
-        if (mouseX >= i + 75 && mouseX <= i + 75 + 8) {
-            if (mouseY >= j + 28 && mouseY <= j + 28 + 11) {
-                    guiGraphics.renderTooltip(font, Component.translatable("tooltip.bartending.boilTime",
-                            BrewingUtil.getTimeString(timeSeconds)).withStyle(ChatFormatting.GRAY), mouseX, mouseY);
-            }
         }
     }
 

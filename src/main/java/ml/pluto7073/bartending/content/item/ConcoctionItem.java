@@ -3,9 +3,11 @@ package ml.pluto7073.bartending.content.item;
 import ml.pluto7073.bartending.foundations.step.BoilingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.DistillingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -103,9 +105,18 @@ public class ConcoctionItem extends Item {
                 CompoundTag data = list.getCompound(0);
                 if (data.contains("item", Tag.TAG_STRING)) {
                     ResourceLocation id = new ResourceLocation(data.getString("item"));
-                    return "concoction.alcohol." + id.getNamespace() + "." + id.getPath();
+                    Item item = BuiltInRegistries.ITEM.get(id);
+                    if (new ItemStack(item).is(BartendingTags.BOTANICAL_ELEMENTS)) {
+                        return "concoction.bartending.botanical";
+                    }
+                    return id.toLanguageKey("concoction");
                 } else if (data.contains("Items")) {
-                    return "concoction.alcohol.mixed";
+                    ItemStack s = ItemStack.of(data.getList("Items", Tag.TAG_COMPOUND).getCompound(0));
+                    if (s.is(BartendingTags.BOTANICAL_ELEMENTS)) {
+                        return "concoction.bartending.botanical";
+                    }
+                    ResourceLocation key = BuiltInRegistries.ITEM.getKey(s.getItem());
+                    return key.toLanguageKey("concoction");
                 }
             }
         }

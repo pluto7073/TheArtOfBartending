@@ -26,6 +26,15 @@
       "values": [
         "plutoscoffee"
       ]
+    },
+    {
+      "condition": "fabric:not",
+      "value": {
+        "condition": "fabric:all_mods_loaded",
+        "values": [
+          "create"
+        ]
+      }
     }
   ]
 }

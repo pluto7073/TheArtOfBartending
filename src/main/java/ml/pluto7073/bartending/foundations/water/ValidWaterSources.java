@@ -14,8 +14,8 @@ public class ValidWaterSources {
     public static final HashMap<Ingredient, Integer> REGISTRY = new HashMap<>();
 
     static {
-        REGISTRY.put(Ingredient.of(Items.WATER_BUCKET), 1000);
-        REGISTRY.put(Ingredient.of(Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION), 250);
+        REGISTRY.put(Ingredient.of(Items.WATER_BUCKET), 81000);
+        REGISTRY.put(Ingredient.of(Items.POTION, Items.SPLASH_POTION, Items.LINGERING_POTION), 20250);
     }
 
     public static int getAmountFromItem(ItemStack item) {

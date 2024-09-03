@@ -22,6 +22,8 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -51,6 +53,11 @@ public class AlcoholFluid extends FlowingFluid {
             throw new IllegalStateException("AlcoholFluid.getSource() called before full initialization");
         }
         return source;
+    }
+
+    @Override
+    public boolean isSame(Fluid fluid) {
+        return fluid == getFlowing() || fluid == getSource();
     }
 
     @Override

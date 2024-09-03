@@ -1,0 +1,37 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "tag": "bartending:botanical_elements"
+    },
+    {
+      "tag": "bartending:botanical_elements"
+    },
+    {
+      "tag": "bartending:botanical_elements"
+    },
+    {
+      "fluid": "bartending:white_wine",
+      "amount": 20250
+    },
+    {
+      "fluid": "bartending:vodka",
+      "amount": 20250
+    }
+  ],
+  "results": [
+    {
+      "fluid": "bartending:dry_vermouth",
+      "amount": 40500
+    }
+  ]
+}

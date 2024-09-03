@@ -46,8 +46,8 @@ public class BoilingBrewerStep implements BrewerStep {
             if (!base.test(new ItemStack(item))) return false;
             int count = data.getInt("count");
             return count >= wantedCount - countLeeway && count <= wantedCount + countLeeway;
-        } else if (data.contains("items", Tag.TAG_LIST)) {
-            ListTag items = data.getList("items", Tag.TAG_COMPOUND);
+        } else if (data.contains("Items", Tag.TAG_LIST)) {
+            ListTag items = data.getList("Items", Tag.TAG_COMPOUND);
             if (items.size() != ingredients.size()) return false;
             HashMap<Ingredient, Pair<Integer, Integer>> map =
                     (HashMap<Ingredient, Pair<Integer, Integer>>) ingredients.clone();

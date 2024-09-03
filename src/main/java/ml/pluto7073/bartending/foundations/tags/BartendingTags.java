@@ -13,6 +13,7 @@ public class BartendingTags {
 
     public static final TagKey<Item> EMPTY_GLASS_BOTTLES = item("empty_glass_bottles");
     public static final TagKey<Item> BOILABLES = item("boilables");
+    public static final TagKey<Item> BOTANICAL_ELEMENTS = item("botanical_elements");
 
     private static TagKey<Item> item(String name) {
         return TagKey.create(Registries.ITEM, TheArtOfBartending.asId(name));

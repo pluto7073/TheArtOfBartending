@@ -9,7 +9,6 @@ import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
-import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.item.ConcoctionItem;
@@ -18,7 +17,7 @@ import ml.pluto7073.bartending.client.config.ClientConfig;
 import ml.pluto7073.bartending.foundations.ColorUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
-import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.PDItems;
 import ml.pluto7073.pdapi.specialty.SpecialtyDrink;
@@ -38,7 +37,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 
 import java.util.Arrays;
 
@@ -87,16 +85,17 @@ public class TheArtOfClient implements ClientModInitializer {
             return i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, array[0].getColor());
         }, BartendingItems.MIXED_DRINK);
 
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0xbc8a49, BartendingItems.APPLE_LIQUEUR, BartendingItems.SHOT_OF_APPLE_LIQUEUR);
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0x825424, BartendingItems.RUM, BartendingItems.SHOT_OF_RUM);
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0x211304, BartendingItems.COFFEE_LIQUEUR, BartendingItems.SHOT_OF_COFFEE_LIQUEUR);
-
         BartendingBlocks.BARRELS.forEach((type, barrel) -> {
             String id = BuiltInRegistries.BLOCK.getKey(barrel).toString();
             int color = ColorUtil.COLORS_REGISTRY.containsKey(id) ? ColorUtil.get(BuiltInRegistries.BLOCK.getKey(barrel).toString()) : barrel.defaultMapColor().col;
             ColorProviderRegistry.BLOCK.register((state, getter, pos, index) -> color, barrel);
             ColorProviderRegistry.ITEM.register((stack, i) -> color, barrel);
         });
+
+        BartendingItems.SHOTS.forEach((drink, item) ->
+                ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : drink.color(), item));
+        BartendingItems.BOTTLES.forEach((drink, item) ->
+                ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : drink.color(), item));
     }
 
     private static void initRendering() {
@@ -113,7 +112,7 @@ public class TheArtOfClient implements ClientModInitializer {
 
     private static void registerFluidRenderer(FluidHolder holder, int color) {
         FluidRenderHandlerRegistry.INSTANCE.register(holder.still(), holder.flowing(), SimpleFluidRenderHandler.coloredWater(color));
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? color : -1, holder.still().getBucket());
+        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? color : -1, holder.bucket());
         BlockRenderLayerMap.INSTANCE.putBlock(holder.block(), RenderType.translucent());
     }
 

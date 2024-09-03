@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 
 public class AlcoholicDrink {
 
@@ -22,16 +23,20 @@ public class AlcoholicDrink {
     private final float standardOunces;
     private final int color;
     private final Item bottle;
-    @Nullable private final FluidHolder fluid;
+    private final FluidHolder fluid;
+    private final Supplier<Boolean> isVisible;
+    private final String englishName;
     private final HashMap<Item, Integer> itemToAmountMap;
 
-    public AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, @Nullable FluidHolder fluid) {
+    private AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, FluidHolder fluid, Supplier<Boolean> isVisible, String englishName) {
         this.steps = steps;
         this.standardProof = standardProof;
         this.standardOunces = standardOunces;
         this.color = color;
         this.bottle = bottle;
         this.fluid = fluid;
+        this.isVisible = isVisible;
+        this.englishName = englishName;
         itemToAmountMap = new HashMap<>();
     }
 
@@ -63,9 +68,16 @@ public class AlcoholicDrink {
         return bottle;
     }
 
-    @Nullable
     public FluidHolder fluid() {
         return fluid;
+    }
+
+    public boolean isVisible() {
+        return isVisible.get();
+    }
+
+    public String englishName() {
+        return englishName;
     }
 
     public boolean matches(ListTag steps) {
@@ -104,6 +116,8 @@ public class AlcoholicDrink {
         private float standardOunces = 0f;
         private Item bottle = Items.GLASS_BOTTLE;
         private FluidHolder fluid;
+        private Supplier<Boolean> isVisible = () -> true;
+        private String name = "[UNNAMED ALCOHOLIC DRINK]";
 
         public Builder addStep(BrewerStep step) {
             steps.add(step);
@@ -135,8 +149,18 @@ public class AlcoholicDrink {
             return this;
         }
 
+        public Builder setVisibleWhen(Supplier<Boolean> isVisible) {
+            this.isVisible = isVisible;
+            return this;
+        }
+
+        public Builder name(String englishName) {
+            this.name = englishName;
+            return this;
+        }
+
         public AlcoholicDrink build() {
-            return new AlcoholicDrink(steps.toArray(new BrewerStep[0]), standardProof, standardOunces, color, bottle, fluid);
+            return new AlcoholicDrink(steps.toArray(new BrewerStep[0]), standardProof, standardOunces, color, bottle, fluid, isVisible, name);
         }
 
     }

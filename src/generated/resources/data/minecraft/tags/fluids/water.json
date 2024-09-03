@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "bartending:beer",
+    "bartending:flowing_beer",
+    "bartending:red_wine",
+    "bartending:flowing_red_wine",
+    "bartending:white_wine",
+    "bartending:flowing_white_wine",
+    "bartending:apple_liqueur",
+    "bartending:flowing_apple_liqueur",
+    "bartending:vodka",
+    "bartending:flowing_vodka",
+    "bartending:rum",
+    "bartending:flowing_rum",
+    "bartending:gin",
+    "bartending:flowing_gin",
+    "bartending:tequila",
+    "bartending:flowing_tequila",
+    "bartending:dry_vermouth",
+    "bartending:flowing_dry_vermouth",
+    "bartending:sweet_vermouth",
+    "bartending:flowing_sweet_vermouth",
+    "bartending:coffee_liqueur",
+    "bartending:flowing_coffee_liqueur"
+  ]
+}

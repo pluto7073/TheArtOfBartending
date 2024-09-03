@@ -9,7 +9,11 @@ public class TheArtOfDatagen implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator gen) {
         FabricDataGenerator.Pack pack = gen.createPack();
-        //pack.addProvider(BartendingRecipeGenerator::new);
+        pack.addProvider(BartendingTagProviders.FluidTagProvider::new);
+        pack.addProvider(BartendingModelsProvider::new);
+        pack.addProvider(BartendingEnglishProvider::new);
+        pack.addProvider(BartendingRecipeProviders::new);
+        pack.addProvider(BartendingAdditionProvider::new);
     }
 
 }

@@ -1,6 +1,5 @@
 package ml.pluto7073.bartending;
 
-import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.enchantment.BartendingEnchantments;
@@ -37,7 +36,6 @@ public class TheArtOfBartending implements ModInitializer {
         BartendingEnchantments.init();
         BartendingMobEffects.init();
         BartendingCreativeTabs.init();
-        AlcoholicDrinks.init();
         LOGGER.info("Oh no its alcohol time...");
     }
 

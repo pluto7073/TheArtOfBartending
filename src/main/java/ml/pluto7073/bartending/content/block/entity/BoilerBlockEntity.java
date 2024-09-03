@@ -1,5 +1,6 @@
 package ml.pluto7073.bartending.content.block.entity;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.compat.create.TheArtOfCreate;
 import ml.pluto7073.bartending.content.gui.BoilerMenu;
 import ml.pluto7073.bartending.content.item.BartendingItems;
@@ -7,7 +8,12 @@ import ml.pluto7073.bartending.foundations.ColorUtil;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.bartending.foundations.BrewingUtil;
 import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
+import ml.pluto7073.pdapi.util.BasicSingleStorage;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -31,14 +37,12 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionUtils;
-import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
-import net.minecraft.world.level.block.entity.Hopper;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
@@ -50,9 +54,12 @@ import java.util.stream.Collectors;
 /**
  * TODO REWORKING HOW BOILER WORKS TO ADD MULTIPLE ITEMS INTO ONE CONCOCTION, TURN currentBoilingStack INTO A NonNullList OF MAX 4 FOR BOILING STACKS
  */
+@SuppressWarnings("UnstableApiUsage")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class BoilerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
+
+    public static final FluidVariant WATER = FluidVariant.of(Fluids.WATER);
 
     public static final int WATER_INPUT_SLOT_INDEX = 0;
     public static final int ITEM_INPUT_SLOT_INDEX = 1;
@@ -78,20 +85,23 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     private static final VoxelShape SUCK = Shapes.or(INSIDE, ABOVE);
 
     public NonNullList<ItemStack> inventory;
-    public int waterInMB;
+    public final BasicSingleStorage water;
+    public final Storage<FluidVariant> exposed;
     public int boilTicks;
 
-    private NonNullList<ItemStack> boilingStacks;
+    private final NonNullList<ItemStack> boilingStacks;
 
     public BoilerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, pos, blockState);
         this.inventory = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
+        this.water = new BasicSingleStorage(WATER, 81000, this::setChanged);
+        this.exposed = FilteringStorage.insertOnlyOf(water);
         boilingStacks = NonNullList.withSize(4, ItemStack.EMPTY);
         this.data = new ContainerData() {
             @Override
             public int get(int index) {
                 return switch (index) {
-                    case WATER_AMOUNT_DATA -> waterInMB;
+                    case WATER_AMOUNT_DATA -> (int) water.amount;
                     case BOIL_TIME_DATA -> boilTicks;
                     case HEATED_DATA -> getHeatedData();
                     case COLOR_DATA -> BrewingUtil.isEmpty(boilingStacks) ? 4210943 :
@@ -105,7 +115,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
             @Override
             public void set(int index, int value) {
                 switch (index) {
-                    case WATER_AMOUNT_DATA -> waterInMB = value;
+                    case WATER_AMOUNT_DATA -> water.amount = value;
                     case BOIL_TIME_DATA -> boilTicks = value;
                 }
             }
@@ -121,7 +131,8 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     public void load(CompoundTag tag) {
         super.load(tag);
         boilTicks = tag.getInt("BoilTicks");
-        waterInMB = tag.getInt("WaterAmount");
+        water.amount = tag.getInt("WaterAmount");
+        water.variant = FluidVariant.fromNbt(tag.getCompound("FluidVariant"));
         ContainerHelper.loadAllItems(tag, inventory);
         boilingStacks.clear();
         if (tag.contains("BoilingStacks")) {
@@ -142,7 +153,8 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putInt("BoilTicks", boilTicks);
-        tag.putInt("WaterAmount", (short) waterInMB);
+        tag.putInt("WaterAmount", (int) water.amount);
+        tag.put("FluidVariant", water.variant.toNbt());
         tag.put("BoilingStacks", ContainerHelper.saveAllItems(new CompoundTag(), boilingStacks).get("Items"));
         ContainerHelper.saveAllItems(tag, inventory);
     }
@@ -176,29 +188,33 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         ItemStack waterStack = entity.getItem(WATER_INPUT_SLOT_INDEX);
         int water;
         if ((water = ValidWaterSources.getAmountFromItem(waterStack)) > 0) {
-            if (entity.waterInMB <= (1000 - water) || entity.waterInMB < 25) {
-                entity.waterInMB += water;
-                if (entity.waterInMB > 1000) entity.waterInMB = 1000;
+            waterAdd: try (Transaction transaction = Transaction.openOuter()) {
+                long amount = entity.water.insert(WATER, water, transaction);
+                if (water - amount > 2025) {
+                    transaction.abort();
+                    break waterAdd;
+                }
                 Item remaining = waterStack.getItem().getCraftingRemainingItem();
                 if (waterStack.is(ConventionalItemTags.POTIONS)) remaining = Items.GLASS_BOTTLE;
                 entity.setItem(WATER_INPUT_SLOT_INDEX, remaining == null ? ItemStack.EMPTY : new ItemStack(remaining, 1));
+                transaction.commit();
             }
         }
-        int maxConcoctions = entity.waterInMB / 250;
+        int maxConcoctions = (int) entity.water.amount / 20250;
 
         List<ItemEntity> aboveItems = getItemsAtAndAbove(level, entity);
 
         ItemStack input = entity.getItem(ITEM_INPUT_SLOT_INDEX);
 
         for (ItemEntity item : aboveItems) {
-            if (entity.waterInMB < 250) continue;
+            if (entity.water.amount < 20250) continue;
             ItemStack stack = item.getItem();
             if (entity.tryBoilItem(stack)) {
                 item.discard();
             }
         }
 
-        if (!input.isEmpty() && entity.waterInMB >= 250) {
+        if (!input.isEmpty() && entity.water.amount >= 20250) {
             if (entity.tryBoilItem(input)) {
                 entity.setItem(ITEM_INPUT_SLOT_INDEX, ItemStack.EMPTY);
             }
@@ -210,6 +226,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
 
         if (BrewingUtil.isEmpty(entity.boilingStacks)) {
             entity.setItem(DISPLAY_RESULT_ITEM_SLOT_INDEX, ItemStack.EMPTY);
+            entity.boilTicks = 0;
         } else {
             ItemStack display = BrewingUtil.createConcoctionFromBaseTicks(entity.boilingStacks, entity.boilTicks);
             ItemStack currentDisplay = entity.getItem(DISPLAY_RESULT_ITEM_SLOT_INDEX);
@@ -223,7 +240,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         ItemStack display = entity.getItem(DISPLAY_RESULT_ITEM_SLOT_INDEX);
 
         if (!bottle.isEmpty() && !display.isEmpty() && entity.getItem(RESULT_SLOT_INDEX).isEmpty()) {
-            entity.waterInMB -= 250;
+            entity.water.amount -= 20250;
             bottle.shrink(1);
             if (bottle.isEmpty()) entity.setItem(GLASS_BOTTLE_INSERT_SLOT_INDEX, ItemStack.EMPTY);
             ItemStack res = display.copy();
@@ -250,9 +267,9 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         // If heated from below
         if (level == null) return 0;
         BlockState below = level.getBlockState(getBlockPos().below());
-        boolean heated = below.is(BlockTags.CAMPFIRES);
-        heated = heated || below.is(BlockTags.FIRE);
-        heated = heated || below.is(Blocks.LAVA);
+        boolean heated = below.is(BlockTags.CAMPFIRES) ||
+                below.is(Blocks.FIRE) ||
+                below.is(Blocks.LAVA);
         boolean superheated = below.is(BartendingTags.SUPERHEATING_BLOCKS);
         if (FabricLoader.getInstance().isModLoaded("create")) {
             if (TheArtOfCreate.isBlockSuperheatedBlazeBurner(below)) return 3;
@@ -262,7 +279,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
 
     public boolean isBoiling() {
         // If water
-        return waterInMB > 0 && getHeatedData() != 0;
+        return water.amount > 0 && getHeatedData() != 0;
     }
 
     @Override

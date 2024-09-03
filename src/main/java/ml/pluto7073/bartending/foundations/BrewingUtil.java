@@ -4,7 +4,7 @@ import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.*;
-import ml.pluto7073.pdapi.DrinkUtil;
+import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import net.minecraft.core.NonNullList;
@@ -70,7 +70,7 @@ public class BrewingUtil {
             return ColorUtil.get(items[0].toString());
         }
         List<Integer> colors = Arrays.stream(items).map(ResourceLocation::toString)
-                .filter(ColorUtil.COLORS_REGISTRY::containsKey).map(ColorUtil::get).toList();
+                .map(ColorUtil::get).filter(i -> i != 0).toList();
         return averageColors(colors);
     }
 
