@@ -4,6 +4,7 @@ import ml.pluto7073.bartending.foundations.step.BoilingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.DistillingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -111,7 +112,7 @@ public class ConcoctionItem extends Item {
                     }
                     return id.toLanguageKey("concoction");
                 } else if (data.contains("Items")) {
-                    ItemStack s = ItemStack.of(data.getList("Items", Tag.TAG_COMPOUND).getCompound(0));
+                    ItemStack s = BrewingUtil.stackFromTag(data.getList("Items", Tag.TAG_COMPOUND).getCompound(0));
                     if (s.is(BartendingTags.BOTANICAL_ELEMENTS)) {
                         return "concoction.bartending.botanical";
                     }

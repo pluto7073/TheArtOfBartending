@@ -1,6 +1,8 @@
 package ml.pluto7073.bartending.foundations.item;
 
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.BartendingStats;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -17,9 +19,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class AlcoholicShotItem extends Item {
 
     public final int alcohol;
@@ -61,7 +65,7 @@ public class AlcoholicShotItem extends Item {
 
         if (player != null) {
             player.awardStat(Stats.ITEM_USED.get(this));
-            // STATS.CONSUME_ALCOHOL
+            player.awardStat(BartendingStats.CONSUME_ALCOHOL.get(), alcohol);
             if (!player.getAbilities().instabuild) {
                 stack.shrink(1);
             }
@@ -69,11 +73,11 @@ public class AlcoholicShotItem extends Item {
 
         if (player == null || !player.getAbilities().instabuild) {
             if (stack.isEmpty()) {
-                return new ItemStack(Items.GLASS_BOTTLE);
+                return new ItemStack(BartendingItems.SHOT_GLASS);
             }
 
             if (player != null) {
-                player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
+                player.getInventory().add(new ItemStack(BartendingItems.SHOT_GLASS));
             }
         }
         user.gameEvent(GameEvent.DRINK);

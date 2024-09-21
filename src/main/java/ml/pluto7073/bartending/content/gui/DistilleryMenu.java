@@ -77,7 +77,7 @@ public class DistilleryMenu extends AbstractContainerMenu {
     public ItemStack quickMoveStack(Player player, int index) {
         ItemStack itemStack = ItemStack.EMPTY;
         Slot slot = this.slots.get(index);
-        if (slot != null && slot.hasItem()) {
+        if (slot.hasItem()) {
             ItemStack itemStack2 = slot.getItem();
             itemStack = itemStack2.copy();
             if (index == 2) {
@@ -85,7 +85,11 @@ public class DistilleryMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickCraft(itemStack2, itemStack);
-            } else if (index == 1 || index == 0 ? !this.moveItemStackTo(itemStack2, 3, 39, false) : (itemStack2.is(BartendingItems.CONCOCTION) ? !this.moveItemStackTo(itemStack2, 0, 1, false) : (this.isFuel(itemStack2) ? !this.moveItemStackTo(itemStack2, 1, 2, false) : (index >= 3 && index < 30 ? !this.moveItemStackTo(itemStack2, 30, 39, false) : index >= 30 && index < 39 && !this.moveItemStackTo(itemStack2, 3, 30, false))))) {
+            } else if (index == 1 || index == 0 ? !this.moveItemStackTo(itemStack2, 3, 39, false) :
+                    (itemStack2.is(BartendingItems.CONCOCTION) ? !this.moveItemStackTo(itemStack2, 0, 1, false) :
+                            (this.isFuel(itemStack2) ? !this.moveItemStackTo(itemStack2, 1, 2, false) :
+                                    (index >= 3 && index < 30 ? !this.moveItemStackTo(itemStack2, 30, 39, false) :
+                                            index >= 30 && index < 39 && !this.moveItemStackTo(itemStack2, 3, 30, false))))) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

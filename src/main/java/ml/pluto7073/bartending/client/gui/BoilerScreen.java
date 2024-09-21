@@ -2,7 +2,7 @@ package ml.pluto7073.bartending.client.gui;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.gui.BoilerMenu;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;

@@ -5,6 +5,7 @@ import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
+import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -72,6 +73,20 @@ public class BartendingModelsProvider extends FabricModelProvider {
                 .stream().filter(item -> item.emptyBottleItem == BartendingItems.WINE_BOTTLE).toList()) {
             generators.generateFlatItem(wine, new ModelTemplate(
                     Optional.of(TheArtOfBartending.asId("item/sealed_wine_bottle")),
+                    Optional.empty()
+            ));
+        }
+        for (AlcoholicDrinkItem glass : BartendingItems.GLASSES.values()) {
+            if (glass == BartendingItems.BEER) continue;
+            if (glass.source.standardProof() >= 100) {
+                generators.generateFlatItem(glass, new ModelTemplate(
+                        Optional.of(TheArtOfBartending.asId("item/mixed_drink")),
+                        Optional.empty()
+                ));
+                continue;
+            }
+            generators.generateFlatItem(glass, new ModelTemplate(
+                    Optional.of(TheArtOfBartending.asId("item/glass_of_alc")),
                     Optional.empty()
             ));
         }

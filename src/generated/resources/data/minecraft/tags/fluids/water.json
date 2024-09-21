@@ -22,6 +22,10 @@
     "bartending:sweet_vermouth",
     "bartending:flowing_sweet_vermouth",
     "bartending:coffee_liqueur",
-    "bartending:flowing_coffee_liqueur"
+    "bartending:flowing_coffee_liqueur",
+    "bartending:orange_liqueur",
+    "bartending:flowing_orange_liqueur",
+    "bartending:absinthe",
+    "bartending:flowing_absinthe"
   ]
 }

@@ -1,4 +1,4 @@
-package ml.pluto7073.bartending.foundations;
+package ml.pluto7073.bartending.foundations.util;
 
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
@@ -14,6 +14,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class BrewingUtil {
             data.putString("item", BuiltInRegistries.ITEM.getKey(base.get(0).getItem()).toString());
             data.putInt("count", base.get(0).getCount());
         } else {
-            ContainerHelper.saveAllItems(data, base, false);
+            BrewingUtil.saveAllItems(data, base, false);
         }
         ItemStack stack = new ItemStack(BartendingItems.CONCOCTION, 1);
         ListTag list = new ListTag();
@@ -42,8 +43,63 @@ public class BrewingUtil {
         return stack;
     }
 
+    public static ItemStack stackFromTag(CompoundTag tag) {
+        Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(tag.getString("id")));
+        int count = tag.getInt("Count");
+        CompoundTag data = null;
+        if (tag.contains("tag", Tag.TAG_COMPOUND)) {
+            data = tag.getCompound("tag");
+            item.verifyTagAfterLoad(data);
+        }
+        ItemStack stack = new ItemStack(item, count);
+        if (data != null) stack.setTag(data);
+        return stack;
+    }
+
+    private static void saveItem(ItemStack stack, CompoundTag compoundTag) {
+        ResourceLocation resourceLocation = BuiltInRegistries.ITEM.getKey(stack.getItem());
+        compoundTag.putString("id", resourceLocation.toString());
+        compoundTag.putInt("Count", stack.getCount());
+        compoundTag.put("tag", stack.getOrCreateTag().copy());
+    }
+
+    public static void saveAllItems(CompoundTag tag, NonNullList<ItemStack> list, boolean saveEmpty) {
+        ListTag listTag = new ListTag();
+
+        for(int i = 0; i < list.size(); ++i) {
+            ItemStack itemStack = list.get(i);
+            if (!itemStack.isEmpty()) {
+                CompoundTag compoundTag = new CompoundTag();
+                compoundTag.putByte("Slot", (byte) i);
+                saveItem(itemStack, compoundTag);
+                listTag.add(compoundTag);
+            }
+        }
+
+        if (!listTag.isEmpty() || saveEmpty) {
+            tag.put("Items", listTag);
+        }
+
+    }
+
+    public static void loadAllItems(CompoundTag tag, NonNullList<ItemStack> list) {
+        ListTag listTag = tag.getList("Items", 10);
+
+        for(int i = 0; i < listTag.size(); ++i) {
+            CompoundTag compoundTag = listTag.getCompound(i);
+            int j = compoundTag.getByte("Slot") & 255;
+            if (j < list.size()) {
+                list.set(j, stackFromTag(compoundTag));
+            }
+        }
+    }
+
     public static boolean isInventorySingleItem(NonNullList<ItemStack> inventory) {
         return inventory.stream().filter(s -> !s.isEmpty()).toArray().length == 1;
+    }
+
+    public static float mbFromOunces(float ounces) {
+        return ounces * 250 / 12;
     }
 
     public static ResourceLocation[] getBaseItemFromConcoction(ItemStack concoction) {
@@ -57,7 +113,7 @@ public class BrewingUtil {
             };
         } else if (data.contains("Items", Tag.TAG_LIST)) {
             NonNullList<ItemStack> stacks = NonNullList.withSize(4, ItemStack.EMPTY);
-            ContainerHelper.loadAllItems(data, stacks);
+            loadAllItems(data, stacks);
             return stacks.stream().filter(Predicate.not(ItemStack::isEmpty)).map(ItemStack::getItem)
                     .map(BuiltInRegistries.ITEM::getKey).toList().toArray(new ResourceLocation[0]);
         }

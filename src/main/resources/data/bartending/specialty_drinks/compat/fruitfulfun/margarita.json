@@ -1,0 +1,34 @@
+{
+  "type": "pdapi:specialty_drink",
+  "base": "bartending:mixed_drink",
+  "additions": [
+    "pdapi:ice",
+    "bartending:shot_of_tequila",
+    "bartending:shot_of_tequila",
+    "bartending:shot_of_orange_liqueur",
+    "bartending:compat/fruitfulfun/lime"
+  ],
+  "alcohol": 34,
+  "color": 14808274,
+  "onDrinkActions": [
+    {
+      "type": "pdapi:apply_status_effect",
+      "effect": "minecraft:fire_resistance",
+      "duration": 200,
+      "amplifier": 1
+    },
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 3,
+      "saturation": 2
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "fruitfulfun"
+      ]
+    }
+  ]
+}

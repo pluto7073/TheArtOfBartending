@@ -5,6 +5,8 @@ import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.datagen.builders.EmptyingRecipeBuilder;
 import ml.pluto7073.bartending.foundations.datagen.builders.FillingRecipeBuilder;
+import ml.pluto7073.bartending.foundations.datagen.builders.PouringRecipeBuilder;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.pdapi.datagen.builder.WorkstationRecipeBuilder;
 import ml.pluto7073.pdapi.tag.PDTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -49,19 +51,41 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
 
         });
 
+        BartendingItems.GLASSES.forEach((alc, glass) -> {
+            ResourceLocation id = BuiltInRegistries.ITEM.getKey(glass);
+            if (FabricLoader.getInstance().isModLoaded("create")) {
+                EmptyingRecipeBuilder
+                        .emptying(Ingredient.of(glass), glass.bottle, alc.fluid().still(), BrewingUtil.mbFromOunces(alc.standardOunces()) * 81)
+                        .unlockedBy("obtain_input", InventoryChangeTrigger.TriggerInstance.hasItems(glass))
+                        .save(exporter, id);
+
+                new FillingRecipeBuilder(
+                        Ingredient.of(glass.bottle),
+                        FluidIngredient.fromFluid(alc.fluid().still(), (long) BrewingUtil.mbFromOunces(alc.standardOunces()) * 81),
+                        glass
+                );
+            }
+
+            new PouringRecipeBuilder(alc, Ingredient.of(glass.bottle), glass, alc.standardOunces())
+                    .save(exporter, id);
+        });
+
         BartendingItems.SHOTS.forEach((alc, shot) -> {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(shot);
             if (FabricLoader.getInstance().isModLoaded("create")) {
                 EmptyingRecipeBuilder
-                        .emptying(Ingredient.of(shot), Items.GLASS_BOTTLE, alc.fluid().still(), 2531.25f)
+                        .emptying(Ingredient.of(shot), BartendingItems.SHOT_GLASS, alc.fluid().still(), 2531.25f)
                         .unlockedBy("obtain_input", InventoryChangeTrigger.TriggerInstance.hasItems(shot))
                         .save(exporter, id);
 
-                new FillingRecipeBuilder(Ingredient.of(Items.GLASS_BOTTLE),
+                new FillingRecipeBuilder(Ingredient.of(BartendingItems.SHOT_GLASS),
                         FluidIngredient.fromFluid(alc.fluid().still(), 2531L), shot)
                         .unlockedBy("obtain_result", InventoryChangeTrigger.TriggerInstance.hasItems(shot))
                         .save(exporter, id);
             }
+
+            new PouringRecipeBuilder(alc, Ingredient.of(BartendingItems.SHOT_GLASS), shot, 1.5f)
+                    .save(exporter, id);
 
             new WorkstationRecipeBuilder(Ingredient.of(PDTags.WORKSTATION_DRINKS), Ingredient.of(shot), id)
                     .save(exporter, AlcoholicDrinks.getId(alc).withPrefix("drink_workstation/add_"));

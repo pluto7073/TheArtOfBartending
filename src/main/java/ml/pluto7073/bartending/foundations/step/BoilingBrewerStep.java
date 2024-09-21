@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.foundations.step;
 
 import com.mojang.datafixers.util.Pair;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -53,7 +53,7 @@ public class BoilingBrewerStep implements BrewerStep {
                     (HashMap<Ingredient, Pair<Integer, Integer>>) ingredients.clone();
             for (Tag t : items) {
                 if (!(t instanceof CompoundTag item)) continue;
-                ItemStack stack = ItemStack.of(item);
+                ItemStack stack = BrewingUtil.stackFromTag(item);
                 Optional<Ingredient> match = findMatching(stack, List.copyOf(map.keySet()));
                 if (match.isEmpty()) return false;
                 Ingredient base = match.get();
@@ -80,7 +80,7 @@ public class BoilingBrewerStep implements BrewerStep {
             ListTag list = data.getList("Items", Tag.TAG_COMPOUND);
             for (Tag t : list) {
                 if (!(t instanceof CompoundTag c)) continue;
-                ItemStack stack = ItemStack.of(c);
+                ItemStack stack = BrewingUtil.stackFromTag(c);
                 Ingredient base = findMatching(stack, List.copyOf(this.ingredients.keySet()))
                         .orElseThrow(IllegalStateException::new);
                 int count = ingredients.get(base).getFirst();
@@ -108,7 +108,7 @@ public class BoilingBrewerStep implements BrewerStep {
         if (data.contains("Items", Tag.TAG_LIST)) {
             for (Tag t : data.getList("Items", Tag.TAG_COMPOUND)) {
                 if (!(t instanceof CompoundTag item)) continue;
-                ItemStack stack = ItemStack.of(item);
+                ItemStack stack = BrewingUtil.stackFromTag(item);
                 appendItem(stack.getItem(), stack.getCount(), tooltips);
             }
         }

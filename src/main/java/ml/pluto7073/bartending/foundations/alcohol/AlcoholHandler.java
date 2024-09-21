@@ -5,17 +5,20 @@ import ml.pluto7073.bartending.client.TheArtOfClient;
 import ml.pluto7073.bartending.content.entity.effect.BartendingMobEffects;
 import ml.pluto7073.bartending.foundations.command.BartendingCommands;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalHandler;
 import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalRegistry;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.stats.StatFormatter;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.player.Player;
@@ -31,11 +34,21 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
     public static final AlcoholHandler INSTANCE = (AlcoholHandler) ConsumableChemicalRegistry.register(new AlcoholHandler());
     public static final int ALCOHOL_HALF_LIFE_TICKS = 4500;
     public static final float ALCOHOL_TICK_MULTIPLIER = (float) Math.pow(0.5, 1.0 / ALCOHOL_HALF_LIFE_TICKS);
+    public static final StatFormatter ALCOHOL_FORMATTER = value -> {
+        AlcDisplayType type = AlcDisplayType.GRAMS;
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
+            type = TheArtOfClient.config().getAlcoholDisplayType();
+            if (type == AlcDisplayType.PROOF) type = AlcDisplayType.OUNCES;
+        }
+        float amount = BrewingUtil.convertType(value, AlcDisplayType.GRAMS, type);
+        return type.format(amount);
+    };
 
     @Override
     public void tickPlayer(Player player) {
         float alcohol = get(player);
         alcohol *= ALCOHOL_TICK_MULTIPLIER;
+        if (alcohol <= 0.001f) alcohol = 0;
         set(player, alcohol);
     }
 
@@ -102,6 +115,10 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
 
     @Override
     public void appendTooltip(List<Component> tooltip, float amount, ItemStack stack) {
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER) {
+            appendTooltip(tooltip, amount, stack, AlcDisplayType.GRAMS);
+            return;
+        }
         appendTooltip(tooltip, amount, stack, TheArtOfClient.config().getAlcoholDisplayType());
     }
 

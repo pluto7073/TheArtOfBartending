@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bartending:filling/shot_of_absinthe"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "obtain_result": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bartending:shot_of_absinthe"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_result",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bartending:filling/shot_of_absinthe"
+    ]
+  },
+  "sends_telemetry_event": false
+}

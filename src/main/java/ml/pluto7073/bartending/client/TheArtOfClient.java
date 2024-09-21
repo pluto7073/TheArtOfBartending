@@ -12,9 +12,9 @@ import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
 import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.item.ConcoctionItem;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.client.config.ClientConfig;
-import ml.pluto7073.bartending.foundations.ColorUtil;
+import ml.pluto7073.bartending.foundations.util.ColorUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.pdapi.util.DrinkUtil;
@@ -73,11 +73,6 @@ public class TheArtOfClient implements ClientModInitializer {
 
         ColorProviderRegistry.ITEM.register((stack, index) -> index > 0 ? -1 : ConcoctionItem.isFailed(stack) ? 0x545252 : BrewingUtil.getColorForConcoction(stack), BartendingItems.CONCOCTION);
 
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0x2b0010, BartendingItems.RED_WINE);
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, 0x2b0010), BartendingItems.GLASS_OF_RED_WINE);
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : 0xe2c36c, BartendingItems.WHITE_WINE);
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, 0xe2c36c), BartendingItems.GLASS_OF_WHITE_WINE);
-
         ColorProviderRegistry.ITEM.register((stack, i) -> {
             DrinkAddition[] array = Arrays.stream(DrinkUtil.getAdditionsFromStack(stack))
                     .filter(DrinkAddition::changesColor).toList().toArray(new DrinkAddition[0]);
@@ -96,6 +91,8 @@ public class TheArtOfClient implements ClientModInitializer {
                 ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : drink.color(), item));
         BartendingItems.BOTTLES.forEach((drink, item) ->
                 ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : drink.color(), item));
+        BartendingItems.GLASSES.forEach((drink, item) ->
+                ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, drink.color()), item));
     }
 
     private static void initRendering() {

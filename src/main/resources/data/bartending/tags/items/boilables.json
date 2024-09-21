@@ -4,6 +4,11 @@
     "minecraft:wheat",
     "minecraft:sugar_cane",
     "minecraft:nether_wart",
+    "minecraft:cactus",
+    "minecraft:grass",
+    "minecraft:tall_grass",
+    "minecraft:fern",
+    "minecraft:large_fern",
     "#bartending:botanical_elements"
   ]
 }

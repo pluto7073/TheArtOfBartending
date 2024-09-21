@@ -1,19 +1,15 @@
 package ml.pluto7073.bartending.foundations.step;
 
-import ml.pluto7073.bartending.TheArtOfBartending;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.List;
-import java.util.function.Predicate;
 
 public class FermentingBrewerStep implements BrewerStep {
 

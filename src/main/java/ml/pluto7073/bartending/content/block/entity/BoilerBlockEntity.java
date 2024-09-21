@@ -1,12 +1,11 @@
 package ml.pluto7073.bartending.content.block.entity;
 
-import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.compat.create.TheArtOfCreate;
 import ml.pluto7073.bartending.content.gui.BoilerMenu;
 import ml.pluto7073.bartending.content.item.BartendingItems;
-import ml.pluto7073.bartending.foundations.ColorUtil;
+import ml.pluto7073.bartending.foundations.util.ColorUtil;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
 import ml.pluto7073.pdapi.util.BasicSingleStorage;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
@@ -264,7 +263,6 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     }
 
     public int getHeatedData() {
-        // If heated from below
         if (level == null) return 0;
         BlockState below = level.getBlockState(getBlockPos().below());
         boolean heated = below.is(BlockTags.CAMPFIRES) ||
@@ -272,7 +270,8 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
                 below.is(Blocks.LAVA);
         boolean superheated = below.is(BartendingTags.SUPERHEATING_BLOCKS);
         if (FabricLoader.getInstance().isModLoaded("create")) {
-            if (TheArtOfCreate.isBlockSuperheatedBlazeBurner(below)) return 3;
+            int heat = TheArtOfCreate.getHeatFromBlazeBurner(below);
+            if (heat != -1) return heat;
         }
         return superheated ? 2 : heated ? 1 : 0;
     }
@@ -299,10 +298,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
 
     @Override
     public boolean isEmpty() {
-        for (ItemStack stack : inventory) {
-            if (!stack.isEmpty()) return false;
-        }
-        return true;
+        return BrewingUtil.isEmpty(inventory);
     }
 
     @Override

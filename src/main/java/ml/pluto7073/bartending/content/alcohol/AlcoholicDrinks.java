@@ -1,6 +1,7 @@
 package ml.pluto7073.bartending.content.alcohol;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.compat.fruitfulfun.FruityAlcoholicDrinkManager;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
@@ -81,12 +82,20 @@ public final class AlcoholicDrinks {
                     252000, 36000))
             .addStep(new DistillingBrewerStep()).fluid(BartendingFluids.TEQUILA)
             .color(0xEFEFEF).name("Tequila").bottle(BartendingItems.LIQUOR_BOTTLE).build());
+    public static final AlcoholicDrink ORANGE_LIQUEUR = register("orange_liqueur", FruityAlcoholicDrinkManager.createOrangeLiqueur());
     public static final AlcoholicDrink DRY_VERMOUTH = register("dry_vermouth", new AlcoholicDrink.Builder().proof(33)
             .ounces(1.5f).addStep(new AlternativeBrewerStep()).fluid(BartendingFluids.DRY_VERMOUTH)
             .color(0xfcf3ba).name("Dry Vermouth").bottle(BartendingItems.WINE_BOTTLE).build());
     public static final AlcoholicDrink SWEET_VERMOUTH = register("sweet_vermouth", new AlcoholicDrink.Builder()
             .proof(33).ounces(1.5f).addStep(new AlternativeBrewerStep()).fluid(BartendingFluids.SWEET_VERMOUTH)
             .color(0x51190d).name("Sweet Vermouth").bottle(BartendingItems.WINE_BOTTLE).build());
+    public static final AlcoholicDrink ABSINTHE = register("absinthe", new AlcoholicDrink.Builder().proof(120).ounces(5).fluid(BartendingFluids.ABSINTHE)
+            .addStep(new BoilingBrewerStep.Builder()
+                    .addIngredient(Ingredient.of(Items.GRASS, Items.TALL_GRASS, Items.FERN, Items.LARGE_FERN), 128, 24)
+                    .addIngredient(Ingredient.of(Items.WHEAT_SEEDS), 32, 10)
+                    .setTicks(3600).setLeeway(600).build())
+            .addStep(new DistillingBrewerStep())
+            .color(0x679b33).bottle(BartendingItems.WINE_BOTTLE).name("Absinthe").build());
 
     public static AlcoholicDrink register(ResourceLocation id, AlcoholicDrink drink) {
         REGISTRY.put(id, drink);
@@ -101,6 +110,11 @@ public final class AlcoholicDrinks {
         AlcoholicDrink drink = REGISTRY.get(id);
         if (drink == null) throw new IllegalArgumentException("No registered Drink with id " + id);
         return drink;
+    }
+
+    public static Optional<AlcoholicDrink> getOptional(ResourceLocation id) {
+        AlcoholicDrink drink = REGISTRY.get(id);
+        return Optional.ofNullable(drink);
     }
 
     public static ResourceLocation getId(AlcoholicDrink drink) {

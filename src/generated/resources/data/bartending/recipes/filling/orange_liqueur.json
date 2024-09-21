@@ -1,0 +1,26 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bartending:liquor_bottle"
+    },
+    {
+      "amount": 50625,
+      "fluid": "bartending:orange_liqueur",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "bartending:orange_liqueur"
+    }
+  ]
+}

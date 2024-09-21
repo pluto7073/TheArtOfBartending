@@ -1,41 +1,50 @@
 package ml.pluto7073.bartending.foundations.item;
 
 import ml.pluto7073.bartending.content.sound.BartendingSounds;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.BartendingStats;
+import ml.pluto7073.bartending.foundations.recipe.BartendingRecipes;
+import ml.pluto7073.bartending.foundations.recipe.PouringRecipe;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.RecipeManager;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class PourableBottleItem extends Item {
 
-    public final Item servingItem, emptyBottleItem;
+    public final Item emptyBottleItem;
     public final AlcoholicDrink drink;
 
-    public PourableBottleItem(Item servingItem, Item emptyBottleItem, AlcoholicDrink drink, Properties properties) {
+    public PourableBottleItem(Item emptyBottleItem, AlcoholicDrink drink, Properties properties) {
         super(properties);
-        this.servingItem = servingItem;
         this.emptyBottleItem = emptyBottleItem;
         this.drink = drink;
     }
 
     @Override
     public int getUseDuration(ItemStack stack) {
-        return 32;
+        return 24;
     }
 
     @Override
@@ -50,35 +59,43 @@ public class PourableBottleItem extends Item {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player user, InteractionHand hand) {
-        return canPour(user, hand) ? ItemUtils.startUsingInstantly(world, user, hand) :
-                InteractionResultHolder.pass(user.getItemInHand(hand));
+        return ItemUtils.startUsingInstantly(world, user, hand);
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
-        ItemStack offHand = livingEntity.getItemInHand(InteractionHand.OFF_HAND);
-        if (!offHand.is(Items.GLASS_BOTTLE) || offHand.getCount() != 1) return stack;
-        offHand = new ItemStack(servingItem, 1);
-        if (stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).contains("Deviation")) {
-            offHand.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putInt("Deviation",
-                    stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).getInt("Deviation"));
-        }
-        stack.hurtAndBreak(1, livingEntity, entity -> {/*TODO Alc bottles drank stat*/});
-        livingEntity.setItemInHand(InteractionHand.OFF_HAND, offHand);
-        Player player = livingEntity instanceof Player ? (Player) livingEntity : null;
-        if (player == null || !player.getAbilities().instabuild) {
-            if (stack.isEmpty()) {
-                return new ItemStack(emptyBottleItem, 1);
+        if (!(livingEntity instanceof Player player)) return super.finishUsingItem(stack, level, livingEntity);
+        RecipeManager recipes = level.getRecipeManager();
+        @SuppressWarnings("unchecked") List<PouringRecipe> matches = recipes.getAllRecipesFor((RecipeType<PouringRecipe>)BartendingRecipes.POURING.type()).stream()
+                .filter(r -> r.matches(player.getInventory(), level)).toList();
+        player.awardStat(Stats.ITEM_USED.get(this));
+        if (matches.isEmpty()) {
+            if (player instanceof ServerPlayer) {
+                CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer)player, stack);
             }
+            int alc = BrewingUtil.getAlcohol(drink, 1);
+            if (!level.isClientSide) {
+                AlcoholHandler.INSTANCE.add(player, alc);
+            }
+            player.awardStat(BartendingStats.CONSUME_ALCOHOL.get(), alc);
+            stack.hurtAndBreak(2, player, user -> user.awardStat(BartendingStats.ALCOHOL_BOTTLES_DRANK.get()));
+        } else {
+            PouringRecipe recipe = matches.get(0);
+            ItemStack result = recipe.assemble(player.getInventory(), level.registryAccess());
+            ItemStack offhand = player.getItemInHand(InteractionHand.OFF_HAND);
+            if (offhand.getCount() == 1) {
+                player.setItemInHand(InteractionHand.OFF_HAND, result);
+            } else {
+                offhand.shrink(1);
+                player.getInventory().placeItemBackInInventory(result);
+            }
+            stack.hurtAndBreak((int) (recipe.ounces() * 2), player, user -> user.awardStat(BartendingStats.ALCOHOL_BOTTLES_DRANK.get()));
+            player.gameEvent(GameEvent.FLUID_PLACE);
         }
-        livingEntity.gameEvent(GameEvent.FLUID_PLACE);
+        if (stack.isEmpty() && !player.getAbilities().instabuild) {
+            return new ItemStack(emptyBottleItem, 1);
+        }
         return stack;
-    }
-
-    public static boolean canPour(Player player, InteractionHand hand) {
-        if (hand != InteractionHand.MAIN_HAND) return false;
-        ItemStack offHand = player.getItemInHand(InteractionHand.OFF_HAND);
-        return offHand.is(Items.GLASS_BOTTLE) && offHand.getCount() == 1;
     }
 
     @Override

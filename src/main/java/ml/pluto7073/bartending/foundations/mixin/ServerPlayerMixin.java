@@ -1,7 +1,7 @@
 package ml.pluto7073.bartending.foundations.mixin;
 
 import com.mojang.authlib.GameProfile;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.blackout.BlackoutData;
 import net.minecraft.core.BlockPos;

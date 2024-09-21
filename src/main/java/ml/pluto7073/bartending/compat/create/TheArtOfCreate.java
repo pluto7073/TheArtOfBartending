@@ -8,8 +8,14 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class TheArtOfCreate {
 
-    public static boolean isBlockSuperheatedBlazeBurner(BlockState state) {
-        return state.is(AllBlocks.BLAZE_BURNER.get()) && state.getValue(BlazeBurnerBlock.HEAT_LEVEL) == BlazeBurnerBlock.HeatLevel.SEETHING;
+    public static int getHeatFromBlazeBurner(BlockState state) {
+        if (!state.is(AllBlocks.BLAZE_BURNER.get())) return -1;
+        return switch (state.getValue(BlazeBurnerBlock.HEAT_LEVEL)) {
+            case FADING -> 1;
+            case KINDLED -> 2;
+            case SEETHING -> 3;
+            default -> 0;
+        };
     }
 
 }

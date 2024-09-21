@@ -1,0 +1,11 @@
+{
+  "type": "bartending:pouring",
+  "alcoholType": "bartending:beer",
+  "glass": {
+    "item": "bartending:beer_bottle"
+  },
+  "ounces": 12.0,
+  "result": {
+    "item": "bartending:beer"
+  }
+}

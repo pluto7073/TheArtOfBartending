@@ -1,0 +1,11 @@
+{
+  "type": "bartending:pouring",
+  "alcoholType": "bartending:red_wine",
+  "glass": {
+    "item": "minecraft:glass_bottle"
+  },
+  "ounces": 5.0,
+  "result": {
+    "item": "bartending:glass_of_red_wine"
+  }
+}

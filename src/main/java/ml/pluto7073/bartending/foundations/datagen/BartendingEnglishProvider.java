@@ -4,6 +4,7 @@ import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.BartendingStats;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
@@ -58,6 +59,18 @@ public class BartendingEnglishProvider extends FabricLanguageProvider {
             builder.add(getFluidKey(holder.flowing()), "Flowing " + drink.englishName());
             builder.add(holder.block(), drink.englishName());
             builder.add(holder.bucket(), "Bucket of " + drink.englishName());
+        }
+
+        BartendingItems.GLASSES.forEach((alc, glass) -> {
+            if (alc == AlcoholicDrinks.BEER) {
+                builder.add(glass, "Beer");
+                return;
+            }
+            builder.add(glass, "Glass of " + alc.englishName());
+        });
+
+        for (BartendingStats value : BartendingStats.values()) {
+            builder.add(value.get().toLanguageKey("stat"), value.getName());
         }
 
         try {

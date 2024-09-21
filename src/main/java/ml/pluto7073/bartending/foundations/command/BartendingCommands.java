@@ -1,8 +1,7 @@
 package ml.pluto7073.bartending.foundations.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import ml.pluto7073.bartending.TheArtOfBartending;
-import ml.pluto7073.bartending.foundations.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.arguments.EntityArgument;

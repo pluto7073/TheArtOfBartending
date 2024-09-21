@@ -1,4 +1,4 @@
-package ml.pluto7073.bartending.foundations;
+package ml.pluto7073.bartending.foundations.util;
 
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -27,7 +27,12 @@ public class ColorUtil {
         COLORS_REGISTRY.put("minecraft:apple", 0xbc8a49);
         COLORS_REGISTRY.put("minecraft:sugar_cane", 0x825424);
         COLORS_REGISTRY.put("minecraft:cactus", 0x77ad8e);
+        COLORS_REGISTRY.put("minecraft:grass", 0xcdeaaf);
+        COLORS_REGISTRY.put("minecraft:tall_grass", 0xcdeaaf);
+        COLORS_REGISTRY.put("minecraft:fern", 0xcdeaaf);
+        COLORS_REGISTRY.put("minecraft:large_fern", 0xcdeaaf);
         COLORS_REGISTRY.put("bartending:botanicals", 0x7f5c36);
+        COLORS_REGISTRY.put("fruitfulfun:orange", 0xf2b91d);
 
         COLORS_REGISTRY.put("bartending:oak_fermenting_barrel", 0xc29d62);
         COLORS_REGISTRY.put("bartending:cherry_fermenting_barrel", 0xefd0ef);
