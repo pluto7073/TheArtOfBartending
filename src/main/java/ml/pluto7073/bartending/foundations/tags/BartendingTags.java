@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.foundations.tags;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -14,8 +15,12 @@ public class BartendingTags {
     public static final TagKey<Item> EMPTY_GLASS_BOTTLES = item("empty_glass_bottles");
     public static final TagKey<Item> BOILABLES = item("boilables");
     public static final TagKey<Item> BOTANICAL_ELEMENTS = item("botanical_elements");
+    public static final TagKey<Item> C_FRUITS = item("c:fruits");
 
     private static TagKey<Item> item(String name) {
+        if (name.contains(":")) {
+            return TagKey.create(Registries.ITEM, new ResourceLocation(name));
+        }
         return TagKey.create(Registries.ITEM, TheArtOfBartending.asId(name));
     }
 

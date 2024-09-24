@@ -29,7 +29,7 @@ public final class FruityAlcoholicDrinkManager {
                     .setTicks(24000).setLeeway(6000).build();
         } else boiling = new AlternativeBrewerStep();
 
-        return builder.addStep(boiling).addStep(new DistillingBrewerStep()).build();
+        return builder.addStep(boiling).addStep(new DistillingBrewerStep(3, 2)).build();
     }
 
 }

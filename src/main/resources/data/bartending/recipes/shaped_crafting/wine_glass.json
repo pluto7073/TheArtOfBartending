@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GGG",
+    " G ",
+    "GGG"
+  ],
+  "key": {
+    "G": {
+      "item": "glass"
+    }
+  },
+  "result": {
+    "item": "bartending:wine_glass",
+    "count": 4
+  }
+}

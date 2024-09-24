@@ -3,6 +3,8 @@ package ml.pluto7073.bartending.foundations.step;
 import com.google.common.collect.Lists;
 import ml.pluto7073.bartending.content.block.FermentingBarrelBlock;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 
 import java.util.List;
@@ -25,5 +27,9 @@ public class BarrelPredicate implements Predicate<Block> {
         if (this == ANY) return true;
         if (!(block instanceof FermentingBarrelBlock fermentingBarrelBlock)) return false;
         return allowed.contains(fermentingBarrelBlock);
+    }
+
+    public Ingredient asIngredient() {
+        return Ingredient.of(allowed.toArray(ItemLike[]::new));
     }
 }

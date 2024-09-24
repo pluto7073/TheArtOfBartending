@@ -91,6 +91,23 @@ public class AlcoholicDrink {
     }
 
     /**
+     * Determines whether a list of steps <em>might</em> match this alcoholic drink
+     * @param steps The list of steps to test against
+     * @return <code>true</code> if the steps present are in the correct order and match even if a few steps at the end are missing<br>
+     * <code>false</code> if a step provided doesn't match an existing step or there are more steps than required for this drink
+     */
+    public boolean mightMatch(ListTag steps) {
+        if (steps.size() > this.steps.length) return false;
+        for (int i = 0; i < steps.size(); i++) {
+            BrewerStep step = this.steps[i];
+            CompoundTag data = steps.getCompound(i);
+            if (!step.mightMatch(data)) return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Returns the total deviation in grams of alcohol from the standard recipe.
      * This should only be performed on a list of steps that is known to match this Alcoholic drink, as this method does not check whether the list of steps is correct or not
      * @param steps The <code>ListTag</code> of steps from the concoction

@@ -85,6 +85,9 @@ dependencies {
 	modImplementation "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}"
 
 	modImplementation "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
+
+	modCompileOnly "me.shedaniel:RoughlyEnoughItems-api-fabric:${project.rei_version}"
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 }
 
 processResources {

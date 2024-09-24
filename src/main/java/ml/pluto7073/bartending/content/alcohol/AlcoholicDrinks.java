@@ -47,19 +47,19 @@ public final class AlcoholicDrinks {
                     .setTicks(24000).setLeeway(6000).build())
             .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.CHERRY),
                     BartendingBlocks.BARRELS.get(WoodType.ACACIA)), 156000, 24000))
-            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE)
+            .addStep(new DistillingBrewerStep(3, 1)).bottle(BartendingItems.LIQUOR_BOTTLE)
             .color(0xbc8a49).fluid(BartendingFluids.APPLE_LIQUEUR).name("Apple Liqueur").build());
     public static final AlcoholicDrink VODKA = register("vodka", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
             .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.POTATO, Items.POISONOUS_POTATO), 10)
                     .setTicks(24000).build())
-            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE)
+            .addStep(new DistillingBrewerStep(3, 1)).bottle(BartendingItems.LIQUOR_BOTTLE)
             .fluid(BartendingFluids.VODKA).name("Vodka").build());
     public static final AlcoholicDrink RUM = register("rum", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
             .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.SUGAR_CANE), 50)
                     .setTicks(2400).setLeeway(600).build())
             .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.OAK), BartendingBlocks.BARRELS.get(WoodType.DARK_OAK)),
                     204000, 24000))
-            .addStep(new DistillingBrewerStep()).bottle(BartendingItems.LIQUOR_BOTTLE)
+            .addStep(new DistillingBrewerStep(2)).bottle(BartendingItems.LIQUOR_BOTTLE)
             .color(0x825424).fluid(BartendingFluids.RUM).name("Rum").build());
     public static final AlcoholicDrink COFFEE_LIQUEUR = register("coffee_liqueur", new AlcoholicDrink.Builder()
             .addStep(new AlternativeBrewerStep()).name("Coffee Liqueur")
@@ -72,7 +72,7 @@ public final class AlcoholicDrinks {
                     .addIngredient(Ingredient.of(Items.WHEAT), 10, 3)
                     .addIngredient(Ingredient.of(Items.SWEET_BERRIES), 20)
                     .setTicks(6000).setLeeway(600).build())
-            .addStep(new DistillingBrewerStep()).name("Gin")
+            .addStep(new DistillingBrewerStep(2, 1)).name("Gin")
             .fluid(BartendingFluids.GIN).bottle(BartendingItems.LIQUOR_BOTTLE).build());
     public static final AlcoholicDrink TEQUILA = register("tequila", new AlcoholicDrink.Builder().proof(80)
             .ounces(1.5f).addStep(new BoilingBrewerStep.Builder()
@@ -80,21 +80,28 @@ public final class AlcoholicDrinks {
                     .setTicks(18000).setLeeway(3600).build())
             .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.BIRCH)),
                     252000, 36000))
-            .addStep(new DistillingBrewerStep()).fluid(BartendingFluids.TEQUILA)
+            .addStep(new DistillingBrewerStep(2, 1)).fluid(BartendingFluids.TEQUILA)
             .color(0xEFEFEF).name("Tequila").bottle(BartendingItems.LIQUOR_BOTTLE).build());
     public static final AlcoholicDrink ORANGE_LIQUEUR = register("orange_liqueur", FruityAlcoholicDrinkManager.createOrangeLiqueur());
     public static final AlcoholicDrink DRY_VERMOUTH = register("dry_vermouth", new AlcoholicDrink.Builder().proof(33)
-            .ounces(1.5f).addStep(new AlternativeBrewerStep()).fluid(BartendingFluids.DRY_VERMOUTH)
+            .ounces(5).addStep(new AlternativeBrewerStep()).fluid(BartendingFluids.DRY_VERMOUTH)
             .color(0xfcf3ba).name("Dry Vermouth").bottle(BartendingItems.WINE_BOTTLE).build());
     public static final AlcoholicDrink SWEET_VERMOUTH = register("sweet_vermouth", new AlcoholicDrink.Builder()
-            .proof(33).ounces(1.5f).addStep(new AlternativeBrewerStep()).fluid(BartendingFluids.SWEET_VERMOUTH)
+            .proof(33).ounces(5).addStep(new AlternativeBrewerStep()).fluid(BartendingFluids.SWEET_VERMOUTH)
             .color(0x51190d).name("Sweet Vermouth").bottle(BartendingItems.WINE_BOTTLE).build());
+    public static final AlcoholicDrink WHISKEY = register("whiskey", new AlcoholicDrink.Builder().proof(80).ounces(1.5f)
+            .addStep(new BoilingBrewerStep.Builder()
+                    .addIngredient(Ingredient.of(Items.WHEAT), 15, 3)
+                    .setTicks(18000).setLeeway(3600).build())
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.OAK)), 242000, 24000))
+            .addStep(new DistillingBrewerStep(2))
+            .fluid(BartendingFluids.WHISKEY).name("Whiskey").color(0x442612).bottle(BartendingItems.LIQUOR_BOTTLE).build());
     public static final AlcoholicDrink ABSINTHE = register("absinthe", new AlcoholicDrink.Builder().proof(120).ounces(5).fluid(BartendingFluids.ABSINTHE)
             .addStep(new BoilingBrewerStep.Builder()
                     .addIngredient(Ingredient.of(Items.GRASS, Items.TALL_GRASS, Items.FERN, Items.LARGE_FERN), 128, 24)
                     .addIngredient(Ingredient.of(Items.WHEAT_SEEDS), 32, 10)
                     .setTicks(3600).setLeeway(600).build())
-            .addStep(new DistillingBrewerStep())
+            .addStep(new DistillingBrewerStep(6, 3))
             .color(0x679b33).bottle(BartendingItems.WINE_BOTTLE).name("Absinthe").build());
 
     public static AlcoholicDrink register(ResourceLocation id, AlcoholicDrink drink) {
@@ -117,11 +124,15 @@ public final class AlcoholicDrinks {
         return Optional.ofNullable(drink);
     }
 
-    public static ResourceLocation getId(AlcoholicDrink drink) {
+    public static Optional<ResourceLocation> getOptionalKey(AlcoholicDrink drink) {
         for (Map.Entry<ResourceLocation, AlcoholicDrink> entry : REGISTRY.entrySet()) {
-            if (entry.getValue().equals(drink)) return entry.getKey();
+            if (entry.getValue().equals(drink)) return Optional.of(entry.getKey());
         }
-        throw new IllegalArgumentException("Unregistered value: " + drink);
+        return Optional.empty();
+    }
+
+    public static ResourceLocation getId(AlcoholicDrink drink) {
+        return getOptionalKey(drink).orElseThrow(() -> new IllegalArgumentException("Unregistered value: " + drink));
     }
 
     public static Collection<AlcoholicDrink> values() {

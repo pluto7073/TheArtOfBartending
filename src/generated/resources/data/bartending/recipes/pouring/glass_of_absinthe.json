@@ -2,7 +2,7 @@
   "type": "bartending:pouring",
   "alcoholType": "bartending:absinthe",
   "glass": {
-    "item": "minecraft:glass_bottle"
+    "item": "bartending:cocktail_glass"
   },
   "ounces": 5.0,
   "result": {

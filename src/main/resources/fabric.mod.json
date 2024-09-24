@@ -27,6 +27,9 @@
 		],
 		"modmenu": [
 			"ml.pluto7073.bartending.compat.modmenu.TheArtOfModMenu"
+		],
+		"rei_client": [
+			"ml.pluto7073.bartending.compat.rei.TheArtOfREI"
 		]
 	},
 	"custom": {

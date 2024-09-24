@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
+import ml.pluto7073.pdapi.block.PDBlocks;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.mixin.object.builder.AbstractBlockAccessor;
 import net.minecraft.Util;
@@ -26,6 +27,7 @@ public class BartendingBlocks {
     public static final Block BOILER = new BoilerBlock(BlockBehaviour.Properties.copy(Blocks.CAULDRON).pushReaction(PushReaction.BLOCK));
     public static final Block BOTTLER = new BottlerBlock(BlockBehaviour.Properties.copy(Blocks.BREWING_STAND));
     public static final Block DISTILLERY = new DistilleryBlock(BlockBehaviour.Properties.copy(Blocks.BREWING_STAND));
+    public static final Block COUNTER_TOP = new CountertopBlock(BlockBehaviour.Properties.copy(PDBlocks.DRINK_WORKSTATION));
 
     public static final HashMap<WoodType, FermentingBarrelBlock> BARRELS = Util.make(() -> {
         HashMap<WoodType, FermentingBarrelBlock> blocks = new HashMap<>();
@@ -50,6 +52,7 @@ public class BartendingBlocks {
         register("boiler", BOILER, true);
         register("bottler", BOTTLER, true);
         register("distillery", DISTILLERY, true);
+        register("countertop", COUNTER_TOP, true);
 
         BARRELS.forEach((type, block) -> register(type.name() + "_fermenting_barrel", block, true));
     }

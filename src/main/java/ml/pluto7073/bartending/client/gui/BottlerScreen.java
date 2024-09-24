@@ -33,7 +33,7 @@ public class BottlerScreen extends AbstractContainerScreen<BottlerMenu> {
         // Time
         int timeDisplay = Mth.clamp((int) (17 * ((float) menu.bottleTime() / (BottlerBlockEntity.MAX_BOTTLE_TIME))), 0, 17);
         if (menu.bottleTime() > 0) {
-            guiGraphics.blit(TEXTURE, i + 77, j + 30, 176, 0, timeDisplay, 10);
+            guiGraphics.blit(TEXTURE, i + 77, j + 29, 176, 0, timeDisplay, 10);
         }
     }
 

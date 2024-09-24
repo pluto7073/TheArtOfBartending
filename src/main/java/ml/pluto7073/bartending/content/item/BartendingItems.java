@@ -34,23 +34,27 @@ public class BartendingItems {
     public static final Item WINE_BOTTLE = new Item(new Item.Properties());
     public static final Item LIQUOR_BOTTLE = new Item(new Item.Properties());
     public static final Item SHOT_GLASS = new Item(new Item.Properties());
+    public static final Item COCKTAIL_GLASS = new Item(new Item.Properties());
+    public static final Item WINE_GLASS = new Item(new Item.Properties());
 
     public static final Item BEER = glass(AlcoholicDrinks.BEER, BEER_BOTTLE);
 
-    public static final Item GLASS_OF_RED_WINE = glass(AlcoholicDrinks.RED_WINE, GLASS_BOTTLE);
+    public static final Item GLASS_OF_RED_WINE = glass(AlcoholicDrinks.RED_WINE, WINE_GLASS);
     public static final Item RED_WINE = bottle(AlcoholicDrinks.RED_WINE, WINE_BOTTLE);
 
-    public static final Item GLASS_OF_WHITE_WINE = glass(AlcoholicDrinks.WHITE_WINE, GLASS_BOTTLE);
+    public static final Item GLASS_OF_WHITE_WINE = glass(AlcoholicDrinks.WHITE_WINE, WINE_GLASS);
     public static final Item WHITE_WINE = bottle(AlcoholicDrinks.WHITE_WINE, WINE_BOTTLE);
 
     public static final Item SHOT_OF_DRY_VERMOUTH = shot(AlcoholicDrinks.DRY_VERMOUTH);
+    public static final Item GLASS_OF_DRY_VERMOUTH = glass(AlcoholicDrinks.DRY_VERMOUTH, WINE_GLASS);
     public static final Item DRY_VERMOUTH = bottle(AlcoholicDrinks.DRY_VERMOUTH, WINE_BOTTLE);
 
     public static final Item SHOT_OF_SWEET_VERMOUTH = shot(AlcoholicDrinks.SWEET_VERMOUTH);
+    public static final Item GLASS_OF_SWEET_VERMOUTH = glass(AlcoholicDrinks.SWEET_VERMOUTH, WINE_GLASS);
     public static final Item SWEET_VERMOUTH =
             bottle(AlcoholicDrinks.SWEET_VERMOUTH, WINE_BOTTLE);
 
-    public static final Item GLASS_OF_ABSINTHE = glass(AlcoholicDrinks.ABSINTHE, GLASS_BOTTLE);
+    public static final Item GLASS_OF_ABSINTHE = glass(AlcoholicDrinks.ABSINTHE, COCKTAIL_GLASS);
     public static final Item SHOT_OF_ABSINTHE = shot(AlcoholicDrinks.ABSINTHE);
     public static final Item ABSINTHE = bottle(AlcoholicDrinks.ABSINTHE, WINE_BOTTLE);
 
@@ -75,6 +79,9 @@ public class BartendingItems {
     public static final Item SHOT_OF_ORANGE_LIQUEUR = shot(AlcoholicDrinks.ORANGE_LIQUEUR);
     public static final Item ORANGE_LIQUEUR = liquor(AlcoholicDrinks.ORANGE_LIQUEUR);
 
+    public static final Item SHOT_OF_WHISKEY = shot(AlcoholicDrinks.WHISKEY);
+    public static final Item WHISKEY = liquor(AlcoholicDrinks.WHISKEY);
+
     public static final Item MIXED_DRINK = new MixedDrinkItem(new Item.Properties().stacksTo(1));
 
     // Block Items
@@ -82,6 +89,7 @@ public class BartendingItems {
     public static final Item BOILER = new BlockItem(BartendingBlocks.BOILER, new Item.Properties());
     public static final Item BOTTLER = new BlockItem(BartendingBlocks.BOTTLER, new Item.Properties());
     public static final Item DISTILLERY = new BlockItem(BartendingBlocks.DISTILLERY, new Item.Properties());
+    public static final Item COUNTER_TOP = new BlockItem(BartendingBlocks.COUNTER_TOP, new Item.Properties());
 
     public static final HashMap<WoodType, BlockItem> FERMENTING_BARRELS = Util.make(() -> {
         HashMap<WoodType, BlockItem> map = new HashMap<>();
@@ -153,14 +161,17 @@ public class BartendingItems {
         register("beer_bottle", BEER_BOTTLE);
         register("liquor_bottle", LIQUOR_BOTTLE);
         register("shot_glass", SHOT_GLASS);
+        register("cocktail_glass", COCKTAIL_GLASS);
+        register("wine_glass", WINE_GLASS);
         register("mixed_drink", MIXED_DRINK);
 
         register("boiler", BOILER);
         register("bottler", BOTTLER);
         register("distillery", DISTILLERY);
+        register("countertop", COUNTER_TOP);
         FERMENTING_BARRELS.forEach((type, item) -> register(type.name() + "_fermenting_barrel", item));
 
-        InProgressItemRegistry.register(GLASS_BOTTLE, MIXED_DRINK);
+        InProgressItemRegistry.register(COCKTAIL_GLASS, MIXED_DRINK);
 
         registerFinalDrink(AlcoholicDrinks.BEER, BEER);
     }

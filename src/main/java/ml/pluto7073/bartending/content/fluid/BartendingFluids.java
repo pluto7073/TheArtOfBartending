@@ -25,7 +25,8 @@ public final class BartendingFluids {
             DRY_VERMOUTH = AlcoholFluid.create(),
             SWEET_VERMOUTH = AlcoholFluid.create(),
             ORANGE_LIQUEUR = AlcoholFluid.create(),
-            ABSINTHE = AlcoholFluid.create();
+            ABSINTHE = AlcoholFluid.create(),
+            WHISKEY = AlcoholFluid.create();
 
     public static void init() {
         BEER.register("beer");
@@ -41,6 +42,7 @@ public final class BartendingFluids {
         COFFEE_LIQUEUR.register("coffee_liqueur");
         ORANGE_LIQUEUR.register("orange_liqueur");
         ABSINTHE.register("absinthe");
+        WHISKEY.register("whiskey");
     }
 
 }

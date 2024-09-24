@@ -11,6 +11,7 @@ public class TheArtOfDatagen implements DataGeneratorEntrypoint {
         FabricDataGenerator.Pack pack = gen.createPack();
         pack.addProvider(BartendingTagProviders.FluidTagProvider::new);
         pack.addProvider(BartendingTagProviders.BlockTagProvider::new);
+        pack.addProvider(BartendingTagProviders.ItemTagProvider::new);
         pack.addProvider(BartendingBlockLootProvider::new);
         pack.addProvider(BartendingModelsProvider::new);
         pack.addProvider(BartendingEnglishProvider::new);

@@ -20,8 +20,8 @@ public class BoilingBrewerStep implements BrewerStep {
 
     public static final String TYPE_ID = "boiling";
 
-    private final HashMap<Ingredient, Pair<Integer, Integer>> ingredients;
-    private final int wantedTicks;
+    public final HashMap<Ingredient, Pair<Integer, Integer>> ingredients;
+    public final int wantedTicks;
     private final int tickLeeway;
 
     private BoilingBrewerStep(HashMap<Ingredient, Pair<Integer, Integer>> ingredients, int ticks, int leeway) {
@@ -30,12 +30,16 @@ public class BoilingBrewerStep implements BrewerStep {
         this.tickLeeway = leeway;
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public boolean matches(CompoundTag data) {
+    public boolean mightMatch(CompoundTag data) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int ticks = data.getInt("ticks");
-        if (Math.abs(wantedTicks - ticks) > tickLeeway) return false;
+        if (ticks > wantedTicks + tickLeeway) return false;
+        return testInventory(data);
+    }
+
+    @SuppressWarnings("unchecked")
+    private boolean testInventory(CompoundTag data) {
         if (data.contains("item", CompoundTag.TAG_STRING)) {
             if (ingredients.size() > 1) return false;
             Ingredient base = List.copyOf(ingredients.keySet()).get(0);
@@ -66,6 +70,15 @@ public class BoilingBrewerStep implements BrewerStep {
             }
             return map.isEmpty();
         } else return false;
+    }
+
+
+    @Override
+    public boolean matches(CompoundTag data) {
+        if (!TYPE_ID.equals(data.getString("type"))) return false;
+        int ticks = data.getInt("ticks");
+        if (Math.abs(wantedTicks - ticks) > tickLeeway) return false;
+        return testInventory(data);
     }
 
     @Override

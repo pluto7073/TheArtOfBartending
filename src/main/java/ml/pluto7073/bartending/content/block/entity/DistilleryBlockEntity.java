@@ -45,7 +45,7 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
     SIDE_SLOTS = { FUEL_SLOT_INDEX, INPUT_SLOT_INDEX },
     BOTTOM_SLOTS = { INPUT_SLOT_INDEX, RESULT_SLOT_INDEX };
 
-    public static final int MAX_DISTILL_TIME = 600;
+    public static final int MAX_DISTILL_TIME = 300;
 
     protected NonNullList<ItemStack> items = NonNullList.withSize(INVENTORY_SIZE, ItemStack.EMPTY);
     protected final ContainerData data = new ContainerData() {
@@ -160,9 +160,15 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
                     entity.distillTime = 0;
                     ItemStack newOutput = input.copy();
                     ListTag steps = newOutput.getOrCreateTag().getList("BrewingSteps", ListTag.TAG_COMPOUND);
-                    CompoundTag distilled = new CompoundTag();
-                    distilled.putString("type", DistillingBrewerStep.TYPE_ID);
-                    steps.add(distilled);
+                    CompoundTag last = steps.getCompound(steps.size() - 1);
+                    if (DistillingBrewerStep.TYPE_ID.equals(last.getString("type"))) {
+                        last.putInt("runs", last.getInt("runs") + 1);
+                    } else {
+                        CompoundTag distilled = new CompoundTag();
+                        distilled.putString("type", DistillingBrewerStep.TYPE_ID);
+                        distilled.putInt("runs", 1);
+                        steps.add(distilled);
+                    }
                     entity.setItem(INPUT_SLOT_INDEX, new ItemStack(Items.GLASS_BOTTLE));
                     entity.setItem(RESULT_SLOT_INDEX, newOutput);
                     newState = 3;

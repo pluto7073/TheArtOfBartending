@@ -15,8 +15,8 @@ public class FermentingBrewerStep implements BrewerStep {
 
     public static final String TYPE_ID = "fermenting";
 
-    private final BarrelPredicate predicate;
-    private final int wantedTicks, tickLeeway;
+    public final BarrelPredicate predicate;
+    public final int wantedTicks, tickLeeway;
 
     public FermentingBrewerStep(BarrelPredicate predicate, int wantedTicks) {
         this(predicate, wantedTicks, 12000);
@@ -26,6 +26,15 @@ public class FermentingBrewerStep implements BrewerStep {
         this.predicate = predicate;
         this.wantedTicks = wantedTicks;
         this.tickLeeway = tickLeeway;
+    }
+
+    @Override
+    public boolean mightMatch(CompoundTag data) {
+        if (!TYPE_ID.equals(data.getString("type"))) return false;
+        ResourceLocation barrelId = new ResourceLocation(data.getString("barrel"));
+        if (!predicate.test(BuiltInRegistries.BLOCK.get(barrelId))) return false;
+        int ticks = data.getInt("ticks");
+        return ticks <= this.wantedTicks + this.tickLeeway;
     }
 
     @Override

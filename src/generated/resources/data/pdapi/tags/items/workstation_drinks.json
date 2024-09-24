@@ -1,0 +1,11 @@
+{
+  "replace": false,
+  "values": [
+    "bartending:glass_of_dry_vermouth",
+    "bartending:glass_of_absinthe",
+    "bartending:glass_of_red_wine",
+    "bartending:glass_of_sweet_vermouth",
+    "bartending:glass_of_white_wine",
+    "bartending:beer"
+  ]
+}

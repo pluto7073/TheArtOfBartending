@@ -38,6 +38,7 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.DISTILLERY);
             stacks.accept(BartendingItems.BOTTLER);
             stacks.accept(PDBlocks.DRINK_WORKSTATION);
+            stacks.accept(BartendingItems.COUNTER_TOP);
             stacks.accept(BartendingBlocks.BARRELS.get(WoodType.OAK));
             stacks.accept(BartendingBlocks.BARRELS.get(WoodType.SPRUCE));
             stacks.accept(BartendingBlocks.BARRELS.get(WoodType.BIRCH));
@@ -55,6 +56,8 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.WINE_BOTTLE);
             stacks.accept(BartendingItems.BEER_BOTTLE);
             stacks.accept(BartendingItems.LIQUOR_BOTTLE);
+            stacks.accept(BartendingItems.WINE_GLASS);
+            stacks.accept(BartendingItems.COCKTAIL_GLASS);
             stacks.accept(BartendingItems.SHOT_GLASS);
 
             // Drinks
@@ -70,11 +73,14 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.GIN);
             stacks.accept(BartendingItems.TEQUILA);
             if (AlcoholicDrinks.ORANGE_LIQUEUR.isVisible()) stacks.accept(BartendingItems.ORANGE_LIQUEUR);
+            stacks.accept(BartendingItems.WHISKEY);
 
             // Servings
             stacks.accept(BartendingItems.BEER);
             stacks.accept(BartendingItems.GLASS_OF_RED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_WHITE_WINE);
+            stacks.accept(BartendingItems.GLASS_OF_DRY_VERMOUTH);
+            stacks.accept(BartendingItems.GLASS_OF_SWEET_VERMOUTH);
             stacks.accept(BartendingItems.GLASS_OF_ABSINTHE);
             stacks.accept(BartendingItems.SHOT_OF_SWEET_VERMOUTH);
             stacks.accept(BartendingItems.SHOT_OF_DRY_VERMOUTH);
@@ -86,6 +92,7 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.SHOT_OF_GIN);
             stacks.accept(BartendingItems.SHOT_OF_TEQUILA);
             if (AlcoholicDrinks.ORANGE_LIQUEUR.isVisible()) stacks.accept(BartendingItems.SHOT_OF_ORANGE_LIQUEUR);
+            stacks.accept(BartendingItems.SHOT_OF_WHISKEY);
 
             // Buckets
             stacks.accept(BartendingFluids.BEER.bucket());
@@ -101,6 +108,7 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingFluids.GIN.bucket());
             stacks.accept(BartendingFluids.TEQUILA.bucket());
             if (AlcoholicDrinks.ORANGE_LIQUEUR.isVisible()) stacks.accept(BartendingFluids.ORANGE_LIQUEUR.bucket());
+            stacks.accept(BartendingFluids.WHISKEY.bucket());
         });
     }
 

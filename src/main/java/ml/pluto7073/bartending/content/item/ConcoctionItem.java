@@ -1,5 +1,7 @@
 package ml.pluto7073.bartending.content.item;
 
+import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
+import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BoilingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.DistillingBrewerStep;
 import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
@@ -25,9 +27,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 
 @MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ConcoctionItem extends Item {
 
     public ConcoctionItem(Properties properties) {
@@ -87,6 +91,32 @@ public class ConcoctionItem extends Item {
             return;
         }
         ListTag steps = stack.getOrCreateTag().getList("BrewingSteps", ListTag.TAG_COMPOUND);
+
+        List<AlcoholicDrink> matches = AlcoholicDrinks.values().stream().filter(drink -> drink.mightMatch(steps)).toList();
+
+        if (!matches.isEmpty()) {
+            int index = matches.size();
+
+            if (stack.getOrCreateTag().contains("suggestIndex")) {
+                index = stack.getOrCreateTag().getInt("suggestIndex");
+            }
+
+            if (index >= matches.size()) {
+                index = level != null ? level.random.nextInt(matches.size()) : 0;
+            }
+
+            stack.getOrCreateTag().putInt("suggestIndex", index);
+
+            AlcoholicDrink match = matches.get(index);
+            ResourceLocation id = AlcoholicDrinks.getId(match);
+
+            tooltip.add(Component.translatable("tooltip.bartending.might_create").withStyle(ChatFormatting.GRAY)
+                    .append(Component.translatable(id.toLanguageKey("alcohol")).withStyle(ChatFormatting.AQUA)));
+        } else {
+            tooltip.add(Component.translatable("tooltip.bartending.might_create").withStyle(ChatFormatting.GRAY)
+                    .append(Component.translatable("item.bartending.concoction")).withStyle(ChatFormatting.AQUA));
+        }
+
         for (Tag tag : steps) {
             if (!(tag instanceof CompoundTag data)) continue;
             String type = data.getString("type");

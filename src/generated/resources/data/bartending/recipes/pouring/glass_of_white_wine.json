@@ -2,7 +2,7 @@
   "type": "bartending:pouring",
   "alcoholType": "bartending:white_wine",
   "glass": {
-    "item": "minecraft:glass_bottle"
+    "item": "bartending:wine_glass"
   },
   "ounces": 5.0,
   "result": {

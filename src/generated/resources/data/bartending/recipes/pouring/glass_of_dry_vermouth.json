@@ -1,0 +1,11 @@
+{
+  "type": "bartending:pouring",
+  "alcoholType": "bartending:dry_vermouth",
+  "glass": {
+    "item": "bartending:wine_glass"
+  },
+  "ounces": 5.0,
+  "result": {
+    "item": "bartending:glass_of_dry_vermouth"
+  }
+}

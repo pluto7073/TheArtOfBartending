@@ -21,4 +21,8 @@ public interface BrewerStep {
      */
     int getDeviation(CompoundTag data, float standard);
 
+    default boolean mightMatch(CompoundTag data) {
+        return matches(data);
+    }
+
 }

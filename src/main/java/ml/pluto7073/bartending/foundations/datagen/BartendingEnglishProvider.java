@@ -45,6 +45,10 @@ public class BartendingEnglishProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(TranslationBuilder builder) {
+        for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
+            builder.add(AlcoholicDrinks.getId(drink).toLanguageKey("alcohol"), drink.englishName());
+        }
+
         BartendingBlocks.BARRELS.forEach((wood, barrel) -> {
             builder.add(barrel, WOOD_NAMES.get(wood) + " Fermenting Barrel");
         });
