@@ -7,6 +7,7 @@ import ml.pluto7073.bartending.foundations.step.*;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
@@ -17,11 +18,9 @@ import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class BrewingUtil {
@@ -235,6 +234,18 @@ public class BrewingUtil {
         data.putBoolean("distilled", distilled);
         failed.getOrCreateTag().put("FailedConcoctionData", data);
         return failed;
+    }
+
+    public static void runIfLoaded(String modid, Runnable r) {
+        if (FabricLoader.getInstance().isModLoaded(modid)) {
+            r.run();
+        }
+    }
+
+    public static <T> Optional<T> supplyIfLoaded(String modid, Supplier<T> t) {
+        if (FabricLoader.getInstance().isModLoaded(modid)) {
+            return Optional.of(t.get());
+        } else return Optional.empty();
     }
 
 }
