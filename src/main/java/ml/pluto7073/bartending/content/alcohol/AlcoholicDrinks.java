@@ -5,10 +5,12 @@ import ml.pluto7073.bartending.compat.fruitfulfun.FruityAlcoholicDrinkManager;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.*;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -20,15 +22,38 @@ import java.util.*;
 @MethodsReturnNonnullByDefault
 public final class AlcoholicDrinks {
 
-    private static final Map<ResourceLocation, AlcoholicDrink> REGISTRY = new HashMap<>();
     private static final HashMap<AlcoholicDrink, Item> DRINK_TO_ITEM = new HashMap<>();
 
     public static final AlcoholicDrink BEER = register("beer", new AlcoholicDrink.Builder().proof(10).ounces(12)
-            .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.WHEAT), 5, 1)
+            .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.WHEAT), 24, 4)
                     .setTicks(9600).setLeeway(600).build())
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 84000, 24000))
-            .bottle(BartendingItems.BEER_BOTTLE).fluid(BartendingFluids.BEER).name("Beer")
-            .color(9402184).build());
+            .bottle(BartendingItems.JUG).fluid(BartendingFluids.BEER).name("Beer")
+            .color(0x7a5814).build());
+    public static final AlcoholicDrink WHEAT_BEER = register("wheat_beer", new AlcoholicDrink.Builder().proof(8).ounces(12)
+            .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.WHEAT), 12, 2)
+                    .setTicks(9600).setLeeway(600).build())
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.BIRCH)), 52000, 12000))
+            .bottle(BartendingItems.JUG).fluid(BartendingFluids.WHEAT_BEER).name("Wheat Beer")
+            .color(0xd1a347).build());
+    public static final AlcoholicDrink DARK_BEER = register("dark_beer", new AlcoholicDrink.Builder().proof(16)
+            .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.WHEAT), 24, 4)
+                    .setTicks(9600).setLeeway(600).build())
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.DARK_OAK)), 228000, 36000))
+            .bottle(BartendingItems.JUG).fluid(BartendingFluids.DARK_BEER).name("Dark Beer")
+            .color(0x211408).build());
+    public static final AlcoholicDrink MEAD = register("mead", new AlcoholicDrink.Builder().proof(20).ounces(5)
+            .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.HONEY_BOTTLE), 4, 2)
+                    .setTicks(3600).setLeeway(600).build())
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.OAK)), 108000, 36000))
+            .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.MEAD).name("Mead")
+            .color(0xedeba1).build());
+    public static final AlcoholicDrink APPLE_MEAD = register("apple_mead", new AlcoholicDrink.Builder().proof(30)
+            .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.HONEY_BOTTLE), 4, 2)
+                    .addIngredient(Ingredient.of(Items.APPLE), 16, 4).setTicks(4800).setLeeway(600).build())
+            .addStep(new FermentingBrewerStep(new BarrelPredicate(BartendingBlocks.BARRELS.get(WoodType.OAK)), 108000, 36000))
+            .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.APPLE_MEAD).name("Apple Mead")
+            .color(0x683222).build());
     public static final AlcoholicDrink RED_WINE = register("red_wine", new AlcoholicDrink.Builder().proof(24).ounces(5)
             .addStep(new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(Items.SWEET_BERRIES), 96, 10)
                     .setTicks(6000).setLeeway(600).build())
@@ -104,31 +129,20 @@ public final class AlcoholicDrinks {
             .addStep(new DistillingBrewerStep(6, 3))
             .color(0x679b33).bottle(BartendingItems.WINE_BOTTLE).name("Absinthe").build());
 
-    public static AlcoholicDrink register(ResourceLocation id, AlcoholicDrink drink) {
-        REGISTRY.put(id, drink);
-        return drink;
-    }
-
     private static AlcoholicDrink register(String id, AlcoholicDrink drink) {
-        return register(TheArtOfBartending.asId(id), drink);
+        return Registry.register(BartendingRegistries.ALCOHOLIC_DRINK, TheArtOfBartending.asId(id), drink);
     }
 
     public static AlcoholicDrink get(ResourceLocation id) {
-        AlcoholicDrink drink = REGISTRY.get(id);
-        if (drink == null) throw new IllegalArgumentException("No registered Drink with id " + id);
-        return drink;
+        return getOptional(id).orElseThrow(() -> new IllegalArgumentException("No registered Drink with id " + id));
     }
 
     public static Optional<AlcoholicDrink> getOptional(ResourceLocation id) {
-        AlcoholicDrink drink = REGISTRY.get(id);
-        return Optional.ofNullable(drink);
+        return BartendingRegistries.ALCOHOLIC_DRINK.getOptional(id);
     }
 
     public static Optional<ResourceLocation> getOptionalKey(AlcoholicDrink drink) {
-        for (Map.Entry<ResourceLocation, AlcoholicDrink> entry : REGISTRY.entrySet()) {
-            if (entry.getValue().equals(drink)) return Optional.of(entry.getKey());
-        }
-        return Optional.empty();
+        return Optional.ofNullable(BartendingRegistries.ALCOHOLIC_DRINK.getKey(drink));
     }
 
     public static ResourceLocation getId(AlcoholicDrink drink) {
@@ -136,7 +150,7 @@ public final class AlcoholicDrinks {
     }
 
     public static Collection<AlcoholicDrink> values() {
-        return REGISTRY.values();
+        return BartendingRegistries.ALCOHOLIC_DRINK.stream().toList();
     }
 
     public static void registerFinalDrink(AlcoholicDrink drink, Item item) {

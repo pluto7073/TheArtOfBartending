@@ -8,21 +8,16 @@ import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.ItemModelGenerators;
 import net.minecraft.data.models.blockstates.*;
-import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.data.models.model.ModelTemplate;
-import net.minecraft.data.models.model.TextureSlot;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Optional;
-import java.util.function.Consumer;
 
 public class BartendingModelsProvider extends FabricModelProvider {
 
@@ -76,19 +71,37 @@ public class BartendingModelsProvider extends FabricModelProvider {
                     Optional.empty()
             ));
         }
+        for (Item jug : BartendingItems.BOTTLES.values()
+                .stream().filter(item -> item.emptyBottleItem == BartendingItems.JUG).toList()) {
+            generators.generateFlatItem(jug, new ModelTemplate(
+                    Optional.of(TheArtOfBartending.asId("item/full_jug")),
+                    Optional.empty()
+            ));
+        }
+        for (AlcoholicDrinkItem bottle : BartendingItems.SERVING_BOTTLES.values()) {
+            if (bottle == BartendingItems.BOTTLE_OF_BEER) continue;
+            generators.generateFlatItem(bottle, new ModelTemplate(
+                    Optional.of(TheArtOfBartending.asId("item/bottle_of_beer")),
+                    Optional.empty()
+            ));
+        }
         for (AlcoholicDrinkItem glass : BartendingItems.GLASSES.values()) {
-            if (glass == BartendingItems.BEER) continue;
-            if (glass.source.standardProof() >= 100) {
+            if (glass.source.standardProof() < 20) {
+                generators.generateFlatItem(glass, new ModelTemplate(
+                        Optional.of(TheArtOfBartending.asId("item/simple_glass")),
+                        Optional.empty()
+                ));
+            } else if (glass.source.standardProof() >= 50) {
                 generators.generateFlatItem(glass, new ModelTemplate(
                         Optional.of(TheArtOfBartending.asId("item/mixed_drink")),
                         Optional.empty()
                 ));
-                continue;
+            } else {
+                generators.generateFlatItem(glass, new ModelTemplate(
+                        Optional.of(TheArtOfBartending.asId("item/glass_of_alc")),
+                        Optional.empty()
+                ));
             }
-            generators.generateFlatItem(glass, new ModelTemplate(
-                    Optional.of(TheArtOfBartending.asId("item/glass_of_alc")),
-                    Optional.empty()
-            ));
         }
     }
 

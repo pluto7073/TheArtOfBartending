@@ -35,8 +35,9 @@ public enum BartendingRecipes {
         Registry.register(BuiltInRegistries.RECIPE_SERIALIZER, id, serializer);
     }
 
-    public RecipeType<?> type() {
-        return type;
+    @SuppressWarnings("unchecked")
+    public <T extends Recipe<?>> RecipeType<T> type() {
+        return (RecipeType<T>) type;
     }
 
     public RecipeSerializer<?> serializer() {

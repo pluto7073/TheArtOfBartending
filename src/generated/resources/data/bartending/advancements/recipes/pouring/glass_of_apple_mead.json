@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "bartending:pouring/beer"
+        "recipe": "bartending:pouring/glass_of_apple_mead"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -15,7 +15,7 @@
   ],
   "rewards": {
     "recipes": [
-      "bartending:pouring/beer"
+      "bartending:pouring/glass_of_apple_mead"
     ]
   },
   "sends_telemetry_event": false

@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bartending:filling/apple_mead"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "obtain_result": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bartending:apple_mead"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_result",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bartending:filling/apple_mead"
+    ]
+  },
+  "sends_telemetry_event": false
+}

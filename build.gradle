@@ -97,19 +97,19 @@ dependencies {
 	modCompileOnly "maven.modrinth:kiwi:$kiwi_version"
 
 	// Optional Integration Testing Toggles (these can be safely commented out... except when stated)
-	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+	//modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
-	modRuntimeOnly "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}" // Required for Datagen
+	//modRuntimeOnly "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}" // Required for Datagen
 
-	modRuntimeOnly "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
+	//modRuntimeOnly "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
 
-	modRuntimeOnly "maven.modrinth:lychee:$lychee_version" // Required for FFF
+	//modRuntimeOnly "maven.modrinth:lychee:$lychee_version" // Required for FFF
 
-	modRuntimeOnly "maven.modrinth:fruitful-fun:$fruitful_fun_version"
+	//modRuntimeOnly "maven.modrinth:fruitful-fun:$fruitful_fun_version"
 
-	modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+	//modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
 
-	modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}" // Required for ModMenu
+	//modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}" // Required for ModMenu
 
 }
 
@@ -126,8 +126,7 @@ tasks.withType(JavaCompile).configureEach {
 }
 
 java {
-	// TODO turn back on when ready for release n stuff
-	//withSourcesJar()
+	withSourcesJar()
 
 	sourceCompatibility = JavaVersion.VERSION_17
 	targetCompatibility = JavaVersion.VERSION_17

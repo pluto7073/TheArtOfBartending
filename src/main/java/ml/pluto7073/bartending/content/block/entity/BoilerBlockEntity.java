@@ -207,15 +207,19 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
 
         for (ItemEntity item : aboveItems) {
             if (entity.water.amount < 20250) continue;
-            ItemStack stack = item.getItem();
+            ItemStack stack = item.getItem().copy();
             if (entity.tryBoilItem(stack)) {
                 item.discard();
+            } else {
+                item.setItem(stack);
             }
         }
 
         if (!input.isEmpty() && entity.water.amount >= 20250) {
             if (entity.tryBoilItem(input)) {
-                entity.setItem(ITEM_INPUT_SLOT_INDEX, ItemStack.EMPTY);
+                if (input.getItem().getCraftingRemainingItem() != null) {
+                    entity.setItem(ITEM_INPUT_SLOT_INDEX, new ItemStack(input.getItem().getCraftingRemainingItem(), input.getCount()));
+                } else entity.setItem(ITEM_INPUT_SLOT_INDEX, ItemStack.EMPTY);
             }
         }
 

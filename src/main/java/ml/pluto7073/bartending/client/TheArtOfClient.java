@@ -93,6 +93,8 @@ public class TheArtOfClient implements ClientModInitializer {
                 ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : drink.color(), item));
         BartendingItems.GLASSES.forEach((drink, item) ->
                 ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, drink.color()), item));
+        BartendingItems.SERVING_BOTTLES.forEach((drink, item) ->
+                ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? -1 : BrewingUtil.getColorForDrinkWithDefault(stack, drink.color()), item));
     }
 
     private static void initRendering() {

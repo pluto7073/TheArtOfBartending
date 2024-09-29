@@ -184,6 +184,18 @@ public class BrewingUtil {
         return stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).getInt("Deviation");
     }
 
+    public static ItemStack setAlcoholDeviation(ItemStack stack, int deviation) {
+        stack.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putInt("Deviation", deviation);
+        return stack;
+    }
+
+    public static int getOuncesFromBottle(Item bottle) {
+        if (bottle == BartendingItems.LIQUOR_BOTTLE) return 30;
+        if (bottle == BartendingItems.WINE_BOTTLE) return 25;
+        if (bottle == BartendingItems.JUG) return 40;
+        return 12;
+    }
+
     /**
      * @param drink The drink to get the alcohol from
      * @return The amount of alcohol in grams in a standard size of the specified drink

@@ -66,7 +66,7 @@ public class PourableBottleItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity livingEntity) {
         if (!(livingEntity instanceof Player player)) return super.finishUsingItem(stack, level, livingEntity);
         RecipeManager recipes = level.getRecipeManager();
-        @SuppressWarnings("unchecked") List<PouringRecipe> matches = recipes.getAllRecipesFor((RecipeType<PouringRecipe>)BartendingRecipes.POURING.type()).stream()
+        List<PouringRecipe> matches = recipes.getAllRecipesFor(BartendingRecipes.POURING.<PouringRecipe>type()).stream()
                 .filter(r -> r.matches(player.getInventory(), level)).toList();
         player.awardStat(Stats.ITEM_USED.get(this));
         if (matches.isEmpty()) {

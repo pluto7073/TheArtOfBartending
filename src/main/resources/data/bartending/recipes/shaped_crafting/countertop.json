@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:shaped_crafting",
+  "pattern": [
+    "III"
+  ],
+  "key": {
+    "I": {
+      "item": "minecraft:iron_ingot"
+    }
+  },
+  "result": {
+    "item": "bartending:countertop"
+  }
+}
