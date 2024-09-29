@@ -15,10 +15,10 @@
   ],
   "results": [
     {
-      "item": "bartending:beer_bottle"
+      "item": "bartending:jug"
     },
     {
-      "amount": 20250.0,
+      "amount": 67500.0,
       "fluid": "bartending:beer"
     }
   ]

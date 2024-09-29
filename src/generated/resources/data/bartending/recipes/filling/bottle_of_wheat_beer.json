@@ -1,0 +1,26 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bartending:beer_bottle"
+    },
+    {
+      "amount": 20250,
+      "fluid": "bartending:wheat_beer",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "bartending:bottle_of_wheat_beer"
+    }
+  ]
+}

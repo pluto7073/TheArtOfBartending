@@ -14,6 +14,10 @@ public final class BartendingFluids {
 
     public static final FluidHolder
             BEER = AlcoholFluid.create(),
+            WHEAT_BEER = AlcoholFluid.create(),
+            DARK_BEER = AlcoholFluid.create(),
+            MEAD = AlcoholFluid.create(),
+            APPLE_MEAD = AlcoholFluid.create(),
             RED_WINE = AlcoholFluid.create(),
             WHITE_WINE = AlcoholFluid.create(),
             APPLE_LIQUEUR = AlcoholFluid.create(),
@@ -30,6 +34,10 @@ public final class BartendingFluids {
 
     public static void init() {
         BEER.register("beer");
+        WHEAT_BEER.register("wheat_beer");
+        DARK_BEER.register("dark_beer");
+        MEAD.register("mead");
+        APPLE_MEAD.register("apple_mead");
         RED_WINE.register("red_wine");
         WHITE_WINE.register("white_wine");
         APPLE_LIQUEUR.register("apple_liqueur");

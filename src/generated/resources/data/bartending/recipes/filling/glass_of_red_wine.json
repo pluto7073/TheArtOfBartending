@@ -1,0 +1,26 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bartending:wine_glass"
+    },
+    {
+      "amount": 8424,
+      "fluid": "bartending:red_wine",
+      "nbt": {}
+    }
+  ],
+  "results": [
+    {
+      "item": "bartending:glass_of_red_wine"
+    }
+  ]
+}

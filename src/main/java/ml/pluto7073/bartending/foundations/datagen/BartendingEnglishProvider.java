@@ -52,7 +52,13 @@ public class BartendingEnglishProvider extends FabricLanguageProvider {
         BartendingBlocks.BARRELS.forEach((wood, barrel) -> {
             builder.add(barrel, WOOD_NAMES.get(wood) + " Fermenting Barrel");
         });
-        BartendingItems.BOTTLES.forEach((alc, bottle) -> builder.add(bottle, alc.englishName()));
+        BartendingItems.BOTTLES.forEach((alc, bottle) -> {
+            if (bottle.emptyBottleItem == BartendingItems.JUG) {
+                builder.add(bottle, "Jug of " + alc.englishName());
+                return;
+            }
+            builder.add(bottle, alc.englishName());
+        });
         BartendingItems.SHOTS.forEach((alc, shot) -> {
             builder.add(shot, "Shot of " + alc.englishName());
             builder.add(getShotAdditionKey(shot), "Shot of " + alc.englishName() + " x%1$s");
@@ -66,12 +72,10 @@ public class BartendingEnglishProvider extends FabricLanguageProvider {
         }
 
         BartendingItems.GLASSES.forEach((alc, glass) -> {
-            if (alc == AlcoholicDrinks.BEER) {
-                builder.add(glass, "Beer");
-                return;
-            }
             builder.add(glass, "Glass of " + alc.englishName());
         });
+
+        BartendingItems.SERVING_BOTTLES.forEach((alc, bottle) -> builder.add(bottle, "Bottle of " + alc.englishName()));
 
         for (BartendingStats value : BartendingStats.values()) {
             builder.add(value.get().toLanguageKey("stat"), value.getName());

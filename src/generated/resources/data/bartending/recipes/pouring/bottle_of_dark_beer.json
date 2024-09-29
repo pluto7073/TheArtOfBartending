@@ -1,0 +1,11 @@
+{
+  "type": "bartending:pouring",
+  "alcoholType": "bartending:dark_beer",
+  "glass": {
+    "item": "bartending:beer_bottle"
+  },
+  "ounces": 0.0,
+  "result": {
+    "item": "bartending:bottle_of_dark_beer"
+  }
+}

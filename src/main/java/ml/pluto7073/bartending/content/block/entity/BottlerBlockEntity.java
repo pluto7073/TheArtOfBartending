@@ -9,6 +9,13 @@ import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import ml.pluto7073.pdapi.util.BasicSingleStorage;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
+import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -16,6 +23,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -29,7 +39,11 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@SuppressWarnings("UnstableApiUsage")
 @MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BottlerBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
     public static final int CONCOCTION_INPUT_SLOT = 0,
@@ -76,6 +90,18 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
         };
     }
 
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = super.getUpdateTag();
+        saveAdditional(super.getUpdateTag());
+        return tag;
+    }
+
+    @Override
+    public @Nullable ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, BottlerBlockEntity entity) {
 
         ItemStack concoction = entity.getItem(CONCOCTION_INPUT_SLOT);
@@ -96,9 +122,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
             } else {
                 entity.currentResult = new ItemStack(AlcoholicDrinks.getFinalDrink(match));
                 int deviation = match.getTotalDeviation(steps);
-                if (deviation != 0) {
-                    entity.currentResult.getOrCreateTagElement(AbstractCustomizableDrinkItem.DRINK_DATA_NBT_KEY).putInt("Deviation", deviation);
-                }
+                BrewingUtil.setAlcoholDeviation(entity.currentResult, deviation);
                 entity.bottleTick++;
             }
             setChanged(level, pos, state);
@@ -157,7 +181,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
     public void load(CompoundTag tag) {
         super.load(tag);
         bottleTick = tag.getInt("BottleTick");
-        currentResult = ItemStack.of((CompoundTag) tag.get("CurrentResult"));
+        currentResult = ItemStack.of(tag.getCompound("CurrentResult"));
         ContainerHelper.loadAllItems(tag, container);
     }
 
@@ -208,10 +232,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
 
     @Override
     public boolean isEmpty() {
-        for (ItemStack s : container) {
-            if (!s.isEmpty()) return false;
-        }
-        return true;
+        return BrewingUtil.isEmpty(container);
     }
 
     @Override

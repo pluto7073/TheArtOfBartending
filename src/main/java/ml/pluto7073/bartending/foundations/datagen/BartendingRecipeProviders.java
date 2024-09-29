@@ -34,6 +34,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
             float amount = 20250;
             if (bottle.emptyBottleItem == BartendingItems.LIQUOR_BOTTLE) amount = 50625;
             if (bottle.emptyBottleItem == BartendingItems.WINE_BOTTLE) amount = 42187.5f;
+            if (bottle.emptyBottleItem == BartendingItems.JUG) amount = 67500;
             if (FabricLoader.getInstance().isModLoaded("create")) {
                 EmptyingRecipeBuilder.emptying(
                                 Ingredient.of(bottle), bottle.emptyBottleItem,
@@ -51,6 +52,26 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
 
         });
 
+        BartendingItems.SERVING_BOTTLES.forEach((alc, bottle) -> {
+            ResourceLocation id = BuiltInRegistries.ITEM.getKey(bottle);
+            if (FabricLoader.getInstance().isModLoaded("create")) {
+                EmptyingRecipeBuilder
+                        .emptying(Ingredient.of(bottle), bottle.bottle, alc.fluid().still(), BrewingUtil.mbFromOunces(alc.standardOunces()) * 81)
+                        .unlockedBy("obtain_input", InventoryChangeTrigger.TriggerInstance.hasItems(bottle))
+                        .save(exporter, id);
+
+                new FillingRecipeBuilder(
+                        Ingredient.of(bottle.bottle),
+                        FluidIngredient.fromFluid(alc.fluid().still(), (long) BrewingUtil.mbFromOunces(alc.standardOunces()) * 81),
+                        bottle
+                ).unlockedBy("obtain_input", InventoryChangeTrigger.TriggerInstance.hasItems(bottle.bottle))
+                        .save(exporter, id);
+            }
+
+            new PouringRecipeBuilder(alc, Ingredient.of(bottle.bottle), bottle, alc.standardOunces())
+                    .save(exporter, id);
+        });
+
         BartendingItems.GLASSES.forEach((alc, glass) -> {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(glass);
             if (FabricLoader.getInstance().isModLoaded("create")) {
@@ -63,7 +84,8 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
                         Ingredient.of(glass.bottle),
                         FluidIngredient.fromFluid(alc.fluid().still(), (long) BrewingUtil.mbFromOunces(alc.standardOunces()) * 81),
                         glass
-                );
+                ).unlockedBy("obtain_input", InventoryChangeTrigger.TriggerInstance.hasItems(glass.bottle))
+                        .save(exporter, id);
             }
 
             new PouringRecipeBuilder(alc, Ingredient.of(glass.bottle), glass, alc.standardOunces())

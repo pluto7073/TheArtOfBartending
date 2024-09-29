@@ -5,6 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
@@ -48,9 +49,17 @@ public class PouringRecipe implements Recipe<Inventory> {
         return ounces;
     }
 
+    public AlcoholicDrink drink() { return drink; }
+
+    public Ingredient glass() { return glass; }
+
+    public ItemStack result() { return result; }
+
     @Override
     public ItemStack assemble(Inventory inventory, RegistryAccess registryAccess) {
-        return result.copy();
+        ItemStack result = this.result.copy();
+        int dev = BrewingUtil.getAlcoholDeviation(inventory.getSelected());
+        return BrewingUtil.setAlcoholDeviation(result, dev);
     }
 
     @Override

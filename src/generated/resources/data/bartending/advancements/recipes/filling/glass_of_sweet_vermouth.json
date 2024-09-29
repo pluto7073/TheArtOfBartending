@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "bartending:filling/glass_of_sweet_vermouth"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "obtain_input": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bartending:wine_glass"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "obtain_input",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "bartending:filling/glass_of_sweet_vermouth"
+    ]
+  },
+  "sends_telemetry_event": false
+}

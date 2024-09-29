@@ -5,9 +5,9 @@ import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
-import ml.pluto7073.bartending.foundations.item.tier.GlassBottleTier;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.pdapi.specialty.InProgressItemRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
@@ -25,6 +25,7 @@ public class BartendingItems {
     public static final HashMap<AlcoholicDrink, AlcoholicShotItem> SHOTS = new HashMap<>();
     public static final HashMap<AlcoholicDrink, PourableBottleItem> BOTTLES = new HashMap<>();
     public static final HashMap<AlcoholicDrink, AlcoholicDrinkItem> GLASSES = new HashMap<>();
+    public static final HashMap<AlcoholicDrink, AlcoholicDrinkItem> SERVING_BOTTLES = new HashMap<>();
 
     // Items
 
@@ -33,11 +34,28 @@ public class BartendingItems {
     public static final Item BEER_BOTTLE = new Item(new Item.Properties());
     public static final Item WINE_BOTTLE = new Item(new Item.Properties());
     public static final Item LIQUOR_BOTTLE = new Item(new Item.Properties());
+    public static final Item JUG = new Item(new Item.Properties());
     public static final Item SHOT_GLASS = new Item(new Item.Properties());
     public static final Item COCKTAIL_GLASS = new Item(new Item.Properties());
     public static final Item WINE_GLASS = new Item(new Item.Properties());
 
-    public static final Item BEER = glass(AlcoholicDrinks.BEER, BEER_BOTTLE);
+    public static final Item BOTTLE_OF_BEER = servingBottle(AlcoholicDrinks.BEER, BEER_BOTTLE);
+    public static final Item GLASS_OF_BEER = glass(AlcoholicDrinks.BEER, GLASS_BOTTLE);
+    public static final Item JUG_OF_BEER = bottle(AlcoholicDrinks.BEER, JUG);
+
+    public static final Item BOTTLE_OF_WHEAT_BEER = servingBottle(AlcoholicDrinks.WHEAT_BEER, BEER_BOTTLE);
+    public static final Item GLASS_OF_WHEAT_BEER = glass(AlcoholicDrinks.WHEAT_BEER, GLASS_BOTTLE);
+    public static final Item JUG_OF_WHEAT_BEER = bottle(AlcoholicDrinks.WHEAT_BEER, JUG);
+
+    public static final Item BOTTLE_OF_DARK_BEER = servingBottle(AlcoholicDrinks.DARK_BEER, BEER_BOTTLE);
+    public static final Item GLASS_OF_DARK_BEER = glass(AlcoholicDrinks.DARK_BEER, GLASS_OF_BEER);
+    public static final Item JUG_OF_DARK_BEER = bottle(AlcoholicDrinks.DARK_BEER, JUG);
+
+    public static final Item GLASS_OF_MEAD = glass(AlcoholicDrinks.MEAD, WINE_GLASS);
+    public static final Item MEAD = bottle(AlcoholicDrinks.MEAD, WINE_BOTTLE);
+
+    public static final Item GLASS_OF_APPLE_MEAD = glass(AlcoholicDrinks.APPLE_MEAD, WINE_GLASS);
+    public static final Item APPLE_MEAD = bottle(AlcoholicDrinks.APPLE_MEAD, WINE_BOTTLE);
 
     public static final Item GLASS_OF_RED_WINE = glass(AlcoholicDrinks.RED_WINE, WINE_GLASS);
     public static final Item RED_WINE = bottle(AlcoholicDrinks.RED_WINE, WINE_BOTTLE);
@@ -111,9 +129,7 @@ public class BartendingItems {
     }
 
     private static PourableBottleItem bottle(AlcoholicDrink drink, Item bottle) {
-        int ouncesTotal = 12;
-        if (bottle == LIQUOR_BOTTLE) ouncesTotal = 30;
-        else if (bottle == WINE_BOTTLE)  ouncesTotal = 25;
+        int ouncesTotal = BrewingUtil.getOuncesFromBottle(bottle);
         int servings = ouncesTotal * 2;
         Item.Properties properties = new Item.Properties()
                 .defaultDurability(servings)
@@ -121,6 +137,15 @@ public class BartendingItems {
         PourableBottleItem item = new PourableBottleItem(bottle, drink, properties);
         registerFinalDrink(drink, item);
         BOTTLES.put(drink, item);
+        return item;
+    }
+
+    private static AlcoholicDrinkItem servingBottle(AlcoholicDrink drink, Item bottle) {
+        Item.Properties props = new Item.Properties()
+                .defaultDurability((int) drink.standardOunces() * 2)
+                .rarity(Rarity.UNCOMMON);
+        AlcoholicDrinkItem item = new AlcoholicDrinkItem(drink, bottle, props);
+        SERVING_BOTTLES.put(drink, item);
         return item;
     }
 
@@ -150,16 +175,17 @@ public class BartendingItems {
         });
         GLASSES.forEach((alc, glass) -> {
             String path = AlcoholicDrinks.getId(alc).withPrefix("glass_of_").getPath();
-            if (alc == AlcoholicDrinks.BEER) {
-                register("beer", glass);
-                return;
-            }
             register(path, glass);
+        });
+        SERVING_BOTTLES.forEach((alc, bottle) -> {
+            String path = AlcoholicDrinks.getId(alc).withPrefix("bottle_of_").getPath();
+            register(path, bottle);
         });
         register("concoction", CONCOCTION);
         register("wine_bottle", WINE_BOTTLE);
         register("beer_bottle", BEER_BOTTLE);
         register("liquor_bottle", LIQUOR_BOTTLE);
+        register("jug", JUG);
         register("shot_glass", SHOT_GLASS);
         register("cocktail_glass", COCKTAIL_GLASS);
         register("wine_glass", WINE_GLASS);
@@ -172,8 +198,6 @@ public class BartendingItems {
         FERMENTING_BARRELS.forEach((type, item) -> register(type.name() + "_fermenting_barrel", item));
 
         InProgressItemRegistry.register(COCKTAIL_GLASS, MIXED_DRINK);
-
-        registerFinalDrink(AlcoholicDrinks.BEER, BEER);
     }
 
 }
