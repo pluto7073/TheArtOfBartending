@@ -1,9 +1,11 @@
 package ml.pluto7073.bartending.foundations.datagen;
 
+import com.simibubi.create.AllTags;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
+import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
 import ml.pluto7073.pdapi.tag.PDTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
@@ -61,6 +63,15 @@ public class BartendingTagProviders {
         protected void addTags(HolderLookup.Provider arg) {
             FabricTagBuilder workstationDrinks = getOrCreateTagBuilder(PDTags.WORKSTATION_DRINKS);
             BartendingItems.GLASSES.values().forEach(workstationDrinks::add);
+            FabricTagBuilder uprightOnBelt = getOrCreateTagBuilder(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag);
+            uprightOnBelt.add(BartendingItems.SHOT_GLASS, BartendingItems.WINE_GLASS, BartendingItems.COCKTAIL_GLASS,
+                    BartendingItems.CONCOCTION, BartendingItems.BEER_BOTTLE, BartendingItems.WINE_BOTTLE,
+                    BartendingItems.LIQUOR_BOTTLE, BartendingItems.JUG);
+
+            BartendingItems.SHOTS.values().forEach(uprightOnBelt::add);
+            BartendingItems.BOTTLES.values().forEach(uprightOnBelt::add);
+            BartendingItems.GLASSES.values().forEach(uprightOnBelt::add);
+            BartendingItems.SERVING_BOTTLES.values().forEach(uprightOnBelt::add);
         }
     }
 

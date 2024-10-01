@@ -1,7 +1,6 @@
-// 1.20.1	2024-09-27T14:44:06.2062391	The Art of Bartending/Block Loot Tables
+// 1.20.1	2024-09-29T19:50:38.4094984	The Art of Bartending/Block Loot Tables
 88f3c35ec8a3b1b4891931d1be05518d73f62460 data\bartending\loot_tables\blocks\oak_fermenting_barrel.json
 dcf71f6a0a6c6cf1780ee210cf792d44678f1103 data\bartending\loot_tables\blocks\acacia_fermenting_barrel.json
-e0442f0a900d5b1c14a31f1647915b5f1b125fc8 data\bartending\loot_tables\blocks\fruitfulfun\citrus_fermenting_barrel.json
 7ca8056cf8deb44ed64bdf9fda10aec909e06d55 data\bartending\loot_tables\blocks\distillery.json
 d964fbb5244454f009d452d479a3d9fbe3a9b9cb data\bartending\loot_tables\blocks\warped_fermenting_barrel.json
 223677b5462035d764815e9eda222357dd04af51 data\bartending\loot_tables\blocks\bottler.json
@@ -14,5 +13,4 @@ f76ee32449e61ccc76c0b9c3bced3c94c0001f64 data\bartending\loot_tables\blocks\coun
 375884d0a23474d31542aa17ee8d892d008de152 data\bartending\loot_tables\blocks\birch_fermenting_barrel.json
 c46a7e6a4ba8ca33e0e4b55fac1e2b3ae3d1d915 data\bartending\loot_tables\blocks\crimson_fermenting_barrel.json
 9cb7ef908e45997749f1bb020f99255e79ba6636 data\bartending\loot_tables\blocks\cherry_fermenting_barrel.json
-a22d388f5e0fb0067d1446f9c4134434769e2055 data\bartending\loot_tables\blocks\fruitfulfun\redlove_fermenting_barrel.json
 79cc49215f3832a621e944bf154a929091b791c2 data\bartending\loot_tables\blocks\boiler.json
