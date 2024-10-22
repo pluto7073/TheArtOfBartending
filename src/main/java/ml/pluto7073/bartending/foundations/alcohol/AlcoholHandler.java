@@ -54,18 +54,18 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
 
     @Override
     public float get(Player player) {
-        return player.getEntityData().get(AlcoholData.PLAYER_ALCOHOL_CONTENT);
+        return player.getEntityData().get(BartendingEntityData.PLAYER_ALCOHOL_CONTENT);
     }
 
     @Override
     public void add(Player player, float amount) {
-        float current = player.getEntityData().get(AlcoholData.PLAYER_ALCOHOL_CONTENT);
+        float current = player.getEntityData().get(BartendingEntityData.PLAYER_ALCOHOL_CONTENT);
         set(player, current + amount);
     }
 
     @Override
     public void set(Player player, float amount) {
-        player.getEntityData().set(AlcoholData.PLAYER_ALCOHOL_CONTENT, amount);
+        player.getEntityData().set(BartendingEntityData.PLAYER_ALCOHOL_CONTENT, amount);
     }
 
     @Override
@@ -100,17 +100,17 @@ public class AlcoholHandler implements ConsumableChemicalHandler {
 
     @Override
     public void saveToTag(SynchedEntityData data, CompoundTag tag) {
-        tag.putFloat("Alcohol", data.get(AlcoholData.PLAYER_ALCOHOL_CONTENT));
+        tag.putFloat("Alcohol", data.get(BartendingEntityData.PLAYER_ALCOHOL_CONTENT));
     }
 
     @Override
     public void loadFromTag(SynchedEntityData data, CompoundTag tag) {
-        data.set(AlcoholData.PLAYER_ALCOHOL_CONTENT, tag.getFloat("Alcohol"));
+        data.set(BartendingEntityData.PLAYER_ALCOHOL_CONTENT, tag.getFloat("Alcohol"));
     }
 
     @Override
     public void defineDataForPlayer(SynchedEntityData data) {
-        data.define(AlcoholData.PLAYER_ALCOHOL_CONTENT, 0.0f);
+        data.define(BartendingEntityData.PLAYER_ALCOHOL_CONTENT, 0.0f);
     }
 
     @Override

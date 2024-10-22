@@ -9,13 +9,12 @@ import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.sound.BartendingSounds;
 import ml.pluto7073.bartending.foundations.BartendingStats;
-import ml.pluto7073.bartending.foundations.alcohol.AlcoholData;
+import ml.pluto7073.bartending.foundations.alcohol.BartendingEntityData;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.command.BartendingCommands;
 import ml.pluto7073.bartending.foundations.item.BartendingCreativeTabs;
 import ml.pluto7073.bartending.foundations.recipe.BartendingRecipes;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.SharedConstants;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,8 +28,7 @@ public class TheArtOfBartending implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        //SharedConstants.IS_RUNNING_IN_IDE = true;
-        AlcoholData.init();
+        BartendingEntityData.init();
         AlcoholHandler.init();
         Arrays.stream(BartendingRecipes.values()).forEach(BartendingRecipes::register);
         Arrays.stream(BartendingStats.values()).forEach(BartendingStats::register);
