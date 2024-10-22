@@ -51,7 +51,7 @@
 		"minecraft": "~1.20.1",
 		"java": ">=17",
 		"fabric-api": "*",
-		"pdapi": ">=0.1.6"
+		"pdapi": ">=0.2.20"
 	},
 	"suggests": {
 		"another-mod": "*"
