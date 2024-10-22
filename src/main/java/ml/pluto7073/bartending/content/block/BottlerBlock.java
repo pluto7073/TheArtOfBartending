@@ -87,7 +87,7 @@ public class BottlerBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntity::tick);
+        return createTickerHelper(blockEntityType, BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntity::tick);
     }
 
     @Override
