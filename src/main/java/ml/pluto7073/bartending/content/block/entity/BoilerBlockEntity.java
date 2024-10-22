@@ -23,6 +23,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.ContainerHelper;
@@ -88,7 +91,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     public final Storage<FluidVariant> exposed;
     public int boilTicks;
 
-    private final NonNullList<ItemStack> boilingStacks;
+    protected final NonNullList<ItemStack> boilingStacks;
 
     public BoilerBlockEntity(BlockPos pos, BlockState blockState) {
         super(BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, pos, blockState);
@@ -126,6 +129,8 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         };
     }
 
+
+
     @Override
     public void load(CompoundTag tag) {
         super.load(tag);
@@ -156,6 +161,27 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         tag.put("FluidVariant", water.variant.toNbt());
         tag.put("BoilingStacks", ContainerHelper.saveAllItems(new CompoundTag(), boilingStacks).get("Items"));
         ContainerHelper.saveAllItems(tag, inventory);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = super.getUpdateTag();
+        saveAdditional(tag);
+        return tag;
+    }
+
+    @Override
+    public @Nullable Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
+    @Override
+    public void setChanged() {
+        super.setChanged();
+        if (level != null) {
+            BlockState state = level.getBlockState(worldPosition);
+            level.sendBlockUpdated(worldPosition, state, state, 3);
+        }
     }
 
     private boolean tryBoilItem(ItemStack stack) {
@@ -242,7 +268,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         ItemStack bottle = entity.getItem(GLASS_BOTTLE_INSERT_SLOT_INDEX);
         ItemStack display = entity.getItem(DISPLAY_RESULT_ITEM_SLOT_INDEX);
 
-        if (!bottle.isEmpty() && !display.isEmpty() && entity.getItem(RESULT_SLOT_INDEX).isEmpty()) {
+        if (bottle.is(Items.GLASS_BOTTLE) && !display.isEmpty() && entity.getItem(RESULT_SLOT_INDEX).isEmpty()) {
             entity.water.amount -= 20250;
             bottle.shrink(1);
             if (bottle.isEmpty()) entity.setItem(GLASS_BOTTLE_INSERT_SLOT_INDEX, ItemStack.EMPTY);

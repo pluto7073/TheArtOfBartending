@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -99,13 +100,13 @@ public class BoilerBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BoilerBlockEntity(pos, state);
+        return BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE.create(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return level.isClientSide ? null : createTickerHelper(blockEntityType, BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, BoilerBlockEntity::tick);
+        return createTickerHelper(blockEntityType, BartendingBlockEntities.BOILER_BLOCK_ENTITY_TYPE, BoilerBlockEntity::tick);
     }
 
     protected void openScreen(Level level, BlockPos pos, Player player) {

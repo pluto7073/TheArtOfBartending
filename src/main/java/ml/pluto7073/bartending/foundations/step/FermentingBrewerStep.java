@@ -38,6 +38,11 @@ public class FermentingBrewerStep implements BrewerStep {
     }
 
     @Override
+    public String id() {
+        return TYPE_ID;
+    }
+
+    @Override
     public boolean matches(CompoundTag data) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         ResourceLocation barrelId = new ResourceLocation(data.getString("barrel"));
@@ -52,6 +57,12 @@ public class FermentingBrewerStep implements BrewerStep {
         int ticks = data.getInt("ticks");
         return Math.round(Mth.clampedMap(ticks, wantedTicks - tickLeeway,
                 wantedTicks + tickLeeway, -0.25f, 0.25f) * standard);
+    }
+
+    @Override
+    public void createExactMatchData(CompoundTag tag) {
+        tag.putString("barrel", BuiltInRegistries.BLOCK.getKey(predicate.first()).toString());
+        tag.putInt("ticks", wantedTicks);
     }
 
     public static void appendInProgressText(CompoundTag data, List<Component> tooltips) {

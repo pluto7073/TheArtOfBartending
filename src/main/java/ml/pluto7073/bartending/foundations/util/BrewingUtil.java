@@ -42,6 +42,13 @@ public class BrewingUtil {
         return stack;
     }
 
+    public static <T> T either(Supplier<T> one, Supplier<T> two, Supplier<Boolean> condition) {
+        if (condition.get()) {
+            return two.get();
+        }
+        return one.get();
+    }
+
     public static ItemStack stackFromTag(CompoundTag tag) {
         Item item = BuiltInRegistries.ITEM.get(new ResourceLocation(tag.getString("id")));
         int count = tag.getInt("Count");
