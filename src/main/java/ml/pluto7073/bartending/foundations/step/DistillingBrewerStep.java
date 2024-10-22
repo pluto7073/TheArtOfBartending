@@ -34,6 +34,11 @@ public class DistillingBrewerStep implements BrewerStep {
     }
 
     @Override
+    public String id() {
+        return TYPE_ID;
+    }
+
+    @Override
     public boolean matches(CompoundTag data) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int runs = data.getInt("runs");
@@ -44,6 +49,11 @@ public class DistillingBrewerStep implements BrewerStep {
     public int getDeviation(CompoundTag data, float standard) {
         int runs = data.getInt("runs");
         return 4 * (runs - this.runs);
+    }
+
+    @Override
+    public void createExactMatchData(CompoundTag tag) {
+        tag.putInt("runs", runs);
     }
 
     public static void appendInProgressText(CompoundTag data, List<Component> tooltips) {

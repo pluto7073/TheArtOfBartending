@@ -22,6 +22,10 @@ public class BarrelPredicate implements Predicate<Block> {
         this.allowed = Lists.newArrayList(allowed);
     }
 
+    public FermentingBarrelBlock first() {
+        return allowed.get(0);
+    }
+
     @Override
     public boolean test(Block block) {
         if (this == ANY) return true;

@@ -3,6 +3,7 @@ package ml.pluto7073.bartending.foundations.step;
 import com.mojang.datafixers.util.Pair;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -36,6 +37,11 @@ public class BoilingBrewerStep implements BrewerStep {
         int ticks = data.getInt("ticks");
         if (ticks > wantedTicks + tickLeeway) return false;
         return testInventory(data);
+    }
+
+    @Override
+    public String id() {
+        return TYPE_ID;
     }
 
     @SuppressWarnings("unchecked")
@@ -109,6 +115,27 @@ public class BoilingBrewerStep implements BrewerStep {
         if (Math.abs(fromTicks) > Math.abs(fromCount)) return fromTicks;
         else if (Math.abs(fromCount) > Math.abs(fromTicks)) return fromCount;
         else return Math.min(fromTicks, fromCount);
+    }
+
+    @Override
+    public void createExactMatchData(CompoundTag tag) {
+        tag.putInt("ticks", wantedTicks);
+        if (ingredients.size() <= 1) {
+            Ingredient i = ingredients.keySet().iterator().next();
+            tag.putString("item", BuiltInRegistries.ITEM.getKey(i.getItems()[0].getItem()).toString());
+            tag.putInt("count", ingredients.get(i).getFirst());
+        } else {
+            NonNullList<ItemStack> inv = NonNullList.withSize(4, ItemStack.EMPTY);
+            int index = 0;
+            for (Ingredient i : ingredients.keySet()) {
+                int count = ingredients.get(i).getFirst();
+                ItemStack stack = i.getItems()[0].copy();
+                stack.setCount(count);
+                inv.set(index, stack);
+                index++;
+            }
+            BrewingUtil.saveAllItems(tag, inv, false);
+        }
     }
 
     public static void appendInProgressText(CompoundTag data, List<Component> tooltips) {

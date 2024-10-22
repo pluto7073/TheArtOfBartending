@@ -11,6 +11,7 @@ import ml.pluto7073.bartending.content.sound.BartendingSounds;
 import ml.pluto7073.bartending.foundations.BartendingStats;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholData;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
+import ml.pluto7073.bartending.foundations.command.BartendingCommands;
 import ml.pluto7073.bartending.foundations.item.BartendingCreativeTabs;
 import ml.pluto7073.bartending.foundations.recipe.BartendingRecipes;
 import net.fabricmc.api.ModInitializer;
@@ -42,6 +43,7 @@ public class TheArtOfBartending implements ModInitializer {
         BartendingEnchantments.init();
         BartendingMobEffects.init();
         BartendingCreativeTabs.init();
+        BartendingCommands.init();
         LOGGER.info("Oh no its alcohol time...");
     }
 

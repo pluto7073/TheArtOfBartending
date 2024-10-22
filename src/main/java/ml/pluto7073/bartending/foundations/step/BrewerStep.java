@@ -21,8 +21,12 @@ public interface BrewerStep {
      */
     int getDeviation(CompoundTag data, float standard);
 
+    void createExactMatchData(CompoundTag tag);
+
     default boolean mightMatch(CompoundTag data) {
         return matches(data);
     }
+
+    String id();
 
 }

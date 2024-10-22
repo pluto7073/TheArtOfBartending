@@ -1,19 +1,27 @@
 package ml.pluto7073.bartending.content.block.entity;
 
 import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.compat.create.GoggleInfoBoilerBlockEntity;
 import ml.pluto7073.bartending.content.block.FermentingBarrelBlock;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
+import java.util.function.Supplier;
+
 @SuppressWarnings("UnstableApiUsage")
 public class BartendingBlockEntities {
 
     public static final BlockEntityType<BoilerBlockEntity> BOILER_BLOCK_ENTITY_TYPE =
-            create("boiler", BlockEntityType.Builder.of(BoilerBlockEntity::new, BartendingBlocks.BOILER));
+            create("boiler", BlockEntityType.Builder.of(BrewingUtil.either(
+                    () -> BoilerBlockEntity::new, () -> GoggleInfoBoilerBlockEntity::new,
+                    () -> FabricLoader.getInstance().isModLoaded("create")
+            ), BartendingBlocks.BOILER));
 
     public static final BlockEntityType<FermentingBarrelBlockEntity> FERMENTING_BARREL_BLOCK_ENTITY_TYPE =
             create("fermenting_barrel", BlockEntityType.Builder.of(

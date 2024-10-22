@@ -12,4 +12,13 @@ public class AlternativeBrewerStep implements BrewerStep {
     public int getDeviation(CompoundTag data, float standard) {
         return 0;
     }
+
+    @Override
+    public void createExactMatchData(CompoundTag tag) {}
+
+    @Override
+    public String id() {
+        return "";
+    }
+
 }
