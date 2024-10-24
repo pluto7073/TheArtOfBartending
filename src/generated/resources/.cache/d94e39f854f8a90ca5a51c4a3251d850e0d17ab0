@@ -1,4 +1,4 @@
-// 1.20.1	2024-10-21T23:16:16.3357275	The Art of Bartending/Model Definitions
+// 1.20.1	2024-10-24T00:23:08.5282722	The Art of Bartending/Model Definitions
 4beceeea1adfd15a4b99358dbe9b533c0d258375 assets\bartending\models\item\vodka.json
 d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\red_wine.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\gin_bucket.json
@@ -100,8 +100,8 @@ db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\mead_buck
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\gin.json
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_vodka.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\apple_mead.json
-a828bc0d9ab51def18e5bd3696ac549420e4fef0 assets\bartending\blockstates\mead.json
 f85f08f5ed6098793081996c9f0ce7ce71492803 assets\bartending\blockstates\rum.json
+a828bc0d9ab51def18e5bd3696ac549420e4fef0 assets\bartending\blockstates\mead.json
 d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\absinthe.json
 b5cabb9f521a91bd1b2e68740bb43eb23cb3889e assets\bartending\blockstates\dark_beer.json
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_apple_liqueur.json

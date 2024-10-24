@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_glass": {
+    "has_input": {
       "conditions": {
         "items": [
           {
             "items": [
-              "bartending:wine_glass"
+              "bartending:shot_of_coffee_liqueur"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "bartending:pouring/glass_of_apple_mead"
+        "recipe": "bartending:workstation/drink_workstation/add_coffee_liqueur"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_glass",
+      "has_input",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "bartending:pouring/glass_of_apple_mead"
+      "bartending:workstation/drink_workstation/add_coffee_liqueur"
     ]
   },
   "sends_telemetry_event": false

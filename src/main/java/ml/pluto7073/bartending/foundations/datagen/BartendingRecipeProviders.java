@@ -69,6 +69,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
             }
 
             new PouringRecipeBuilder(alc, Ingredient.of(bottle.bottle), bottle, alc.standardOunces())
+                    .unlockedBy("has_glass", has(bottle.bottle))
                     .save(exporter, id);
         });
 
@@ -89,6 +90,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
             }
 
             new PouringRecipeBuilder(alc, Ingredient.of(glass.bottle), glass, alc.standardOunces())
+                    .unlockedBy("has_glass", has(glass.bottle))
                     .save(exporter, id);
         });
 
@@ -107,9 +109,11 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
             }
 
             new PouringRecipeBuilder(alc, Ingredient.of(BartendingItems.SHOT_GLASS), shot, 1.5f)
+                    .unlockedBy("has_glass", has(BartendingItems.SHOT_GLASS))
                     .save(exporter, id);
 
             new WorkstationRecipeBuilder(Ingredient.of(PDTags.WORKSTATION_DRINKS), Ingredient.of(shot), id)
+                    .unlockedBy("has_input", has(shot))
                     .save(exporter, AlcoholicDrinks.getId(alc).withPrefix("drink_workstation/add_"));
         });
     }

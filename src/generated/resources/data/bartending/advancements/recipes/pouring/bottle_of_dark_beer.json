@@ -1,6 +1,18 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
+    "has_glass": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "bartending:beer_bottle"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_the_recipe": {
       "conditions": {
         "recipe": "bartending:pouring/bottle_of_dark_beer"
@@ -10,6 +22,7 @@
   },
   "requirements": [
     [
+      "has_glass",
       "has_the_recipe"
     ]
   ],
