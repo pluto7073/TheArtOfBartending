@@ -227,19 +227,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         }
         int maxConcoctions = (int) entity.water.amount / 20250;
 
-        List<ItemEntity> aboveItems = getItemsAtAndAbove(level, entity);
-
         ItemStack input = entity.getItem(ITEM_INPUT_SLOT_INDEX);
-
-        for (ItemEntity item : aboveItems) {
-            if (entity.water.amount < 20250) continue;
-            ItemStack stack = item.getItem().copy();
-            if (entity.tryBoilItem(stack)) {
-                item.discard();
-            } else {
-                item.setItem(stack);
-            }
-        }
 
         if (!input.isEmpty() && entity.water.amount >= 20250) {
             if (entity.tryBoilItem(input)) {
@@ -262,6 +250,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
             if (!currentDisplay.is(BartendingItems.CONCOCTION) || currentDisplay.getCount() > maxConcoctions) {
                 display.setCount(maxConcoctions);
             } else display.setCount(currentDisplay.getCount());
+            display.getOrCreateTag().putBoolean("JustLiquid", true);
             entity.setItem(DISPLAY_RESULT_ITEM_SLOT_INDEX, display);
         }
 
@@ -274,6 +263,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
             if (bottle.isEmpty()) entity.setItem(GLASS_BOTTLE_INSERT_SLOT_INDEX, ItemStack.EMPTY);
             ItemStack res = display.copy();
             res.setCount(1);
+            res.removeTagKey("JustLiquid");
             entity.setItem(RESULT_SLOT_INDEX, res);
             display.shrink(1);
             if (display.isEmpty()) {
@@ -358,6 +348,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
 
     @Override
     public boolean stillValid(Player player) {
+        assert level != null;
         if (level.getBlockEntity(worldPosition) != this) {
             return false;
         } else {
@@ -389,15 +380,13 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
     public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction direction) {
         if (direction == Direction.DOWN && slot == WATER_INPUT_SLOT_INDEX) {
             return stack.is(Items.GLASS_BOTTLE) || stack.is(Items.BUCKET);
-        } else {
-            return true;
-        }
+        } else return direction != Direction.DOWN || slot != GLASS_BOTTLE_INSERT_SLOT_INDEX;
     }
 
     public boolean isValid(int slot, ItemStack stack) {
         return switch (slot) {
             case WATER_INPUT_SLOT_INDEX -> ValidWaterSources.getAmountFromItem(stack) > 0;
-            case ITEM_INPUT_SLOT_INDEX -> true;
+            case ITEM_INPUT_SLOT_INDEX -> stack.is(BartendingTags.BOILABLES);
             case GLASS_BOTTLE_INSERT_SLOT_INDEX -> stack.is(Items.GLASS_BOTTLE);
             default -> false;
         };

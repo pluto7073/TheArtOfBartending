@@ -2,7 +2,7 @@ package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
-import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
@@ -16,17 +16,38 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class BoilerBlock extends BaseEntityBlock {
+
+    public static final VoxelShape SHAPE = Shapes.or(Block.box(1, 0, 13, 3, 2, 15),
+            Block.box(13, 0, 13, 15, 2, 15),
+            Block.box(1, 0, 1, 3, 2, 3),
+            Block.box(13, 0, 1, 15, 2, 3),
+            Block.box(0, 2, 0, 16, 11, 16),
+            Block.box(0, 11, 0, 14, 14, 2),
+            Block.box(2, 11, 14, 16, 14, 16),
+            Block.box(0, 11, 2, 2, 14, 16),
+            Block.box(14, 11, 0, 16, 14, 14),
+            Block.box(2, 11, 2, 14, 12, 14));
 
     public BoilerBlock(Properties properties) {
         super(properties);
@@ -115,4 +136,8 @@ public class BoilerBlock extends BaseEntityBlock {
         }
     }
 
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
 }

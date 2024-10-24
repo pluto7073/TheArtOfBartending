@@ -7,6 +7,7 @@ import ml.pluto7073.bartending.foundations.item.slot.NoInsertMaxOne;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.bartending.foundations.water.ValidWaterSources;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -39,11 +40,11 @@ public class BoilerMenu extends AbstractContainerMenu {
         this.container = container;
         this.data = data;
         this.level = inventory.player.level();
-        this.addSlot(new MaxOneSlot(container, WATER_INPUT_SLOT_INDEX, 48, 42));
-        this.addSlot(new Slot(container, ITEM_INPUT_SLOT_INDEX, 48, 17));
-        this.addSlot(new DisplaySlot(container, DISPLAY_RESULT_ITEM_SLOT_INDEX, 124, 28));
-        this.addSlot(new Slot(container, GLASS_BOTTLE_INSERT_SLOT_INDEX, 92, 55));
-        this.addSlot(new NoInsertMaxOne(container, RESULT_SLOT_INDEX, 124, 55));
+        this.addSlot(new MaxOneSlot(container, WATER_INPUT_SLOT_INDEX, 50, 42));
+        this.addSlot(new Slot(container, ITEM_INPUT_SLOT_INDEX, 50, 15));
+        this.addSlot(new DisplaySlot(container, DISPLAY_RESULT_ITEM_SLOT_INDEX, 80, 24));
+        this.addSlot(new Slot(container, GLASS_BOTTLE_INSERT_SLOT_INDEX, 110, 15));
+        this.addSlot(new NoInsertMaxOne(container, RESULT_SLOT_INDEX, 110, 42));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {

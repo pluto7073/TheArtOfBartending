@@ -127,6 +127,12 @@ public class TheArtOfClient implements ClientModInitializer {
             SpecialtyDrink drink = DrinkUtil.getSpecialDrink(stack);
             return drink.base() == BartendingItems.MIXED_DRINK ? 1 : 0;
         });
+
+        ItemProperties.register(BartendingItems.CONCOCTION, TheArtOfBartending.asId("just_liquid"), (itemStack, clientLevel, livingEntity, i) -> {
+            if (!itemStack.getOrCreateTag().contains("JustLiquid")) return 0;
+            boolean b = itemStack.getOrCreateTag().getBoolean("JustLiquid");
+            return b ? 1 : 0;
+        });
     }
 
 }

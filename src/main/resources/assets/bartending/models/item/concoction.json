@@ -3,5 +3,13 @@
   "textures": {
     "layer0": "item/potion_overlay",
     "layer1": "item/potion"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "bartending:just_liquid": 1
+      },
+      "model": "bartending:item/liquid_concoction"
+    }
+  ]
 }
