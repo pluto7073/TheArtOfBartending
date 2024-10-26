@@ -8,6 +8,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@ParametersAreNonnullByDefault
 public class DistilleryScreen extends AbstractContainerScreen<DistilleryMenu> {
 
     public static final ResourceLocation TEXTURE = TheArtOfBartending.asId("textures/gui/container/distillery.png");
@@ -28,12 +31,8 @@ public class DistilleryScreen extends AbstractContainerScreen<DistilleryMenu> {
         int j = (this.height - this.imageHeight) / 2;
         guiGraphics.blit(TEXTURE, i, j, 0, 0, imageWidth, imageHeight);
 
-        if (menu.getFuelTime() > 0) {
-            int k = menu.getLitProgress();
-            guiGraphics.blit(TEXTURE, i + 56, j + 36 + 12 - k, 176, 12 - k, 14, k + 1);
-        }
         int k = menu.getDistillProgress();
-        guiGraphics.blit(TEXTURE, i + 79, j + 34, 176, 14, k + 1, 16);
+        guiGraphics.blit(TEXTURE, i + 79, j + 43, 176, 14, k + 1, 16);
     }
 
     @Override

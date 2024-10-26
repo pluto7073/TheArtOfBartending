@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.content.block;
 
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.block.entity.DistilleryBlockEntity;
+import ml.pluto7073.bartending.content.block.state.properties.DistilleryPart;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
@@ -13,46 +14,50 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.BaseEntityBlock;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.block.state.properties.*;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.HashMap;
+import java.util.function.BiPredicate;
 
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
+@SuppressWarnings("deprecation")
 public class DistilleryBlock extends BaseEntityBlock {
 
-    /**
-     * 0 - Empty<br>
-     * 1 - Not Started<br>
-     * 2 - In Progress<br>
-     * 3 - Finished
-     */
-    public static final IntegerProperty DISTILL_STATE = IntegerProperty.create("distill_state", 0, 3);
-    public static final BooleanProperty HEATED = BooleanProperty.create("heated");
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
-    public static final BooleanProperty HAS_INPUT = BooleanProperty.create("has_input");
-    public static final BooleanProperty HAS_OUTPUT = BooleanProperty.create("has_output");
+    public static final VoxelShape SHAPE = Shapes.or(Block.box(12, 0, 3, 14, 5, 5),
+            Block.box(12, 0, 13, 14, 5, 15),
+            Block.box(2, 0, 13, 4, 5, 15),
+            Block.box(2, 0, 3, 4, 5, 5),
+            Block.box(1, 5, 2, 15, 14, 16),
+            Block.box(2, 14, 3, 14, 19, 15),
+            Block.box(4, 19, 5, 12, 23, 13),
+            Block.box(6, 23, 7, 10, 25, 11),
+            Block.box(7, 24, 8, 9, 29, 10));
+    //public static final EnumProperty<DistilleryPart> PART = EnumProperty.create("part", DistilleryPart.class);
 
     public DistilleryBlock(Properties properties) {
         super(properties);
@@ -65,17 +70,33 @@ public class DistilleryBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(DISTILL_STATE, HEATED, FACING, HAS_INPUT, HAS_OUTPUT);
+        builder.add(FACING);
     }
+
+//    public void setPlacedBy(Level level, BlockPos pos, BlockState state, @Nullable LivingEntity placer, ItemStack stack) {
+//        super.setPlacedBy(level, pos, state, placer, stack);
+//        if (!level.isClientSide) {
+//            BlockPos blockPos = pos.above();
+//            level.setBlock(blockPos, state.setValue(PART, DistilleryPart.TOP), 3);
+//            level.blockUpdated(pos, Blocks.AIR);
+//            state.updateNeighbourShapes(level, pos, 3);
+//        }
+//    }
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext ctx) {
-        return defaultBlockState().setValue(DISTILL_STATE, 0)
-                .setValue(HEATED, false)
-                .setValue(FACING, ctx.getHorizontalDirection().getOpposite())
-                .setValue(HAS_INPUT, false)
-                .setValue(HAS_OUTPUT, false);
+        Direction direction = ctx.getHorizontalDirection().getOpposite();
+        return defaultBlockState().setValue(FACING, direction);
+//        BlockPos blockPos = ctx.getClickedPos();
+//        BlockPos blockPos2 = blockPos.above();
+//        Level level = ctx.getLevel();
+//        return level.getBlockState(blockPos2).canBeReplaced(ctx) && level.getWorldBorder().isWithinBounds(blockPos2) ? this.defaultBlockState().setValue(FACING, direction) : null;
     }
+
+//    public static DoubleBlockCombiner.BlockType getBlockType(BlockState state) {
+//        DistilleryPart bedPart = state.getValue(PART);
+//        return bedPart == DistilleryPart.BOTTOM ? DoubleBlockCombiner.BlockType.FIRST : DoubleBlockCombiner.BlockType.SECOND;
+//    }
 
     @Override
     public boolean isPathfindable(BlockState state, BlockGetter level, BlockPos pos, PathComputationType type) {
@@ -89,6 +110,33 @@ public class DistilleryBlock extends BaseEntityBlock {
     public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
         return AbstractContainerMenu.getRedstoneSignalFromBlockEntity(world.getBlockEntity(pos));
     }
+
+//    public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+//        if (direction == getNeighbourDirection(state.getValue(PART))) {
+//            return neighborState.is(this) && neighborState.getValue(PART) != state.getValue(PART) ? state.setValue(FACING, neighborState.getValue(FACING)) : Blocks.AIR.defaultBlockState();
+//        }
+//        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+//    }
+
+    private static Direction getNeighbourDirection(DistilleryPart part) {
+        return part == DistilleryPart.BOTTOM ? Direction.UP : Direction.DOWN;
+    }
+
+//    public void playerWillDestroy(Level level, BlockPos pos, BlockState state, Player player) {
+//        if (!level.isClientSide && player.isCreative()) {
+//            DistilleryPart bedPart = state.getValue(PART);
+//            if (bedPart == DistilleryPart.BOTTOM) {
+//                BlockPos blockPos = pos.relative(getNeighbourDirection(bedPart));
+//                BlockState blockState = level.getBlockState(blockPos);
+//                if (blockState.is(this) && blockState.getValue(PART) == DistilleryPart.TOP) {
+//                    level.setBlock(blockPos, Blocks.AIR.defaultBlockState(), 35);
+//                    level.levelEvent(player, 2001, blockPos, Block.getId(blockState));
+//                }
+//            }
+//        }
+//
+//        super.playerWillDestroy(level, pos, state, player);
+//    }
 
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
@@ -113,32 +161,6 @@ public class DistilleryBlock extends BaseEntityBlock {
         }
     }
 
-    private static final HashMap<Direction, Vec3> DIRECTION_TO_FLAME_OFFSET = Util.make(() -> {
-        HashMap<Direction, Vec3> map = new HashMap<>();
-        map.put(Direction.NORTH, new Vec3(0.78125f, 0.375f, 0.46875f));
-        map.put(Direction.EAST, new Vec3(0.46875f, 0.375f, 0.78125f));
-        map.put(Direction.SOUTH, new Vec3(0.15625f, 0.375f, 0.46875f));
-        map.put(Direction.WEST, new Vec3(0.78125f, 0.375f, 0.15625f));
-        return map;
-    });
-
-    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (!state.getValue(HEATED)) return;
-        Vec3 offset = DIRECTION_TO_FLAME_OFFSET.get(state.getValue(FACING));
-        addParticlesAndSound(level, new Vec3(pos.getX() + offset.x, pos.getY() + offset.y, pos.getZ() + offset.z), random);
-    }
-
-    private static void addParticlesAndSound(Level level, Vec3 offset, RandomSource random) {
-        float f = random.nextFloat();
-        if (f < 0.3f) {
-            level.addParticle(ParticleTypes.SMOKE, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
-            if (f < 0.17f) {
-                level.playLocalSound(offset.x + 0.5, offset.y + 0.5, offset.z + 0.5, SoundEvents.CANDLE_AMBIENT, SoundSource.BLOCKS, 1.0f + random.nextFloat(), random.nextFloat() * 0.7f + 0.3f, false);
-            }
-        }
-        level.addParticle(ParticleTypes.SMALL_FLAME, offset.x, offset.y, offset.z, 0.0, 0.0, 0.0);
-    }
-
     public void onRemove(BlockState state, Level world, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.is(newState.getBlock())) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -149,4 +171,8 @@ public class DistilleryBlock extends BaseEntityBlock {
         }
     }
 
+    @Override
+    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return SHAPE;
+    }
 }

@@ -1,7 +1,9 @@
 package ml.pluto7073.bartending.content.gui;
 
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.item.slot.DisplaySlot;
 import ml.pluto7073.bartending.foundations.item.slot.MaxOneSlot;
+import ml.pluto7073.bartending.foundations.item.slot.NoInsertMaxOne;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -32,9 +34,9 @@ public class DistilleryMenu extends AbstractContainerMenu {
         this.container = container;
         this.data = data;
         this.level = inventory.player.level();
-        addSlot(new MaxOneSlot(container, INPUT_SLOT_INDEX, 56, 17));
-        addSlot(new Slot(container, FUEL_SLOT_INDEX, 56, 53));
-        addSlot(new MaxOneSlot(container, RESULT_SLOT_INDEX, 116, 35));
+        addSlot(new Slot(container, INPUT_SLOT_INDEX, 56, 44));
+        addSlot(new DisplaySlot(container, DISPLAY_SLOT_INDEX, 82, 24));
+        addSlot(new NoInsertMaxOne(container, RESULT_SLOT_INDEX, 116, 44));
 
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
@@ -49,28 +51,12 @@ public class DistilleryMenu extends AbstractContainerMenu {
         this.addDataSlots(data);
     }
 
-    public int getLitProgress() {
-        int i = this.data.get(DATA_MAX_LIT_TIME);
-        if (i == 0) {
-            i = 200;
-        }
-        return this.data.get(DATA_LIT_TIME) * 13 / i;
-    }
-
     public int getDistillProgress() {
         int i = this.data.get(DATA_DISTILL_TIME);
         if (i == 0) {
             return 0;
         }
         return i * 24 / MAX_DISTILL_TIME;
-    }
-
-    public int getFuelTime() {
-        return data.get(DATA_LIT_TIME);
-    }
-
-    protected boolean isFuel(ItemStack stack) {
-        return AbstractFurnaceBlockEntity.isFuel(stack);
     }
 
     @Override
@@ -85,11 +71,10 @@ public class DistilleryMenu extends AbstractContainerMenu {
                     return ItemStack.EMPTY;
                 }
                 slot.onQuickCraft(itemStack2, itemStack);
-            } else if (index == 1 || index == 0 ? !this.moveItemStackTo(itemStack2, 3, 39, false) :
+            } else if (index == 0 ? !this.moveItemStackTo(itemStack2, 3, 39, false) :
                     (itemStack2.is(BartendingItems.CONCOCTION) ? !this.moveItemStackTo(itemStack2, 0, 1, false) :
-                            (this.isFuel(itemStack2) ? !this.moveItemStackTo(itemStack2, 1, 2, false) :
                                     (index >= 3 && index < 30 ? !this.moveItemStackTo(itemStack2, 30, 39, false) :
-                                            index >= 30 && index < 39 && !this.moveItemStackTo(itemStack2, 3, 30, false))))) {
+                                            index >= 30 && index < 39 && !this.moveItemStackTo(itemStack2, 3, 30, false)))) {
                 return ItemStack.EMPTY;
             }
             if (itemStack2.isEmpty()) {

@@ -105,7 +105,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
                 return switch (index) {
                     case WATER_AMOUNT_DATA -> (int) water.amount;
                     case BOIL_TIME_DATA -> boilTicks;
-                    case HEATED_DATA -> getHeatedData();
+                    case HEATED_DATA -> BrewingUtil.getHeatedData(BoilerBlockEntity.this);
                     case COLOR_DATA -> BrewingUtil.isEmpty(boilingStacks) ? 4210943 :
                         BrewingUtil.averageColors(boilingStacks.stream().map(ItemStack::getItem)
                                 .map(BuiltInRegistries.ITEM::getKey).map(ResourceLocation::toString)
@@ -238,7 +238,7 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
         }
 
         if (entity.isBoiling()) {
-            entity.boilTicks += (int) Math.pow(2, entity.getHeatedData() - 1);
+            entity.boilTicks += (int) Math.pow(2, BrewingUtil.getHeatedData(entity) - 1);
         }
 
         if (BrewingUtil.isEmpty(entity.boilingStacks)) {
@@ -282,23 +282,9 @@ public class BoilerBlockEntity extends BaseContainerBlockEntity implements World
                 EntitySelector.ENTITY_STILL_ALIVE).stream()).collect(Collectors.toList());
     }
 
-    public int getHeatedData() {
-        if (level == null) return 0;
-        BlockState below = level.getBlockState(getBlockPos().below());
-        boolean heated = below.is(BlockTags.CAMPFIRES) ||
-                below.is(Blocks.FIRE) ||
-                below.is(Blocks.LAVA);
-        boolean superheated = below.is(BartendingTags.SUPERHEATING_BLOCKS);
-        if (FabricLoader.getInstance().isModLoaded("create")) {
-            int heat = TheArtOfCreate.getHeatFromBlazeBurner(below);
-            if (heat != -1) return heat;
-        }
-        return superheated ? 2 : heated ? 1 : 0;
-    }
-
     public boolean isBoiling() {
         // If water
-        return water.amount > 0 && getHeatedData() != 0;
+        return water.amount > 0 && BrewingUtil.getHeatedData(this) != 0;
     }
 
     @Override

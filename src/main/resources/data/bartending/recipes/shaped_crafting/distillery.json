@@ -1,21 +1,18 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "G|G",
-    "C| ",
-    "___"
+    "CCC",
+    "CBC",
+    "S S"
   ],
   "key": {
-    "_": {
-      "item": "minecraft:deepslate_tile_slab"
-    },
-    "G": {
-      "item": "minecraft:glass"
-    },
     "C": {
-      "item": "minecraft:candle"
+      "item": "minecraft:copper_ingot"
     },
-    "|": {
+    "B": {
+      "item": "minecraft:bucket"
+    },
+    "S": {
       "item": "minecraft:iron_ingot"
     }
   },

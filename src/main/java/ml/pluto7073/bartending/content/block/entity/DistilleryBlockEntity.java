@@ -1,9 +1,9 @@
 package ml.pluto7073.bartending.content.block.entity;
 
-import ml.pluto7073.bartending.content.block.DistilleryBlock;
 import ml.pluto7073.bartending.content.gui.DistilleryMenu;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.step.DistillingBrewerStep;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,7 +11,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
@@ -28,21 +27,22 @@ import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class DistilleryBlockEntity extends BaseContainerBlockEntity implements WorldlyContainer {
 
     public static final int INPUT_SLOT_INDEX = 0,
-    FUEL_SLOT_INDEX = 1,
+    DISPLAY_SLOT_INDEX = 1,
     RESULT_SLOT_INDEX = 2,
     INVENTORY_SIZE = 3;
 
-    public static final int DATA_LIT_TIME = 0,
-    DATA_MAX_LIT_TIME = 1,
-    DATA_DISTILL_TIME = 2,
-    DATA_COUNT = 3;
+    public static final int DATA_DISTILL_TIME = 0,
+    DATA_COUNT = 1;
 
     public static final int[] TOP_SLOTS = { INPUT_SLOT_INDEX, RESULT_SLOT_INDEX },
-    SIDE_SLOTS = { FUEL_SLOT_INDEX, INPUT_SLOT_INDEX },
+    SIDE_SLOTS = { INPUT_SLOT_INDEX },
     BOTTOM_SLOTS = { INPUT_SLOT_INDEX, RESULT_SLOT_INDEX };
 
     public static final int MAX_DISTILL_TIME = 300;
@@ -51,20 +51,13 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
     protected final ContainerData data = new ContainerData() {
         @Override
         public int get(int index) {
-            return switch (index) {
-                case DATA_LIT_TIME -> litTime;
-                case DATA_MAX_LIT_TIME -> maxLitTime;
-                case DATA_DISTILL_TIME -> distillTime;
-                default -> 0;
-            };
+            return index == DATA_DISTILL_TIME ? distillTime : 0;
         }
 
         @Override
         public void set(int index, int value) {
-            switch (index) {
-                case DATA_LIT_TIME -> litTime = value;
-                case DATA_MAX_LIT_TIME -> maxLitTime = value;
-                case DATA_DISTILL_TIME -> distillTime = value;
+            if (index == DATA_DISTILL_TIME) {
+                distillTime = value;
             }
         }
 
@@ -74,7 +67,7 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
         }
     };
 
-    public int litTime, maxLitTime, distillTime;
+    public int distillTime;
 
     public DistilleryBlockEntity(BlockPos pos, BlockState state) {
         super(BartendingBlockEntities.DISTILLERY_BLOCK_ENTITY_TYPE, pos, state);
@@ -85,15 +78,12 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
         super.load(tag);
         items = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, items);
-        litTime = tag.getShort("BurnTime");
         distillTime = tag.getShort("DistillTime");
-        maxLitTime = getBurnDuration(items.get(1));
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
-        tag.putShort("BurnTime", (short) litTime);
         tag.putShort("DistillTime", (short) distillTime);
         ContainerHelper.saveAllItems(tag, items);
     }
@@ -108,86 +98,44 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
         return new DistilleryMenu(containerId, inventory, this, data);
     }
 
-    protected static int getBurnDuration(ItemStack fuel) {
-        if (fuel.isEmpty()) {
-            return 0;
-        }
-        Item item = fuel.getItem();
-        return AbstractFurnaceBlockEntity.getFuel().getOrDefault(item, 0);
-    }
-
     public static void tick(Level level, BlockPos pos, BlockState state, DistilleryBlockEntity entity) {
-        boolean litStartTick = entity.litTime > 0;
+        int heat = BrewingUtil.getHeatedData(entity);
+        boolean lit = heat > 0;
         boolean changed = false;
-        if (litStartTick) {
-            entity.litTime--;
-        }
-        ItemStack fuel = entity.getItem(FUEL_SLOT_INDEX);
-        int tempMaxFuelTime = getBurnDuration(fuel);
         ItemStack input = entity.getItem(INPUT_SLOT_INDEX);
-        boolean hasInput = !input.isEmpty();
-        boolean lastTickInput = state.getValue(DistilleryBlock.HAS_INPUT);
-        if (hasInput != lastTickInput) {
-            level.setBlock(pos, state = state.setValue(DistilleryBlock.HAS_INPUT, hasInput), 1 | 2);
-            changed = true;
-        }
+        ItemStack progress = entity.getItem(DISPLAY_SLOT_INDEX);
         ItemStack output = entity.getItem(RESULT_SLOT_INDEX);
-        boolean hasOutput = !output.isEmpty();
-        boolean lastTickOutput = state.getValue(DistilleryBlock.HAS_OUTPUT);
-        if (hasOutput != lastTickOutput) {
-            level.setBlock(pos, state = state.setValue(DistilleryBlock.HAS_OUTPUT, hasOutput), 1 | 2);
-            changed = true;
-        }
-        int lastTickState = state.getValue(DistilleryBlock.DISTILL_STATE);
-        int newState = lastTickState;
-        if (litStartTick || (output.is(Items.GLASS_BOTTLE) && input.is(BartendingItems.CONCOCTION) && tempMaxFuelTime > 0)) {
-            if (!litStartTick) {
+        if (output.isEmpty() && (input.is(BartendingItems.CONCOCTION) || progress.is(BartendingItems.CONCOCTION)) && lit) {
+            if (entity.distillTime == 0 && !input.isEmpty()) {
+                progress = input.copy();
+                entity.setItem(INPUT_SLOT_INDEX, ItemStack.EMPTY);
+                progress.getOrCreateTag().putBoolean("JustLiquid", true);
+                entity.setItem(DISPLAY_SLOT_INDEX, progress);
+            }
+
+            entity.distillTime += heat;
+            if (entity.distillTime >= MAX_DISTILL_TIME) {
                 changed = true;
-                entity.maxLitTime = tempMaxFuelTime;
-                entity.litTime = tempMaxFuelTime;
-                fuel.shrink(1);
-                if (fuel.isEmpty()) {
-                    Item remainder = fuel.getItem().getCraftingRemainingItem();
-                    entity.setItem(FUEL_SLOT_INDEX, remainder == null ? ItemStack.EMPTY : new ItemStack(remainder));
-                }
-                level.setBlock(pos, state = state.setValue(DistilleryBlock.HEATED, true), 1 | 2);
-            }
-            if (output.is(Items.GLASS_BOTTLE) && input.is(BartendingItems.CONCOCTION)) {
-                entity.distillTime++;
-                newState = 2;
-                if (entity.distillTime >= MAX_DISTILL_TIME) {
-                    changed = true;
-                    entity.distillTime = 0;
-                    ItemStack newOutput = input.copy();
-                    ListTag steps = newOutput.getOrCreateTag().getList("BrewingSteps", ListTag.TAG_COMPOUND);
-                    CompoundTag last = steps.getCompound(steps.size() - 1);
-                    if (DistillingBrewerStep.TYPE_ID.equals(last.getString("type"))) {
-                        last.putInt("runs", last.getInt("runs") + 1);
-                    } else {
-                        CompoundTag distilled = new CompoundTag();
-                        distilled.putString("type", DistillingBrewerStep.TYPE_ID);
-                        distilled.putInt("runs", 1);
-                        steps.add(distilled);
-                    }
-                    entity.setItem(INPUT_SLOT_INDEX, new ItemStack(Items.GLASS_BOTTLE));
-                    entity.setItem(RESULT_SLOT_INDEX, newOutput);
-                    newState = 3;
-                }
-            } else {
-                newState = 0;
                 entity.distillTime = 0;
+                ItemStack newOutput = progress.copy();
+                newOutput.removeTagKey("JustLiquid");
+                ListTag steps = newOutput.getOrCreateTag().getList("BrewingSteps", ListTag.TAG_COMPOUND);
+                CompoundTag last = steps.getCompound(steps.size() - 1);
+                if (DistillingBrewerStep.TYPE_ID.equals(last.getString("type"))) {
+                    last.putInt("runs", last.getInt("runs") + 1);
+                } else {
+                    CompoundTag distilled = new CompoundTag();
+                    distilled.putString("type", DistillingBrewerStep.TYPE_ID);
+                    distilled.putInt("runs", 1);
+                    steps.add(distilled);
+                }
+                entity.setItem(DISPLAY_SLOT_INDEX, ItemStack.EMPTY);
+                entity.setItem(RESULT_SLOT_INDEX, newOutput);
             }
-        } else if (!output.is(Items.GLASS_BOTTLE) || !output.is(BartendingItems.CONCOCTION)) {
-            entity.distillTime = 0;
         } else {
-            newState = 1;
+            entity.distillTime = 0;
         }
 
-        if (newState != lastTickState) {
-            level.setBlock(pos, state = state.setValue(DistilleryBlock.DISTILL_STATE, newState), 1 | 2);
-            changed = true;
-        }
-        if (litStartTick != entity.litTime > 0) changed = true;
         if (changed) setChanged(level, pos, state);
     }
 
@@ -209,10 +157,7 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
 
     @Override
     public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
-        if (direction == Direction.DOWN && index == FUEL_SLOT_INDEX) {
-            return stack.is(Items.BUCKET);
-        }
-        return true;
+        return index != DISPLAY_SLOT_INDEX;
     }
 
     @Override
@@ -268,7 +213,7 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
         if (index == RESULT_SLOT_INDEX) {
             return stack.is(Items.GLASS_BOTTLE);
         }
-        if (index == FUEL_SLOT_INDEX) {
+        if (index == DISPLAY_SLOT_INDEX) {
             return AbstractFurnaceBlockEntity.isFuel(stack);
         }
         return stack.is(BartendingItems.CONCOCTION);

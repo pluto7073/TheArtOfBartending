@@ -1,9 +1,11 @@
 package ml.pluto7073.bartending.foundations.util;
 
+import ml.pluto7073.bartending.compat.create.TheArtOfCreate;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.*;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
@@ -14,9 +16,14 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -40,6 +47,21 @@ public class BrewingUtil {
         list.add(data);
         stack.getOrCreateTag().put("BrewingSteps", list);
         return stack;
+    }
+
+    public static int getHeatedData(BlockEntity entity) {
+        Level level = entity.getLevel();
+        if (level == null) return 0;
+        BlockState below = level.getBlockState(entity.getBlockPos().below());
+        boolean heated = below.is(BlockTags.CAMPFIRES) ||
+                below.is(Blocks.FIRE) ||
+                below.is(Blocks.LAVA);
+        boolean superheated = below.is(BartendingTags.SUPERHEATING_BLOCKS);
+        if (FabricLoader.getInstance().isModLoaded("create")) {
+            int heat = TheArtOfCreate.getHeatFromBlazeBurner(below);
+            if (heat != -1) return heat;
+        }
+        return superheated ? 2 : heated ? 1 : 0;
     }
 
     public static <T> T either(Supplier<T> one, Supplier<T> two, Supplier<Boolean> condition) {
