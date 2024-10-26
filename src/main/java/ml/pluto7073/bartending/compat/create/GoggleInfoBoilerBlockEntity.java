@@ -21,12 +21,12 @@ public class GoggleInfoBoilerBlockEntity extends BoilerBlockEntity implements IH
     @Override
     public boolean addToGoggleTooltip(List<Component> tooltip, boolean isPlayerSneaking) {
         tooltip.add(Component.literal("    ").append(Component.translatable("tooltip.bartending.boiler_info")));
-        tooltip.add(Component.literal(" "));
-
         if (BrewingUtil.isEmpty(boilingStacks)) {
-            tooltip.add(Component.literal("    ").append(Component.translatable("tooltip.bartending.empty")));
+            tooltip.add(Component.literal("     ").append(Component.translatable("tooltip.bartending.empty")).withStyle(ChatFormatting.GRAY));
             return true;
         }
+
+        tooltip.add(Component.literal(" "));
 
         tooltip.add(Component.literal("    ").append(Component.translatable("tooltip.bartending.currently_boiling").withStyle(ChatFormatting.GRAY)));
 
