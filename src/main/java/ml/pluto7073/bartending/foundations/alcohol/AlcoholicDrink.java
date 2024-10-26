@@ -1,5 +1,6 @@
 package ml.pluto7073.bartending.foundations.alcohol;
 
+import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.Items;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
@@ -122,6 +124,10 @@ public class AlcoholicDrink {
             deviation += step.getDeviation(data, standard);
         }
         return deviation;
+    }
+
+    public String getLanguageKey() {
+        return Objects.requireNonNull(BartendingRegistries.ALCOHOLIC_DRINK.getKey(this)).toLanguageKey("alcohol");
     }
 
     public static class Builder {

@@ -1,6 +1,8 @@
 package ml.pluto7073.bartending.foundations.command;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
@@ -27,7 +29,7 @@ public final class BartendingCommands {
 
     public static void init() {
         CommandRegistrationCallback.EVENT.register((dispatcher, context, environment) -> {
-            //dispatcher.register(concoction(context));
+            dispatcher.register(concoction(context));
         });
     }
 
@@ -49,7 +51,9 @@ public final class BartendingCommands {
                             concoction.getOrCreateTag().put("BrewingSteps", tag);
                             ServerPlayer serverPlayer = EntityArgument.getPlayer(ctx, "target");
                             serverPlayer.getInventory().add(concoction);
-                            stack.sendSuccess(() -> Component.literal("Gave player concoction idk"), true);
+                            stack.sendSuccess(() ->
+                                    Component.translatable("command.concoction.response", serverPlayer.getName())
+                                            .append(Component.translatable(drink.getLanguageKey())), true);
                             return 1;
                         })));
     }

@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 
 import java.util.concurrent.CompletableFuture;
 
-public class AlcoholArgument implements ArgumentType<AlcoholicDrink> {
+public class AlcoholArgument implements ArgumentType<ResourceLocation> {
 
     private final HolderLookup<AlcoholicDrink> lookup;
 
@@ -38,7 +38,7 @@ public class AlcoholArgument implements ArgumentType<AlcoholicDrink> {
     }
 
     @Override
-    public AlcoholicDrink parse(StringReader reader) throws CommandSyntaxException {
-        return BartendingRegistries.ALCOHOLIC_DRINK.get(ResourceLocation.read(reader));
+    public ResourceLocation parse(StringReader reader) throws CommandSyntaxException {
+        return ResourceLocation.read(reader);
     }
 }

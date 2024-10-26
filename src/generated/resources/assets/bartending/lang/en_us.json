@@ -50,6 +50,7 @@
   "block.bartending.wheat_beer": "Wheat Beer",
   "block.bartending.whiskey": "Whiskey",
   "block.bartending.white_wine": "White Wine",
+  "command.concoction.response": "Gave %1$s the matching concoction for ",
   "command.drink.alcohol.get": "Your BAC is currently %1$s",
   "concoction.bartending.botanical": "Botanical Essence",
   "concoction.bartending.mixed": "Mixed Concoction",
