@@ -36,7 +36,7 @@ public class TheArtOfModMenu implements ModMenuApi {
 
 			general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("option.bartending.blackout_enabled"), config.getBlackoutEnabled())
 					.setDefaultValue(true)
-					.setTooltip(Component.translateable("option.bartending.blackout_enabled.tooltip"))
+					.setTooltip(Component.translatable("option.bartending.blackout_enabled.tooltip"))
 					.setSaveConsumer(config::setBlackoutEnabled)
 					.build());
 

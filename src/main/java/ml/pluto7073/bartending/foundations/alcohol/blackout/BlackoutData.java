@@ -2,6 +2,7 @@ package ml.pluto7073.bartending.foundations.alcohol.blackout;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.client.TheArtOfClient;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.client.config.ClientConfig;

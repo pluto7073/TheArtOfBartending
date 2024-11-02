@@ -28,7 +28,7 @@ public class ClientConfig extends BaseConfig {
 		setBoolean("blackoutEnabled", enabled);
 	}
 
-	public void getBlackoutEnabled() {
+	public boolean getBlackoutEnabled() {
 		return getBoolean("blackoutEnabled");
 	}
 
