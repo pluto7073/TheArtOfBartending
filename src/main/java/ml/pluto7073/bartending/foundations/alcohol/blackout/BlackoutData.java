@@ -4,6 +4,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
+import ml.pluto7073.bartending.client.config.ClientConfig;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -51,6 +52,11 @@ public class BlackoutData {
 
     @SuppressWarnings("DataFlowIssue")
     public void tick() {
+		// If blacking out is disabled, return and do nothing
+		ClientConfig config = TheArtOfClient.config();
+		if(!config.getBlackoutEnabled())
+			return;
+
         long now = Instant.now().toEpochMilli();
         if (blackoutEndsIn > now) {
             long remaining = blackoutEndsIn - now;

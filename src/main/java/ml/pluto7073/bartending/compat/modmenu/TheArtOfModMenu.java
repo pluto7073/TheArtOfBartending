@@ -34,6 +34,12 @@ public class TheArtOfModMenu implements ModMenuApi {
                     .setSaveConsumer(config::setAlcoholDisplayType)
                     .build());
 
+			general.addEntry(entryBuilder.startBooleanToggle(Component.translatable("option.bartending.blackout_enabled"), config.getBlackoutEnabled())
+					.setDefaultValue(true)
+					.setTooltip(Component.translateable("option.bartending.blackout_enabled.tooltip"))
+					.setSaveConsumer(config::setBlackoutEnabled)
+					.build());
+
             return builder.setSavingRunnable(config::save).build();
         };
     }

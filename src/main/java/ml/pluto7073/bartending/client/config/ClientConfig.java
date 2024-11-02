@@ -13,6 +13,7 @@ public class ClientConfig extends BaseConfig {
     @Override
     public void initConfig() {
         setEnum("alcoholDisplayType", AlcDisplayType.PROOF);
+		setBoolean("blackoutEnabled", true);
     }
 
     public void setAlcoholDisplayType(AlcDisplayType type) {
@@ -22,5 +23,13 @@ public class ClientConfig extends BaseConfig {
     public AlcDisplayType getAlcoholDisplayType() {
         return getEnum("alcoholDisplayType", AlcDisplayType.class);
     }
+
+	public void setBlackoutEnabled(boolean enabled) {
+		setBoolean("blackoutEnabled", enabled);
+	}
+
+	public void getBlackoutEnabled() {
+		return getBoolean("blackoutEnabled");
+	}
 
 }
