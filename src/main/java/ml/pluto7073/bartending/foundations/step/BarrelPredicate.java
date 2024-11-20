@@ -6,7 +6,9 @@ import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.WoodType;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Predicate;
 
@@ -35,5 +37,9 @@ public class BarrelPredicate implements Predicate<Block> {
 
     public Ingredient asIngredient() {
         return Ingredient.of(allowed.toArray(ItemLike[]::new));
+    }
+
+    public static BarrelPredicate ofWood(WoodType... types) {
+        return new BarrelPredicate(Arrays.stream(types).map(BartendingBlocks.BARRELS::get).toArray(FermentingBarrelBlock[]::new));
     }
 }
