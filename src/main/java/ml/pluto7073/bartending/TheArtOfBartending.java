@@ -12,6 +12,7 @@ import ml.pluto7073.bartending.foundations.BartendingStats;
 import ml.pluto7073.bartending.foundations.alcohol.BartendingEntityData;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.command.BartendingCommands;
+import ml.pluto7073.bartending.foundations.config.BartendingGameRules;
 import ml.pluto7073.bartending.foundations.item.BartendingCreativeTabs;
 import ml.pluto7073.bartending.foundations.recipe.BartendingRecipes;
 import net.fabricmc.api.ModInitializer;
@@ -29,6 +30,7 @@ public class TheArtOfBartending implements ModInitializer {
     @Override
     public void onInitialize() {
         BartendingEntityData.init();
+        BartendingGameRules.init();
         AlcoholHandler.init();
         Arrays.stream(BartendingRecipes.values()).forEach(BartendingRecipes::register);
         Arrays.stream(BartendingStats.values()).forEach(BartendingStats::register);

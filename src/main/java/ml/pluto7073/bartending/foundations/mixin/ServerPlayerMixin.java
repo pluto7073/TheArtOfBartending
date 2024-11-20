@@ -1,6 +1,7 @@
 package ml.pluto7073.bartending.foundations.mixin;
 
 import com.mojang.authlib.GameProfile;
+import ml.pluto7073.bartending.foundations.config.BartendingGameRules;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.blackout.BlackoutData;
@@ -36,9 +37,9 @@ public abstract class ServerPlayerMixin extends Player {
 
         if (bartending$BlackoutData == null) {
             --bartending$BlackoutAttemptCooldown;
-            int chance = random.nextInt(0, alc > 0.20f ? 1 : 7);
-            if (bartending$BlackoutAttemptCooldown <= 0) {
+            if (bartending$BlackoutAttemptCooldown <= 0 && level().getGameRules().getBoolean(BartendingGameRules.DO_BLACKOUT)) {
                 bartending$BlackoutAttemptCooldown = 600;
+                int chance = random.nextInt(0, alc > 0.20f ? 1 : 7);
                 if (chance == 0) bartending$BlackoutData = new BlackoutData((ServerPlayer) (Object) this, false);
             }
         } else {
@@ -48,7 +49,7 @@ public abstract class ServerPlayerMixin extends Player {
 
     @Inject(at = @At("TAIL"), method = "readAdditionalSaveData")
     public void bartending$ReadBlackoutData(CompoundTag compound, CallbackInfo ci) {
-        if (!compound.contains("BlackoutData")) {
+        if (!compound.contains("BlackoutData") || !level().getGameRules().getBoolean(BartendingGameRules.DO_BLACKOUT)) {
             bartending$BlackoutAttemptCooldown = 600;
             bartending$BlackoutData = null;
             return;
