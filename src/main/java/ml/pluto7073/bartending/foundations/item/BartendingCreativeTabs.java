@@ -73,6 +73,8 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.APPLE_MEAD);
             stacks.accept(BartendingItems.RED_WINE);
             stacks.accept(BartendingItems.WHITE_WINE);
+            stacks.accept(BartendingItems.CRIMSON_WINE);
+            stacks.accept(BartendingItems.WARPED_WINE);
             stacks.accept(BartendingItems.SWEET_VERMOUTH);
             stacks.accept(BartendingItems.DRY_VERMOUTH);
             stacks.accept(BartendingItems.ABSINTHE);
@@ -96,6 +98,8 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.GLASS_OF_APPLE_MEAD);
             stacks.accept(BartendingItems.GLASS_OF_RED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_WHITE_WINE);
+            stacks.accept(BartendingItems.GLASS_OF_CRIMSON_WINE);
+            stacks.accept(BartendingItems.GLASS_OF_WARPED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_DRY_VERMOUTH);
             stacks.accept(BartendingItems.GLASS_OF_SWEET_VERMOUTH);
             stacks.accept(BartendingItems.GLASS_OF_ABSINTHE);
@@ -118,6 +122,8 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingFluids.MEAD.bucket());
             stacks.accept(BartendingFluids.RED_WINE.bucket());
             stacks.accept(BartendingFluids.WHITE_WINE.bucket());
+            stacks.accept(BartendingFluids.CRIMSON_WINE.bucket());
+            stacks.accept(BartendingFluids.WARPED_WINE.bucket());
             stacks.accept(BartendingFluids.SWEET_VERMOUTH.bucket());
             stacks.accept(BartendingFluids.DRY_VERMOUTH.bucket());
             stacks.accept(BartendingFluids.ABSINTHE.bucket());

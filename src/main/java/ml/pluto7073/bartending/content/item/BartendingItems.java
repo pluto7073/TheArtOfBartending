@@ -63,6 +63,12 @@ public class BartendingItems {
     public static final Item GLASS_OF_WHITE_WINE = glass(AlcoholicDrinks.WHITE_WINE, WINE_GLASS);
     public static final Item WHITE_WINE = bottle(AlcoholicDrinks.WHITE_WINE, WINE_BOTTLE);
 
+    public static final Item GLASS_OF_CRIMSON_WINE = glass(AlcoholicDrinks.CRIMSON_WINE, COCKTAIL_GLASS);
+    public static final Item CRIMSON_WINE = bottle(AlcoholicDrinks.CRIMSON_WINE, WINE_BOTTLE);
+
+    public static final Item GLASS_OF_WARPED_WINE = glass(AlcoholicDrinks.WARPED_WINE, COCKTAIL_GLASS);
+    public static final Item WARPED_WINE = bottle(AlcoholicDrinks.WARPED_WINE, WINE_BOTTLE);
+
     public static final Item SHOT_OF_DRY_VERMOUTH = shot(AlcoholicDrinks.DRY_VERMOUTH);
     public static final Item GLASS_OF_DRY_VERMOUTH = glass(AlcoholicDrinks.DRY_VERMOUTH, WINE_GLASS);
     public static final Item DRY_VERMOUTH = bottle(AlcoholicDrinks.DRY_VERMOUTH, WINE_BOTTLE);

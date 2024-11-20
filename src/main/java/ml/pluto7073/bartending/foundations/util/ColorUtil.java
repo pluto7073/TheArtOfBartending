@@ -4,6 +4,7 @@ import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 
 import java.util.HashMap;
 
@@ -12,10 +13,17 @@ public class ColorUtil {
     public static final HashMap<String, Integer> COLORS_REGISTRY = new HashMap<>();
 
     public static int get(String s) {
-        if (BuiltInRegistries.ITEM.containsKey(new ResourceLocation(s)))
-            if (new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(s))).is(BartendingTags.BOTANICAL_ELEMENTS))
+
+        if (BuiltInRegistries.ITEM.containsKey(new ResourceLocation(s))) {
+            ItemStack stack = new ItemStack(BuiltInRegistries.ITEM.get(new ResourceLocation(s)));
+            if (stack.is(Items.CRIMSON_FUNGUS) || stack.is(BartendingTags.CRIMSON_BOTANICALS))
+                return COLORS_REGISTRY.get("bartending:crimson");
+            if (stack.is(BartendingTags.BOTANICAL_ELEMENTS))
                 return COLORS_REGISTRY.get("bartending:botanicals");
-        if (!COLORS_REGISTRY.containsKey(s)) return 0;
+            if (stack.is(Items.WARPED_FUNGUS) || stack.is(BartendingTags.WARPED_BOTANICALS))
+                return COLORS_REGISTRY.get("bartending:warped");
+        }
+        if (!COLORS_REGISTRY.containsKey(s)) return -1;
         return COLORS_REGISTRY.get(s);
     }
 
@@ -31,7 +39,10 @@ public class ColorUtil {
         COLORS_REGISTRY.put("minecraft:tall_grass", 0xcdeaaf);
         COLORS_REGISTRY.put("minecraft:fern", 0xcdeaaf);
         COLORS_REGISTRY.put("minecraft:large_fern", 0xcdeaaf);
+        COLORS_REGISTRY.put("minecraft:honey_bottle", 0xdfe5a0);
         COLORS_REGISTRY.put("bartending:botanicals", 0x7f5c36);
+        COLORS_REGISTRY.put("bartending:warped", 0x54bfbf);
+        COLORS_REGISTRY.put("bartending:crimson", 0xbf5454);
         COLORS_REGISTRY.put("fruitfulfun:orange", 0xf2b91d);
 
         COLORS_REGISTRY.put("bartending:oak_fermenting_barrel", 0xc29d62);

@@ -136,9 +136,13 @@ public class ConcoctionItem extends Item {
                 CompoundTag data = list.getCompound(0);
                 if (data.contains("item", Tag.TAG_STRING)) {
                     ResourceLocation id = new ResourceLocation(data.getString("item"));
-                    Item item = BuiltInRegistries.ITEM.get(id);
-                    if (new ItemStack(item).is(BartendingTags.BOTANICAL_ELEMENTS)) {
+                    ItemStack item = new ItemStack(BuiltInRegistries.ITEM.get(id));
+                    if (item.is(BartendingTags.BOTANICAL_ELEMENTS)) {
                         return "concoction.bartending.botanical";
+                    } else if (item.is(BartendingTags.CRIMSON_BOTANICALS) || item.is(Items.CRIMSON_FUNGUS)) {
+                        return "concoction.bartending.crimson";
+                    } else if (item.is(BartendingTags.WARPED_BOTANICALS) || item.is(Items.WARPED_FUNGUS)) {
+                        return "concoction.bartending.warped";
                     }
                     return id.toLanguageKey("concoction");
                 } else if (data.contains("Items")) {

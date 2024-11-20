@@ -1,5 +1,7 @@
-// 1.20.1	2024-10-26T00:37:15.2469241	The Art of Bartending/Model Definitions
+// 1.20.1	2024-10-30T19:35:48.8279223	The Art of Bartending/Model Definitions
+db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\crimson_wine_bucket.json
 4beceeea1adfd15a4b99358dbe9b533c0d258375 assets\bartending\models\item\vodka.json
+fa40fb446353d812d83f4fa61daffe08e2ebe044 assets\bartending\blockstates\warped_wine.json
 d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\red_wine.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\gin_bucket.json
 41ea741df68f7cf95f0328bffdd4a2747e32ac23 assets\bartending\blockstates\absinthe.json
@@ -10,6 +12,7 @@ a7ca4e20b0f80e12493d61224f165d7dc7767868 assets\bartending\blockstates\vodka.jso
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\birch_fermenting_barrel.json
 d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\mead.json
 87bf569bbdfa8cc17c6e804282babc235627035f assets\bartending\models\item\glass_of_mead.json
+adb0b9d3498a52570c9ff7718476b32ab5d4bd32 assets\bartending\models\item\glass_of_warped_wine.json
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\dark_oak_fermenting_barrel.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\dry_vermouth_bucket.json
 8ab5103fa293a90327f5ec6bb77af1beb0c8a28f assets\bartending\models\item\bottle_of_wheat_beer.json
@@ -17,6 +20,8 @@ db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\dry_vermo
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\warped_fermenting_barrel.json
 cb059c84e3a6ea1709adb56b3cf20cbcf9d6a1ca assets\bartending\blockstates\gin.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\absinthe.json
+d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\crimson_wine.json
+50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\crimson_wine.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\red_wine_bucket.json
 8ab5103fa293a90327f5ec6bb77af1beb0c8a28f assets\bartending\models\item\bottle_of_dark_beer.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\apple_liqueur.json
@@ -45,10 +50,12 @@ d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\sweet_ver
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\oak_fermenting_barrel.json
 830d0c16b7c5d5abf419cbeaadcd3cb14ee62fa2 assets\bartending\blockstates\dry_vermouth.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\whiskey_bucket.json
+d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\warped_wine.json
 f616ae24c30313ccd53d02df73c7c0a7b56f70d9 assets\bartending\blockstates\white_wine.json
 8fa6178c42606c8ed536845c16f2573fd66e2e62 assets\bartending\blockstates\spruce_fermenting_barrel.json
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_dry_vermouth.json
 4beceeea1adfd15a4b99358dbe9b533c0d258375 assets\bartending\models\item\coffee_liqueur.json
+db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\warped_wine_bucket.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\vodka.json
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\spruce_fermenting_barrel.json
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\cherry_fermenting_barrel.json
@@ -56,6 +63,7 @@ d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_d
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_orange_liqueur.json
 8fa6178c42606c8ed536845c16f2573fd66e2e62 assets\bartending\blockstates\oak_fermenting_barrel.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\wheat_beer.json
+adb0b9d3498a52570c9ff7718476b32ab5d4bd32 assets\bartending\models\item\glass_of_crimson_wine.json
 a9061f74c37f6f8d8852e661a67bfec7d33a46a9 assets\bartending\models\item\beer.json
 4beceeea1adfd15a4b99358dbe9b533c0d258375 assets\bartending\models\item\apple_liqueur.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\vodka_bucket.json
@@ -74,6 +82,7 @@ db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\rum_bucke
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\bamboo_fermenting_barrel.json
 22a5b9b60750be74b7c1a0f6bc46d09fa3507420 assets\bartending\models\item\glass_of_wheat_beer.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\beer_bucket.json
+50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\warped_wine.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\mead.json
 87bf569bbdfa8cc17c6e804282babc235627035f assets\bartending\models\item\glass_of_red_wine.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\dark_beer.json
@@ -110,6 +119,7 @@ d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_s
 adb0b9d3498a52570c9ff7718476b32ab5d4bd32 assets\bartending\models\item\glass_of_absinthe.json
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_whiskey.json
 db2e191d874c3f136598a2c7b448bacdb8c270aa assets\bartending\models\item\sweet_vermouth_bucket.json
+ca31ec41aa979758dfe89ee2f73bedbce42d5e4d assets\bartending\blockstates\crimson_wine.json
 50812bd51e14ec5ea223afe239c89730a63e43b1 assets\bartending\models\block\whiskey.json
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_coffee_liqueur.json
 d3616fa89183756bd4c104ac0468128dee096e9c assets\bartending\models\item\shot_of_absinthe.json

@@ -8,6 +8,7 @@ import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.*;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Registry;
@@ -66,6 +67,22 @@ public final class AlcoholicDrinks {
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 36000, 18000))
             .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.WHITE_WINE).name("White Wine")
             .color(0xe2c36c).build());
+    public static final AlcoholicDrink CRIMSON_WINE = register("crimson_wine", new AlcoholicDrink.Builder().proof(52).ounces(5)
+            .addStep(new BoilingBrewerStep.Builder()
+                    .addIngredient(Ingredient.of(BartendingTags.CRIMSON_BOTANICALS), 32, 8)
+                    .addIngredient(Ingredient.of(Items.CRIMSON_FUNGUS), 96, 16)
+                    .setTicks(9000).setLeeway(900).build())
+            .addStep(new FermentingBrewerStep(BarrelPredicate.ofWood(WoodType.CRIMSON), 60000, 18000))
+            .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.CRIMSON_WINE).name("Crimson Wine")
+            .color(0xa02020).build());
+    public static final AlcoholicDrink WARPED_WINE = register("warped_wine", new AlcoholicDrink.Builder().proof(56).ounces(5)
+            .addStep(new BoilingBrewerStep.Builder()
+                    .addIngredient(Ingredient.of(BartendingTags.WARPED_BOTANICALS), 32, 8)
+                    .addIngredient(Ingredient.of(Items.WARPED_FUNGUS), 96, 16)
+                    .setTicks(9000).setLeeway(900).build())
+            .addStep(new FermentingBrewerStep(BarrelPredicate.ofWood(WoodType.WARPED), 60000, 18000))
+            .bottle(BartendingItems.WINE_BOTTLE).fluid(BartendingFluids.WARPED_WINE).name("Warped Wine")
+            .color(0x1af2f2).build());
     public static final AlcoholicDrink APPLE_LIQUEUR = register("apple_liqueur", new AlcoholicDrink.Builder()
             .proof(60).ounces(1.5f).addStep(new BoilingBrewerStep.Builder()
                     .addIngredient(Ingredient.of(Items.APPLE, Items.GOLDEN_APPLE, Items.ENCHANTED_GOLDEN_APPLE), 64)

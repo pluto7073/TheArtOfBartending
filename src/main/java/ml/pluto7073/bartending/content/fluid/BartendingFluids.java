@@ -20,6 +20,8 @@ public final class BartendingFluids {
             APPLE_MEAD = AlcoholFluid.create(),
             RED_WINE = AlcoholFluid.create(),
             WHITE_WINE = AlcoholFluid.create(),
+            CRIMSON_WINE = AlcoholFluid.create(),
+            WARPED_WINE = AlcoholFluid.create(),
             APPLE_LIQUEUR = AlcoholFluid.create(),
             VODKA = AlcoholFluid.create(),
             RUM = AlcoholFluid.create(),
@@ -40,6 +42,8 @@ public final class BartendingFluids {
         APPLE_MEAD.register("apple_mead");
         RED_WINE.register("red_wine");
         WHITE_WINE.register("white_wine");
+        CRIMSON_WINE.register("crimson_wine");
+        WARPED_WINE.register("warped_wine");
         APPLE_LIQUEUR.register("apple_liqueur");
         VODKA.register("vodka");
         RUM.register("rum");

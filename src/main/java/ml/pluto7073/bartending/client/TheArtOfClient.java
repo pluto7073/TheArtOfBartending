@@ -12,6 +12,7 @@ import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
 import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.item.ConcoctionItem;
+import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.client.config.ClientConfig;
 import ml.pluto7073.bartending.foundations.util.ColorUtil;
@@ -125,7 +126,11 @@ public class TheArtOfClient implements ClientModInitializer {
         ItemProperties.register(PDItems.SPECIALTY_DRINK, TheArtOfBartending.asId("mixed_drink"), (stack, level, entity, i) -> {
             if (!stack.getOrCreateTag().contains("Drink")) return 0;
             SpecialtyDrink drink = DrinkUtil.getSpecialDrink(stack);
-            return drink.base() == BartendingItems.MIXED_DRINK ? 1 : 0;
+            if (drink.base() == BartendingItems.MIXED_DRINK) return 1;
+            if (drink.base() instanceof AlcoholicDrinkItem item) {
+                return BartendingItems.GLASSES.containsValue(item) ? 1 : 0;
+            }
+            return 0;
         });
 
         ItemProperties.register(BartendingItems.CONCOCTION, TheArtOfBartending.asId("just_liquid"), (itemStack, clientLevel, livingEntity, i) -> {
