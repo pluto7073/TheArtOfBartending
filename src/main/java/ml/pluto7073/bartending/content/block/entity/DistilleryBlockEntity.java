@@ -106,7 +106,7 @@ public class DistilleryBlockEntity extends BaseContainerBlockEntity implements W
         ItemStack progress = entity.getItem(DISPLAY_SLOT_INDEX);
         ItemStack output = entity.getItem(RESULT_SLOT_INDEX);
         if (output.isEmpty() && (input.is(BartendingItems.CONCOCTION) || progress.is(BartendingItems.CONCOCTION)) && lit) {
-            if (entity.distillTime == 0 && !input.isEmpty()) {
+            if (entity.distillTime == 0 && !input.isEmpty() && progress.isEmpty()) {
                 progress = input.copy();
                 entity.setItem(INPUT_SLOT_INDEX, ItemStack.EMPTY);
                 progress.getOrCreateTag().putBoolean("JustLiquid", true);
