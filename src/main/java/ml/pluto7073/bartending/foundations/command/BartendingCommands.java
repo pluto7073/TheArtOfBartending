@@ -1,5 +1,6 @@
 package ml.pluto7073.bartending.foundations.command;
 
+import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import ml.pluto7073.bartending.TheArtOfBartending;
@@ -59,7 +60,7 @@ public final class BartendingCommands {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> alcohol() {
-        return literal("alcohol").then(alcoholGet());
+        return literal("alcohol").then(alcoholGet()).then(alcoholSet());
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> alcoholGet() {
@@ -73,9 +74,26 @@ public final class BartendingCommands {
                             String s = String.valueOf(bac);
                             s = s.length() >= 4 ? s.substring(0, 4) : s;
                             final String finalS = s + "%";
-                            ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.get", finalS), true);
+                            ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.get",
+                                    target.getTabListDisplayName(), finalS), true);
                             return 1;
                         }));
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> alcoholSet() {
+        return literal("set")
+                .requires(source -> source.hasPermission(2))
+                .then(argument("target", EntityArgument.player())
+                .then(argument("bac", FloatArgumentType.floatArg(0))
+                        .executes(ctx -> {
+                            ServerPlayer target = EntityArgument.getPlayer(ctx, "target");
+                            float bac = FloatArgumentType.getFloat(ctx, "bac");
+                            float grams = BrewingUtil.gramsFromBAC(bac);
+                            AlcoholHandler.INSTANCE.set(target, grams);
+                            ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.set",
+                                    target.getTabListDisplayName(), bac), true);
+                            return 1;
+                        })));
     }
 
 }

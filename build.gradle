@@ -103,6 +103,8 @@ dependencies {
 
 	modRuntimeOnly "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
 
+	modRuntimeOnly "maven.modrinth:kiwi:$kiwi_version" // Required for Lychee
+
 	modRuntimeOnly "maven.modrinth:lychee:$lychee_version" // Required for FFF
 
 	modRuntimeOnly "maven.modrinth:fruitful-fun:$fruitful_fun_version"

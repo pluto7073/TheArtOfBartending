@@ -251,6 +251,10 @@ public class BrewingUtil {
         return (grams / (184.35f * 454 * 0.615f)) * 100;
     }
 
+    public static float gramsFromBAC(float bac) {
+        return (184.35f * 454 * 0.615f) * (bac / 100);
+    }
+
     public static float convertType(float amount, AlcDisplayType from, AlcDisplayType to) {
         float grams = amount / from.multiplier;
         return grams * to.multiplier;
