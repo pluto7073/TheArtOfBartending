@@ -75,7 +75,7 @@ public final class BartendingCommands {
                             s = s.length() >= 4 ? s.substring(0, 4) : s;
                             final String finalS = s + "%";
                             ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.get",
-                                    target.getTabListDisplayName(), finalS), true);
+                                    target.getDisplayName(), finalS), true);
                             return 1;
                         }));
     }
@@ -91,7 +91,7 @@ public final class BartendingCommands {
                             float grams = BrewingUtil.gramsFromBAC(bac);
                             AlcoholHandler.INSTANCE.set(target, grams);
                             ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.set",
-                                    target.getTabListDisplayName(), bac), true);
+                                    target.getDisplayName(), bac), true);
                             return 1;
                         })));
     }
