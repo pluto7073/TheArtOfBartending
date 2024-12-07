@@ -1,0 +1,2 @@
+- An Alcoholic Drink with Deviation (different alcohol amount than normal) can be reset to its default with create by emptying out the bottle and refilling it
+- Drinks made of Dark Beer and/or Apple Mead don't show alcohol amounts in Tooltips

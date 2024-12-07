@@ -1,0 +1,35 @@
+import java.nio.file.Files
+
+ext {
+    changelog_text = getChangelog(file("KNOWN_BUGS.md"), file("CHANGELOG.md"))
+}
+
+tasks.register("publishMod") {
+    group = "publishing"
+    dependsOn(tasks.modrinth)
+}
+
+static String getChangelog(File bugs, File changelog) {
+    String knownBugs = Files.readString(bugs.toPath())
+    String changelogBase = Files.readString(changelog.toPath())
+    String log = "## Known Bugs\n" + knownBugs + "\n\n"
+    log += changelogBase.split("---")[0].trim()
+    return log
+}
+
+modrinth {
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = "bartending"
+    versionType = project.release_type
+    uploadFile = file("build/libs/${remapJar.archiveBaseName.get()}-${version}.jar")
+    additionalFiles = [ file("build/libs/${remapJar.archiveBaseName.get()}-${version}-sources.jar") ]
+    gameVersions = project.minecraft_dependency.split(',').toList()
+    dependencies {
+        required.project "fabric-api"
+        required.project "pdapi"
+        optional.project "modmenu"
+        optional.project "cloth-config"
+    }
+    loaders = [ "fabric" ]
+    changelog = changelog_text
+}
