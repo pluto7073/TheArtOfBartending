@@ -1,6 +1,9 @@
 ## Changes
 - Updated to PDAPI 0.3.x, had to shuffle some things
 
+## Fixes
+- Alcoholic drinks based on Dark Beer or Apple Mead now correctly show the amount of alcohol
+
 ---
 
 ## Additions
