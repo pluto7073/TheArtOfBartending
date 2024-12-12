@@ -8,7 +8,7 @@
     "bartending:shot_of_orange_liqueur",
     "bartending:compat/fruitfulfun/lime"
   ],
-  "alcohol": 34,
+  "bartending:alcohol": 34,
   "color": 14808274,
   "onDrinkActions": [
     {

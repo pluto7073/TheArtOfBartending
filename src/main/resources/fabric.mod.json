@@ -51,7 +51,7 @@
 		"minecraft": "~${minecraft_version}",
 		"java": ">=17",
 		"fabric-api": ">=${fabric_version}",
-		"pdapi": "0.2.x"
+		"pdapi": ">=${pdapi_version}"
 	},
 	"suggests": {}
 }

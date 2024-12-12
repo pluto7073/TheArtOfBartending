@@ -262,21 +262,20 @@ public class BrewingUtil {
 
     public static ItemStack constructFailedConcoction(ItemStack og) {
         ItemStack failed = new ItemStack(BartendingItems.CONCOCTION);
-        int ticksBoiled = 0, ticksFermented = 0;
-        boolean distilled = false;
+        int ticksBoiled = 0, ticksFermented = 0, distilled = 0;
         ListTag steps = og.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
         for (Tag tag : steps) {
             if (!(tag instanceof CompoundTag data)) continue;
             switch (data.getString("type")) {
                 case BoilingBrewerStep.TYPE_ID -> ticksBoiled += data.getInt("ticks");
                 case FermentingBrewerStep.TYPE_ID -> ticksFermented += data.getInt("ticks");
-                case DistillingBrewerStep.TYPE_ID -> distilled = true;
+                case DistillingBrewerStep.TYPE_ID -> distilled += data.getInt("runs");
             }
         }
         CompoundTag data = new CompoundTag();
         data.putInt("ticksBoiled", ticksBoiled);
         data.putInt("ticksFermented", ticksFermented);
-        data.putBoolean("distilled", distilled);
+        data.putInt("distilled", distilled);
         failed.getOrCreateTag().put("FailedConcoctionData", data);
         return failed;
     }

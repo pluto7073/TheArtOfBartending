@@ -1,5 +1,6 @@
 package ml.pluto7073.bartending.foundations.datagen;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.pdapi.datagen.provider.DrinkAdditionProvider;
@@ -25,7 +26,7 @@ public class BartendingAdditionProvider extends DrinkAdditionProvider {
             Builder builder = (Builder) builder(BuiltInRegistries.ITEM.getKey(shot))
                     .changesColor(alc.color() != 0xFFFFFF)
                     .color(alc.color())
-                    .chemical("alcohol", amount);
+                    .chemical(TheArtOfBartending.asId("alcohol"), amount);
             consumer.accept(builder);
         });
     }

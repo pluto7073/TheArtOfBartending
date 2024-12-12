@@ -1,5 +1,5 @@
 {
-  "caffeine": 5,
+  "pdapi:caffeine": 5,
   "onDrinkActions": [
     {
       "type": "pdapi:restore_hunger",

@@ -8,7 +8,7 @@ plugins {
 	id "com.modrinth.minotaur" version "2.+"
 }
 
-version = project.mod_version
+version = project.minecraft_version + "+" + project.mod_version
 group = project.maven_group
 
 base {
@@ -102,21 +102,21 @@ dependencies {
 	modCompileOnly "maven.modrinth:kiwi:$kiwi_version"
 
 	// Optional Integration Testing Toggles (these can be safely commented out... except when stated)
-//	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
-//
-//	modRuntimeOnly "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}" // Required for Datagen
-//
-//	modRuntimeOnly "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
-//
-//	modRuntimeOnly "maven.modrinth:kiwi:$kiwi_version" // Required for Lychee
-//
-//	modRuntimeOnly "maven.modrinth:lychee:$lychee_version" // Required for FFF
-//
-//	modRuntimeOnly "maven.modrinth:fruitful-fun:$fruitful_fun_version"
-//
-//	modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
-//
-//	modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}" // Required for ModMenu
+	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
+
+	modRuntimeOnly "com.simibubi.create:create-fabric-${minecraft_version}:${create_version}" // Required for Datagen
+
+	modRuntimeOnly "vectorwing:FarmersDelight:${minecraft_version}-${farmersdelight_version}+refabricated"
+
+	modRuntimeOnly "maven.modrinth:kiwi:$kiwi_version" // Required for Lychee
+
+	modRuntimeOnly "maven.modrinth:lychee:$lychee_version" // Required for FFF
+
+	modRuntimeOnly "maven.modrinth:fruitful-fun:$fruitful_fun_version"
+
+	modRuntimeOnly "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+	modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}" // Required for ModMenu
 
 }
 
@@ -134,7 +134,7 @@ tasks.register("buildOrPublish") {
 
 processResources {
 	Map<String, Object> properties = [
-	        "version": version,
+	        "version": mod_version,
 			"minecraft_version": minecraft_version,
 			"loader_version": loader_version,
 			"fabric_version": fabric_version,

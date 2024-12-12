@@ -1,3 +1,8 @@
+## Changes
+- Updated to PDAPI 0.3.x, had to shuffle some things
+
+---
+
 ## Additions
 - `/drink alcohol set ...` command to set the BAC of a player
 

@@ -60,7 +60,7 @@ public final class BartendingCommands {
     }
 
     public static LiteralArgumentBuilder<CommandSourceStack> alcohol() {
-        return literal("alcohol").then(alcoholGet()).then(alcoholSet());
+        return literal("bartending:alcohol").then(alcoholGet()).then(alcoholSet());
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> alcoholGet() {

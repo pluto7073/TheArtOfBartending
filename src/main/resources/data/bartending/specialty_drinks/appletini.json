@@ -12,7 +12,7 @@
     "pdapi:sugar",
     "bartending:apple"
   ],
-  "alcohol": 72,
+  "bartending:alcohol": 72,
   "color": 12356169,
   "onDrinkActions":[
     {

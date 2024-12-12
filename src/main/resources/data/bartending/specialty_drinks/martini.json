@@ -8,7 +8,7 @@
     "bartending:shot_of_gin",
     "bartending:shot_of_gin"
   ],
-  "alcohol": 51,
+  "bartending:alcohol": 51,
   "color": 15724527,
   "onDrinkActions": [
     {

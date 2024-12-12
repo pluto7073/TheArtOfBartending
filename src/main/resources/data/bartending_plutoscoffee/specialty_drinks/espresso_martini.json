@@ -9,8 +9,8 @@
     "bartending:cocoa_bean",
     "bartending_plutoscoffee:coffee_bean"
   ],
-  "alcohol": 26,
-  "caffeine": 80,
+  "bartending:alcohol": 26,
+  "pdapi:caffeine": 80,
   "color": 2167556,
   "onDrinkActions": [
     {

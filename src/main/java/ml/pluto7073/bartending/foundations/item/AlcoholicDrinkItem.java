@@ -1,14 +1,16 @@
 package ml.pluto7073.bartending.foundations.item;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.foundations.BartendingStats;
+import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
-import ml.pluto7073.pdapi.addition.chemicals.ConsumableChemicalRegistry;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.LivingEntity;
@@ -42,16 +44,8 @@ public class AlcoholicDrinkItem extends AbstractCustomizableDrinkItem {
 
         stack.hurtAndBreak(sipAmount, player, p -> {});
         player.awardStat(BartendingStats.CONSUME_ALCOHOL.get(),
-                (int) Math.ceil(getChemicalContent("alcohol", stack) * mul));
+                (int) Math.ceil(getChemicalContent(AlcoholHandler.INSTANCE.getId(), stack) * mul));
 
-        if (!world.isClientSide) {
-            ConsumableChemicalRegistry.forEach(handler -> {
-                float amount = getChemicalContent(handler.getName(), stack);
-                if (amount > 0) {
-                    handler.add(player, amount * mul);
-                }
-            });
-        }
 
         if (!stack.isEmpty()) return stack;
 
@@ -80,10 +74,15 @@ public class AlcoholicDrinkItem extends AbstractCustomizableDrinkItem {
         return 16;
     }
 
-    @Override
-    public int getChemicalContent(String name, ItemStack stack) {
-        return super.getChemicalContent(name, stack) + ("alcohol".equals(name) ? alcohol +
+    public float getBaseChemicalContent(ResourceLocation id, ItemStack stack) {
+        return super.getChemicalContent(id, stack) + ("bartending:alcohol".equals(id.toString()) ? alcohol +
                 (stack.getOrCreateTagElement(DRINK_DATA_NBT_KEY).contains("Deviation") ?
                         stack.getOrCreateTagElement(DRINK_DATA_NBT_KEY).getInt("Deviation") : 0) : 0);
     }
+
+    @Override
+    public float getChemicalContent(ResourceLocation id, ItemStack stack) {
+        return getBaseChemicalContent(id, stack) * ((sipAmount / 2f) / source.standardOunces());
+    }
+
 }

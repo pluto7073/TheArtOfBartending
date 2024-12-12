@@ -1,5 +1,5 @@
 {
-  "alcohol": 10,
+  "bartending:alcohol": 10,
   "changesColor": true,
   "color": 12356169,
   "onDrinkActions": []

@@ -39,72 +39,71 @@ public class BartendingItems {
     public static final Item COCKTAIL_GLASS = new Item(new Item.Properties());
     public static final Item WINE_GLASS = new Item(new Item.Properties());
 
-    public static final Item BOTTLE_OF_BEER = servingBottle(AlcoholicDrinks.BEER, BEER_BOTTLE);
+    public static final Item BOTTLE_OF_BEER = servingBottle(AlcoholicDrinks.BEER);
     public static final Item GLASS_OF_BEER = glass(AlcoholicDrinks.BEER, GLASS_BOTTLE);
-    public static final Item JUG_OF_BEER = bottle(AlcoholicDrinks.BEER, JUG);
+    public static final Item JUG_OF_BEER = bottle(AlcoholicDrinks.BEER);
 
-    public static final Item BOTTLE_OF_WHEAT_BEER = servingBottle(AlcoholicDrinks.WHEAT_BEER, BEER_BOTTLE);
+    public static final Item BOTTLE_OF_WHEAT_BEER = servingBottle(AlcoholicDrinks.WHEAT_BEER);
     public static final Item GLASS_OF_WHEAT_BEER = glass(AlcoholicDrinks.WHEAT_BEER, GLASS_BOTTLE);
-    public static final Item JUG_OF_WHEAT_BEER = bottle(AlcoholicDrinks.WHEAT_BEER, JUG);
+    public static final Item JUG_OF_WHEAT_BEER = bottle(AlcoholicDrinks.WHEAT_BEER);
 
-    public static final Item BOTTLE_OF_DARK_BEER = servingBottle(AlcoholicDrinks.DARK_BEER, BEER_BOTTLE);
+    public static final Item BOTTLE_OF_DARK_BEER = servingBottle(AlcoholicDrinks.DARK_BEER);
     public static final Item GLASS_OF_DARK_BEER = glass(AlcoholicDrinks.DARK_BEER, GLASS_OF_BEER);
-    public static final Item JUG_OF_DARK_BEER = bottle(AlcoholicDrinks.DARK_BEER, JUG);
+    public static final Item JUG_OF_DARK_BEER = bottle(AlcoholicDrinks.DARK_BEER);
 
     public static final Item GLASS_OF_MEAD = glass(AlcoholicDrinks.MEAD, WINE_GLASS);
-    public static final Item MEAD = bottle(AlcoholicDrinks.MEAD, WINE_BOTTLE);
+    public static final Item MEAD = bottle(AlcoholicDrinks.MEAD);
 
     public static final Item GLASS_OF_APPLE_MEAD = glass(AlcoholicDrinks.APPLE_MEAD, WINE_GLASS);
-    public static final Item APPLE_MEAD = bottle(AlcoholicDrinks.APPLE_MEAD, WINE_BOTTLE);
+    public static final Item APPLE_MEAD = bottle(AlcoholicDrinks.APPLE_MEAD);
 
     public static final Item GLASS_OF_RED_WINE = glass(AlcoholicDrinks.RED_WINE, WINE_GLASS);
-    public static final Item RED_WINE = bottle(AlcoholicDrinks.RED_WINE, WINE_BOTTLE);
+    public static final Item RED_WINE = bottle(AlcoholicDrinks.RED_WINE);
 
     public static final Item GLASS_OF_WHITE_WINE = glass(AlcoholicDrinks.WHITE_WINE, WINE_GLASS);
-    public static final Item WHITE_WINE = bottle(AlcoholicDrinks.WHITE_WINE, WINE_BOTTLE);
+    public static final Item WHITE_WINE = bottle(AlcoholicDrinks.WHITE_WINE);
 
     public static final Item GLASS_OF_CRIMSON_WINE = glass(AlcoholicDrinks.CRIMSON_WINE, COCKTAIL_GLASS);
-    public static final Item CRIMSON_WINE = bottle(AlcoholicDrinks.CRIMSON_WINE, WINE_BOTTLE);
+    public static final Item CRIMSON_WINE = bottle(AlcoholicDrinks.CRIMSON_WINE);
 
     public static final Item GLASS_OF_WARPED_WINE = glass(AlcoholicDrinks.WARPED_WINE, COCKTAIL_GLASS);
-    public static final Item WARPED_WINE = bottle(AlcoholicDrinks.WARPED_WINE, WINE_BOTTLE);
+    public static final Item WARPED_WINE = bottle(AlcoholicDrinks.WARPED_WINE);
 
     public static final Item SHOT_OF_DRY_VERMOUTH = shot(AlcoholicDrinks.DRY_VERMOUTH);
     public static final Item GLASS_OF_DRY_VERMOUTH = glass(AlcoholicDrinks.DRY_VERMOUTH, WINE_GLASS);
-    public static final Item DRY_VERMOUTH = bottle(AlcoholicDrinks.DRY_VERMOUTH, WINE_BOTTLE);
+    public static final Item DRY_VERMOUTH = bottle(AlcoholicDrinks.DRY_VERMOUTH);
 
     public static final Item SHOT_OF_SWEET_VERMOUTH = shot(AlcoholicDrinks.SWEET_VERMOUTH);
     public static final Item GLASS_OF_SWEET_VERMOUTH = glass(AlcoholicDrinks.SWEET_VERMOUTH, WINE_GLASS);
-    public static final Item SWEET_VERMOUTH =
-            bottle(AlcoholicDrinks.SWEET_VERMOUTH, WINE_BOTTLE);
+    public static final Item SWEET_VERMOUTH = bottle(AlcoholicDrinks.SWEET_VERMOUTH);
 
     public static final Item GLASS_OF_ABSINTHE = glass(AlcoholicDrinks.ABSINTHE, COCKTAIL_GLASS);
     public static final Item SHOT_OF_ABSINTHE = shot(AlcoholicDrinks.ABSINTHE);
-    public static final Item ABSINTHE = bottle(AlcoholicDrinks.ABSINTHE, WINE_BOTTLE);
+    public static final Item ABSINTHE = bottle(AlcoholicDrinks.ABSINTHE);
 
     public static final Item SHOT_OF_VODKA = shot(AlcoholicDrinks.VODKA);
-    public static final Item VODKA = liquor(AlcoholicDrinks.VODKA);
+    public static final Item VODKA = bottle(AlcoholicDrinks.VODKA);
 
     public static final Item SHOT_OF_APPLE_LIQUEUR = shot(AlcoholicDrinks.APPLE_LIQUEUR);
-    public static final Item APPLE_LIQUEUR = liquor(AlcoholicDrinks.APPLE_LIQUEUR);
+    public static final Item APPLE_LIQUEUR = bottle(AlcoholicDrinks.APPLE_LIQUEUR);
 
     public static final Item SHOT_OF_RUM = shot(AlcoholicDrinks.RUM);
-    public static final Item RUM = liquor(AlcoholicDrinks.RUM);
+    public static final Item RUM = bottle(AlcoholicDrinks.RUM);
 
     public static final Item SHOT_OF_COFFEE_LIQUEUR = shot(AlcoholicDrinks.COFFEE_LIQUEUR);
-    public static final Item COFFEE_LIQUEUR = liquor(AlcoholicDrinks.COFFEE_LIQUEUR);
+    public static final Item COFFEE_LIQUEUR = bottle(AlcoholicDrinks.COFFEE_LIQUEUR);
 
     public static final Item SHOT_OF_GIN = shot(AlcoholicDrinks.GIN);
-    public static final Item GIN = liquor(AlcoholicDrinks.GIN);
+    public static final Item GIN = bottle(AlcoholicDrinks.GIN);
 
     public static final Item SHOT_OF_TEQUILA = shot(AlcoholicDrinks.TEQUILA);
-    public static final Item TEQUILA = liquor(AlcoholicDrinks.TEQUILA);
+    public static final Item TEQUILA = bottle(AlcoholicDrinks.TEQUILA);
 
     public static final Item SHOT_OF_ORANGE_LIQUEUR = shot(AlcoholicDrinks.ORANGE_LIQUEUR);
-    public static final Item ORANGE_LIQUEUR = liquor(AlcoholicDrinks.ORANGE_LIQUEUR);
+    public static final Item ORANGE_LIQUEUR = bottle(AlcoholicDrinks.ORANGE_LIQUEUR);
 
     public static final Item SHOT_OF_WHISKEY = shot(AlcoholicDrinks.WHISKEY);
-    public static final Item WHISKEY = liquor(AlcoholicDrinks.WHISKEY);
+    public static final Item WHISKEY = bottle(AlcoholicDrinks.WHISKEY);
 
     public static final Item MIXED_DRINK = new MixedDrinkItem(new Item.Properties().stacksTo(1));
 
@@ -130,27 +129,23 @@ public class BartendingItems {
         return item;
     }
 
-    private static PourableBottleItem liquor(AlcoholicDrink drink) {
-        return bottle(drink, LIQUOR_BOTTLE);
-    }
-
-    private static PourableBottleItem bottle(AlcoholicDrink drink, Item bottle) {
-        int ouncesTotal = BrewingUtil.getOuncesFromBottle(bottle);
+    private static PourableBottleItem bottle(AlcoholicDrink drink) {
+        int ouncesTotal = BrewingUtil.getOuncesFromBottle(drink.bottle());
         int servings = ouncesTotal * 2;
         Item.Properties properties = new Item.Properties()
                 .defaultDurability(servings)
                 .rarity(Rarity.UNCOMMON);
-        PourableBottleItem item = new PourableBottleItem(bottle, drink, properties);
+        PourableBottleItem item = new PourableBottleItem(drink.bottle(), drink, properties);
         registerFinalDrink(drink, item);
         BOTTLES.put(drink, item);
         return item;
     }
 
-    private static AlcoholicDrinkItem servingBottle(AlcoholicDrink drink, Item bottle) {
+    private static AlcoholicDrinkItem servingBottle(AlcoholicDrink drink) {
         Item.Properties props = new Item.Properties()
                 .defaultDurability((int) drink.standardOunces() * 2)
                 .rarity(Rarity.UNCOMMON);
-        AlcoholicDrinkItem item = new AlcoholicDrinkItem(drink, bottle, props);
+        AlcoholicDrinkItem item = new AlcoholicDrinkItem(drink, BartendingItems.BEER_BOTTLE, props);
         SERVING_BOTTLES.put(drink, item);
         return item;
     }
