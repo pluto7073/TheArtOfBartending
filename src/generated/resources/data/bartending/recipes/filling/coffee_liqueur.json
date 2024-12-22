@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:coffee_liqueur",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:coffee_liqueur"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:coffee_liqueur"
+      "item": "bartending:coffee_liqueur",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

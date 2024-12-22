@@ -13,14 +13,19 @@
       "item": "bartending:wine_glass"
     },
     {
-      "amount": 8424,
-      "fluid": "bartending:dry_vermouth",
-      "nbt": {}
+      "amount": 8437,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:dry_vermouth"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:glass_of_dry_vermouth"
+      "item": "bartending:glass_of_dry_vermouth",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

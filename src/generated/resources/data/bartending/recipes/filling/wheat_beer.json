@@ -14,13 +14,18 @@
     },
     {
       "amount": 67500,
-      "fluid": "bartending:wheat_beer",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:wheat_beer"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:wheat_beer"
+      "item": "bartending:wheat_beer",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

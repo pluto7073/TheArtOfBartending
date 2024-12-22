@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:orange_liqueur",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:orange_liqueur"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:orange_liqueur"
+      "item": "bartending:orange_liqueur",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

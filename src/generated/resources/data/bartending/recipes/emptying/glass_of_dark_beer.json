@@ -15,11 +15,15 @@
   ],
   "results": [
     {
-      "item": "bartending:glass_of_beer"
+      "item": "bartending:glass_of_beer",
+      "nbt": {
+        "Damage": 0
+      }
     },
     {
-      "amount": 0.0,
-      "fluid": "bartending:dark_beer"
+      "amount": 20250,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:dark_beer\"}"
     }
   ]
 }

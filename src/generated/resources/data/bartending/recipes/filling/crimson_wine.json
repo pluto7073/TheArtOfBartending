@@ -14,13 +14,18 @@
     },
     {
       "amount": 42187,
-      "fluid": "bartending:crimson_wine",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:crimson_wine"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:crimson_wine"
+      "item": "bartending:crimson_wine",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

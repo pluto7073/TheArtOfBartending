@@ -1,9 +1,23 @@
 package ml.pluto7073.bartending.foundations.fluid;
 
+import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.content.fluid.BartendingFluids;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
+import ml.pluto7073.bartending.foundations.util.NonNullConsumer;
+import ml.pluto7073.bartending.foundations.util.StaticSupplier;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributeHandler;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -24,123 +38,112 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
-public class AlcoholFluid extends FlowingFluid {
+public class AlcoholFluid extends SimpleFlowableFluid {
 
-    private final boolean isSource;
-
-    private AlcoholFluid(boolean source) {
-        isSource = source;
-    }
-
-    private Fluid flowing = null, source = null;
-    private Item bucket = null;
-    private Block legacyBlock = null;
-
-    @Override
-    public Fluid getFlowing() {
-        if (flowing == null) {
-            throw new IllegalStateException("AlcoholFluid.getFlowing() called before full initialization");
-        }
-        return flowing;
-    }
-
-    @Override
-    public Fluid getSource() {
-        if (source == null) {
-            throw new IllegalStateException("AlcoholFluid.getSource() called before full initialization");
-        }
-        return source;
-    }
-
-    @Override
-    public boolean isSame(Fluid fluid) {
-        return fluid == getFlowing() || fluid == getSource();
-    }
-
-    @Override
-    protected boolean canConvertToSource(Level level) {
-        return false;
-    }
-
-    @Override
-    protected void beforeDestroyingBlock(LevelAccessor level, BlockPos pos, BlockState state) {
-        final BlockEntity blockEntity = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
-        Block.dropResources(state, level, pos, blockEntity);
-    }
-
-    @Override
-    protected int getSlopeFindDistance(LevelReader level) {
-        return 3;
-    }
-
-    @Override
-    protected int getDropOff(LevelReader level) {
-        return 1;
-    }
-
-    @Override
-    public Item getBucket() {
-        if (bucket == null) throw new IllegalStateException("Tried to get BucketItem before registration was complete");
-        return bucket;
-    }
-
-    @Override
-    protected boolean canBeReplacedWith(FluidState state, BlockGetter level, BlockPos pos, Fluid fluid, Direction direction) {
-        return direction == Direction.DOWN && !state.is(FluidTags.WATER);
-    }
-
-    @Override
-    public int getTickDelay(LevelReader level) {
-        return 5;
-    }
-
-    @Override
-    protected float getExplosionResistance() {
-        return 100;
-    }
-
-    @Override
-    protected BlockState createLegacyBlock(FluidState state) {
-        if (legacyBlock == null) throw new IllegalStateException("Tried to get legacy block before fluid registration was complete");
-        return legacyBlock.defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
+    public AlcoholFluid(Properties properties) {
+        super(properties);
     }
 
     @Override
     public boolean isSource(FluidState state) {
-        return isSource;
+        return true;
     }
 
     @Override
     public int getAmount(FluidState state) {
-        if (isSource) return 8;
-        return state.getValue(LEVEL);
+        return 0;
     }
 
     @Override
-    protected void createFluidStateDefinition(StateDefinition.Builder<Fluid, FluidState> builder) {
-        super.createFluidStateDefinition(builder);
-        if (!isSource) builder.add(LEVEL);
+    public Fluid getFlowing() {
+        return this;
     }
 
-    public static FluidHolder create() {
-        AlcoholFluid source = new AlcoholFluid(true);
-        AlcoholFluid flowing = new AlcoholFluid(false);
-        source.source = source;
-        flowing.source = source;
-        source.flowing = flowing;
-        flowing.flowing = flowing;
-        Block block = new LiquidBlock(source, BlockBehaviour.Properties.copy(Blocks.WATER));
-        source.legacyBlock = block;
-        flowing.legacyBlock = block;
-        Item bucket = new BucketItem(source, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
-        source.bucket = bucket;
-        flowing.bucket = bucket;
-        return new FluidHolder(source, flowing, block, bucket);
+    @Override
+    public Item getBucket() {
+        return Items.AIR;
+    }
+
+    @Override
+    protected BlockState createLegacyBlock(FluidState state) {
+        return Blocks.AIR.defaultBlockState();
+    }
+
+    public static Builder create(String name, ResourceLocation stillId, ResourceLocation flowId) {
+        return new Builder(AlcoholFluid::new, stillId, flowId, name);
+    }
+
+    @SuppressWarnings("UnstableApiUsage")
+    public static class Builder {
+
+        private final Supplier<? extends SimpleFlowableFluid> source;
+        private final Supplier<? extends SimpleFlowableFluid> flowing;
+        private NonNullConsumer<SimpleFlowableFluid.Properties> properties;
+        private Supplier<FluidVariantAttributeHandler> fluidAttributes;
+        private final List<TagKey<Fluid>> tags = new ArrayList<>();
+        private final ResourceLocation stillId, flowId;
+        private final String name;
+
+        public Builder(Function<SimpleFlowableFluid.Properties, ? extends SimpleFlowableFluid> factory, ResourceLocation stillId, ResourceLocation flowId, String name) {
+            source = new StaticSupplier<SimpleFlowableFluid>(() -> factory.apply(createProperties()));
+            flowing = new StaticSupplier<SimpleFlowableFluid>(() -> factory.apply(createProperties()));
+            this.stillId = stillId;
+            this.flowId = flowId;
+            this.name = name;
+            this.properties = p -> p.bucket(() -> BuiltInRegistries.ITEM.get(TheArtOfBartending.asId(name + "_bucket")))
+                    .block(() -> (LiquidBlock) BuiltInRegistries.BLOCK.get(TheArtOfBartending.asId(name)));
+        }
+
+        public Builder properties(NonNullConsumer<SimpleFlowableFluid.Properties> consumer) {
+            properties = properties.andThen(consumer);
+            return this;
+        }
+
+        public Builder attributes(Supplier<FluidVariantAttributeHandler> handler) {
+            fluidAttributes = handler;
+            return this;
+        }
+
+        public Builder tag(TagKey<Fluid> tag) {
+            this.tags.add(tag);
+            return this;
+        }
+
+        private SimpleFlowableFluid.Properties createProperties() {
+            Properties props = new Properties(source, flowing);
+            properties.accept(props);
+            return props;
+        }
+
+        public AlcoholFluid register() {
+            ResourceLocation id = TheArtOfBartending.asId(name);
+            SimpleFlowableFluid fluid = flowing.get();
+            Registry.register(BuiltInRegistries.FLUID, id, fluid.getSource());
+            Registry.register(BuiltInRegistries.FLUID, id.withPrefix("flowing_"), fluid);
+            if (fluidAttributes != null) {
+                FluidVariantAttributeHandler attributes = fluidAttributes.get();
+                FluidVariantAttributes.register(fluid, attributes);
+                FluidVariantAttributes.register(fluid.getSource(), attributes);
+            }
+
+            BrewingUtil.runOn(EnvType.CLIENT, () -> () ->
+                    FluidRenderHandlerRegistry.INSTANCE.register(fluid.getSource(), fluid, new SimpleFluidRenderHandler(stillId, flowId)));
+
+            BartendingFluids.FLUID_TAGS.computeIfAbsent(fluid, k -> new ArrayList<>()).addAll(tags);
+            BartendingFluids.FLUID_TAGS.computeIfAbsent(fluid.getSource(), k -> new ArrayList<>()).addAll(tags);
+            return (AlcoholFluid) fluid;
+        }
+
     }
 
 }

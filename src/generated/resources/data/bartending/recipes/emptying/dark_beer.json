@@ -18,8 +18,9 @@
       "item": "bartending:jug"
     },
     {
-      "amount": 67500.0,
-      "fluid": "bartending:dark_beer"
+      "amount": 67500,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:dark_beer\"}"
     }
   ]
 }

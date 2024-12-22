@@ -13,14 +13,19 @@
       "item": "bartending:glass_of_beer"
     },
     {
-      "amount": 0,
-      "fluid": "bartending:dark_beer",
-      "nbt": {}
+      "amount": 20250,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:dark_beer"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:glass_of_dark_beer"
+      "item": "bartending:glass_of_dark_beer",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

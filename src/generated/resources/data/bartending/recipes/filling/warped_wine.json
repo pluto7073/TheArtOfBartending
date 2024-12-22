@@ -14,13 +14,18 @@
     },
     {
       "amount": 42187,
-      "fluid": "bartending:warped_wine",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:warped_wine"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:warped_wine"
+      "item": "bartending:warped_wine",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

@@ -13,14 +13,19 @@
       "item": "bartending:wine_glass"
     },
     {
-      "amount": 8424,
-      "fluid": "bartending:mead",
-      "nbt": {}
+      "amount": 8437,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:mead"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:glass_of_mead"
+      "item": "bartending:glass_of_mead",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

@@ -1,16 +1,16 @@
 {
   "replace": false,
   "values": [
-    "bartending:oak_fermenting_barrel",
-    "bartending:cherry_fermenting_barrel",
-    "bartending:mangrove_fermenting_barrel",
-    "bartending:spruce_fermenting_barrel",
-    "bartending:birch_fermenting_barrel",
     "bartending:jungle_fermenting_barrel",
     "bartending:dark_oak_fermenting_barrel",
-    "bartending:crimson_fermenting_barrel",
+    "bartending:warped_fermenting_barrel",
+    "bartending:birch_fermenting_barrel",
+    "bartending:spruce_fermenting_barrel",
     "bartending:acacia_fermenting_barrel",
+    "bartending:oak_fermenting_barrel",
     "bartending:bamboo_fermenting_barrel",
-    "bartending:warped_fermenting_barrel"
+    "bartending:cherry_fermenting_barrel",
+    "bartending:mangrove_fermenting_barrel",
+    "bartending:crimson_fermenting_barrel"
   ]
 }

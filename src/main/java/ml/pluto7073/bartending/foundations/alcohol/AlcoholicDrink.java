@@ -2,7 +2,6 @@ package ml.pluto7073.bartending.foundations.alcohol;
 
 import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
-import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -23,18 +22,16 @@ public class AlcoholicDrink {
     private final float standardOunces;
     private final int color;
     private final Item bottle;
-    private final FluidHolder fluid;
     private final Supplier<Boolean> isVisible;
     private final String englishName;
     private final HashMap<Item, Integer> itemToAmountMap;
 
-    private AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, FluidHolder fluid, Supplier<Boolean> isVisible, String englishName) {
+    private AlcoholicDrink(BrewerStep[] steps, int standardProof, float standardOunces, int color, Item bottle, Supplier<Boolean> isVisible, String englishName) {
         this.steps = steps;
         this.standardProof = standardProof;
         this.standardOunces = standardOunces;
         this.color = color;
         this.bottle = bottle;
-        this.fluid = fluid;
         this.isVisible = isVisible;
         this.englishName = englishName;
         itemToAmountMap = new HashMap<>();
@@ -66,10 +63,6 @@ public class AlcoholicDrink {
 
     public Item bottle() {
         return bottle;
-    }
-
-    public FluidHolder fluid() {
-        return fluid;
     }
 
     public boolean isVisible() {
@@ -136,7 +129,6 @@ public class AlcoholicDrink {
         private int standardProof = 0, color = 0xFFFFFF;
         private float standardOunces = 0f;
         private Item bottle = Items.GLASS_BOTTLE;
-        private FluidHolder fluid;
         private Supplier<Boolean> isVisible = () -> true;
         private String name = "[UNNAMED ALCOHOLIC DRINK]";
 
@@ -165,11 +157,6 @@ public class AlcoholicDrink {
             return this;
         }
 
-        public Builder fluid(FluidHolder fluid) {
-            this.fluid = fluid;
-            return this;
-        }
-
         public Builder setVisibleWhen(Supplier<Boolean> isVisible) {
             this.isVisible = isVisible;
             return this;
@@ -181,7 +168,7 @@ public class AlcoholicDrink {
         }
 
         public AlcoholicDrink build() {
-            return new AlcoholicDrink(steps.toArray(new BrewerStep[0]), standardProof, standardOunces, color, bottle, fluid, isVisible, name);
+            return new AlcoholicDrink(steps.toArray(BrewerStep[]::new), standardProof, standardOunces, color, bottle, isVisible, name);
         }
 
     }

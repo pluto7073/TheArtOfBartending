@@ -18,8 +18,9 @@
       "item": "bartending:shot_glass"
     },
     {
-      "amount": 2531.25,
-      "fluid": "bartending:sweet_vermouth"
+      "amount": 2531,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:sweet_vermouth\"}"
     }
   ]
 }

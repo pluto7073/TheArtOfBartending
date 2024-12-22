@@ -14,8 +14,10 @@
     },
     {
       "amount": 2531,
-      "fluid": "bartending:sweet_vermouth",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:sweet_vermouth"
+      }
     }
   ],
   "results": [

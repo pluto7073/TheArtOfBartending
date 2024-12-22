@@ -13,14 +13,19 @@
       "item": "bartending:cocktail_glass"
     },
     {
-      "amount": 8424,
-      "fluid": "bartending:absinthe",
-      "nbt": {}
+      "amount": 8437,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:absinthe"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:glass_of_absinthe"
+      "item": "bartending:glass_of_absinthe",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

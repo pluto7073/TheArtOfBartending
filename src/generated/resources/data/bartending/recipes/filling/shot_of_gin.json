@@ -14,8 +14,10 @@
     },
     {
       "amount": 2531,
-      "fluid": "bartending:gin",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:gin"
+      }
     }
   ],
   "results": [

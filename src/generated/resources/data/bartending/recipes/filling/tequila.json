@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:tequila",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:tequila"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:tequila"
+      "item": "bartending:tequila",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

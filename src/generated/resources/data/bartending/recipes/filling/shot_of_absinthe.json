@@ -14,8 +14,10 @@
     },
     {
       "amount": 2531,
-      "fluid": "bartending:absinthe",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:absinthe"
+      }
     }
   ],
   "results": [

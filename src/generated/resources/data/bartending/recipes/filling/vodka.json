@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:vodka",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:vodka"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:vodka"
+      "item": "bartending:vodka",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

@@ -4,16 +4,12 @@ import com.simibubi.create.AllTags;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
-import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
-import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
 import ml.pluto7073.pdapi.tag.PDTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.ItemTags;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -27,10 +23,8 @@ public class BartendingTagProviders {
 
         @Override
         protected void addTags(HolderLookup.Provider arg) {
-            FabricTagBuilder water = getOrCreateTagBuilder(FluidTags.WATER);
-            for (FluidHolder fluid : BartendingFluids.FLUIDS) {
-                water.add(fluid.still()).add(fluid.flowing());
-            }
+            BartendingFluids.FLUID_TAGS.forEach((fluid, tags) ->
+                    tags.stream().map(this::getOrCreateTagBuilder).forEach(builder -> builder.add(fluid)));
         }
 
     }

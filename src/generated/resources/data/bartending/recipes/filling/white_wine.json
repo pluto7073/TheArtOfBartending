@@ -14,13 +14,18 @@
     },
     {
       "amount": 42187,
-      "fluid": "bartending:white_wine",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:white_wine"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:white_wine"
+      "item": "bartending:white_wine",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

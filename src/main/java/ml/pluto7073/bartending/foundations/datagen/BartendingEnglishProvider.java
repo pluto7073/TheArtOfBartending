@@ -6,7 +6,6 @@ import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.BartendingStats;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
-import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
@@ -19,7 +18,6 @@ import net.minecraft.world.level.material.Fluid;
 import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class BartendingEnglishProvider extends FabricLanguageProvider {
 
@@ -63,13 +61,6 @@ public class BartendingEnglishProvider extends FabricLanguageProvider {
             builder.add(shot, "Shot of " + alc.englishName());
             builder.add(getShotAdditionKey(shot), "Shot of " + alc.englishName() + " x%1$s");
         });
-        for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
-            FluidHolder holder = drink.fluid();
-            builder.add(getFluidKey(holder.still()), drink.englishName());
-            builder.add(getFluidKey(holder.flowing()), "Flowing " + drink.englishName());
-            builder.add(holder.block(), drink.englishName());
-            builder.add(holder.bucket(), "Bucket of " + drink.englishName());
-        }
 
         BartendingItems.GLASSES.forEach((alc, glass) -> {
             builder.add(glass, "Glass of " + alc.englishName());

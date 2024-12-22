@@ -18,8 +18,9 @@
       "item": "bartending:wine_glass"
     },
     {
-      "amount": 8437.5,
-      "fluid": "bartending:red_wine"
+      "amount": 8437,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:red_wine\"}"
     }
   ]
 }

@@ -4,7 +4,6 @@ import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
-import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
@@ -27,9 +26,6 @@ public class BartendingModelsProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockModelGenerators generators) {
-        for (FluidHolder fluid : BartendingFluids.FLUIDS) {
-            generators.createAirLikeBlock(fluid.block(), new ResourceLocation("block/water_still"));
-        }
         for (Block block : BartendingBlocks.BARRELS.values()) {
             generators.blockStateOutput.accept(MultiVariantGenerator.multiVariant(block)
                     .with(generators.createColumnWithFacing())
@@ -44,13 +40,6 @@ public class BartendingModelsProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerators generators) {
-        for (FluidHolder fluid : BartendingFluids.FLUIDS) {
-            Item bucket = fluid.bucket();
-            generators.generateFlatItem(bucket, new ModelTemplate(
-                    Optional.of(TheArtOfBartending.asId("item/bucket")),
-                    Optional.empty()
-            ));
-        }
         for (Item shot : BartendingItems.SHOTS.values()) {
             generators.generateFlatItem(shot, new ModelTemplate(
                     Optional.of(TheArtOfBartending.asId("item/liquor_shot")),

@@ -5,10 +5,10 @@ import ml.pluto7073.bartending.client.block.renderer.BottlerBlockEntityRenderer;
 import ml.pluto7073.bartending.client.gui.BoilerScreen;
 import ml.pluto7073.bartending.client.gui.BottlerScreen;
 import ml.pluto7073.bartending.client.gui.DistilleryScreen;
-import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.block.entity.BartendingBlockEntities;
 import ml.pluto7073.bartending.content.block.entity.BoilerBlockEntity;
+import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.item.ConcoctionItem;
@@ -16,8 +16,6 @@ import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.client.config.ClientConfig;
 import ml.pluto7073.bartending.foundations.util.ColorUtil;
-import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
-import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.PDItems;
@@ -102,18 +100,7 @@ public class TheArtOfClient implements ClientModInitializer {
         BlockRenderLayerMap.INSTANCE.putBlock(BartendingBlocks.DISTILLERY, RenderType.translucent());
         BlockEntityRenderers.register(BartendingBlockEntities.BOTTLER_BLOCK_ENTITY_TYPE, BottlerBlockEntityRenderer::new);
 
-        // Fluids
-        for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
-            FluidHolder holder = drink.fluid();
-            if (holder == null) continue;
-            registerFluidRenderer(holder, drink.color());
-        }
-    }
-
-    private static void registerFluidRenderer(FluidHolder holder, int color) {
-        FluidRenderHandlerRegistry.INSTANCE.register(holder.still(), holder.flowing(), SimpleFluidRenderHandler.coloredWater(color));
-        ColorProviderRegistry.ITEM.register((stack, i) -> i > 0 ? color : -1, holder.bucket());
-        BlockRenderLayerMap.INSTANCE.putBlock(holder.block(), RenderType.translucent());
+        BartendingFluids.initRendering();
     }
 
     private static void registerScreens() {

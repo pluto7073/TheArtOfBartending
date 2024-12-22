@@ -13,14 +13,19 @@
       "item": "bartending:cocktail_glass"
     },
     {
-      "amount": 8424,
-      "fluid": "bartending:warped_wine",
-      "nbt": {}
+      "amount": 8437,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:warped_wine"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:glass_of_warped_wine"
+      "item": "bartending:glass_of_warped_wine",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

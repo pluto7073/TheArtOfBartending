@@ -18,8 +18,9 @@
       "item": "bartending:liquor_bottle"
     },
     {
-      "amount": 50625.0,
-      "fluid": "bartending:coffee_liqueur"
+      "amount": 50625,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:coffee_liqueur\"}"
     }
   ]
 }

@@ -1,7 +1,9 @@
 package ml.pluto7073.bartending.foundations.util;
 
 import ml.pluto7073.bartending.compat.create.TheArtOfCreate;
+import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.*;
@@ -9,6 +11,7 @@ import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.pdapi.util.DrinkUtil;
 import ml.pluto7073.pdapi.addition.DrinkAddition;
 import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -223,6 +226,21 @@ public class BrewingUtil {
         if (bottle == BartendingItems.WINE_BOTTLE) return 25;
         if (bottle == BartendingItems.JUG) return 40;
         return 12;
+    }
+
+    public static void runOn(EnvType type, Supplier<Runnable> run) {
+        if (FabricLoader.getInstance().getEnvironmentType() == type) {
+            run.get().run();
+        }
+    }
+
+    public static AlcoholicDrink getDrink(CompoundTag tag) {
+        if (tag.contains("Alcohol")) {
+            AlcoholicDrink drink = BartendingRegistries.ALCOHOLIC_DRINK.get(new ResourceLocation(tag.getString("Alcohol")));
+            if (drink == null) throw new IllegalArgumentException("Unregistered value: '" + tag.getString("Alcohol") + "'");
+            return drink;
+        }
+        throw new IllegalArgumentException("Tag doesn't contain tag 'Alcohol'");
     }
 
     /**

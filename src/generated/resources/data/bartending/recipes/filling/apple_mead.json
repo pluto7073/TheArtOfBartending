@@ -14,13 +14,18 @@
     },
     {
       "amount": 42187,
-      "fluid": "bartending:apple_mead",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:apple_mead"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:apple_mead"
+      "item": "bartending:apple_mead",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

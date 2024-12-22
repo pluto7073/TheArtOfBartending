@@ -14,13 +14,18 @@
     },
     {
       "amount": 42187,
-      "fluid": "bartending:dry_vermouth",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:dry_vermouth"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:dry_vermouth"
+      "item": "bartending:dry_vermouth",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

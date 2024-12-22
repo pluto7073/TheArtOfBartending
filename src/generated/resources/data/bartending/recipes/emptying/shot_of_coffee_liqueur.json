@@ -18,8 +18,9 @@
       "item": "bartending:shot_glass"
     },
     {
-      "amount": 2531.25,
-      "fluid": "bartending:coffee_liqueur"
+      "amount": 2531,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:coffee_liqueur\"}"
     }
   ]
 }

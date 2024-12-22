@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:apple_liqueur",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:apple_liqueur"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:apple_liqueur"
+      "item": "bartending:apple_liqueur",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

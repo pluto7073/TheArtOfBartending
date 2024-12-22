@@ -18,8 +18,9 @@
       "item": "bartending:wine_bottle"
     },
     {
-      "amount": 42187.5,
-      "fluid": "bartending:crimson_wine"
+      "amount": 42187,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:crimson_wine\"}"
     }
   ]
 }

@@ -1,3 +1,12 @@
+
+## Changes
+- Removed the buckets and distinct fluids for each alcohol type, moving them to a single virtual fluid with NBT data
+
+## Fixes
+- Coffee Liqueur once again has a model and recipes
+
+---
+
 ## Changes
 - Updated to PDAPI 0.3.x, had to shuffle some things
 

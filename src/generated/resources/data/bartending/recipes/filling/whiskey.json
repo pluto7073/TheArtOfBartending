@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:whiskey",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:whiskey"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:whiskey"
+      "item": "bartending:whiskey",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

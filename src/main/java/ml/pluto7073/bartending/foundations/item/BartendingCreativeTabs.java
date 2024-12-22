@@ -114,27 +114,6 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.SHOT_OF_TEQUILA);
             if (AlcoholicDrinks.ORANGE_LIQUEUR.isVisible()) stacks.accept(BartendingItems.SHOT_OF_ORANGE_LIQUEUR);
             stacks.accept(BartendingItems.SHOT_OF_WHISKEY);
-
-            // Buckets
-            stacks.accept(BartendingFluids.BEER.bucket());
-            stacks.accept(BartendingFluids.WHEAT_BEER.bucket());
-            stacks.accept(BartendingFluids.DARK_BEER.bucket());
-            stacks.accept(BartendingFluids.MEAD.bucket());
-            stacks.accept(BartendingFluids.RED_WINE.bucket());
-            stacks.accept(BartendingFluids.WHITE_WINE.bucket());
-            stacks.accept(BartendingFluids.CRIMSON_WINE.bucket());
-            stacks.accept(BartendingFluids.WARPED_WINE.bucket());
-            stacks.accept(BartendingFluids.SWEET_VERMOUTH.bucket());
-            stacks.accept(BartendingFluids.DRY_VERMOUTH.bucket());
-            stacks.accept(BartendingFluids.ABSINTHE.bucket());
-            stacks.accept(BartendingFluids.VODKA.bucket());
-            stacks.accept(BartendingFluids.APPLE_LIQUEUR.bucket());
-            stacks.accept(BartendingFluids.RUM.bucket());
-            if (AlcoholicDrinks.COFFEE_LIQUEUR.isVisible()) stacks.accept(BartendingFluids.COFFEE_LIQUEUR.bucket());
-            stacks.accept(BartendingFluids.GIN.bucket());
-            stacks.accept(BartendingFluids.TEQUILA.bucket());
-            if (AlcoholicDrinks.ORANGE_LIQUEUR.isVisible()) stacks.accept(BartendingFluids.ORANGE_LIQUEUR.bucket());
-            stacks.accept(BartendingFluids.WHISKEY.bucket());
         });
     }
 

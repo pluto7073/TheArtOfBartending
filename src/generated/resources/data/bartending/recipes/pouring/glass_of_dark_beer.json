@@ -4,7 +4,7 @@
   "glass": {
     "item": "bartending:glass_of_beer"
   },
-  "ounces": 0.0,
+  "ounces": 12.0,
   "result": {
     "item": "bartending:glass_of_dark_beer"
   }

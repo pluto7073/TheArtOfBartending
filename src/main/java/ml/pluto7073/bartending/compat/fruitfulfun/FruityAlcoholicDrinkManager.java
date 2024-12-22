@@ -21,7 +21,7 @@ import java.util.Optional;
 public final class FruityAlcoholicDrinkManager {
 
     public static AlcoholicDrink createOrangeLiqueur() {
-        AlcoholicDrink.Builder builder = new AlcoholicDrink.Builder().proof(50).ounces(1.5f).fluid(BartendingFluids.ORANGE_LIQUEUR)
+        AlcoholicDrink.Builder builder = new AlcoholicDrink.Builder().proof(50).ounces(1.5f)
                 .name("Orange Liqueur").bottle(BartendingItems.LIQUOR_BOTTLE).color(0xe0d2ba)
                 .setVisibleWhen(() -> FabricLoader.getInstance().isModLoaded("fruitfulfun"));
 

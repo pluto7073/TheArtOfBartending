@@ -13,14 +13,19 @@
       "item": "bartending:wine_glass"
     },
     {
-      "amount": 8424,
-      "fluid": "bartending:white_wine",
-      "nbt": {}
+      "amount": 8437,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:white_wine"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:glass_of_white_wine"
+      "item": "bartending:glass_of_white_wine",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

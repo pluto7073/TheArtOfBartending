@@ -18,8 +18,9 @@
       "item": "bartending:liquor_bottle"
     },
     {
-      "amount": 50625.0,
-      "fluid": "bartending:orange_liqueur"
+      "amount": 50625,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:orange_liqueur\"}"
     }
   ]
 }

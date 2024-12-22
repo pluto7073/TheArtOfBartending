@@ -1,60 +1,72 @@
 package ml.pluto7073.bartending.content.fluid;
 
+import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.fluid.AlcoholFluid;
-import ml.pluto7073.bartending.foundations.fluid.FluidHolder;
-import net.fabricmc.loader.api.FabricLoader;
+import ml.pluto7073.bartending.foundations.fluid.SimpleFlowableFluid;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRenderHandler;
+import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributeHandler;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.BlockAndTintGetter;
+import net.minecraft.world.level.material.Fluid;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import javax.annotation.Nullable;
+import java.util.*;
 
+@SuppressWarnings("UnstableApiUsage")
 public final class BartendingFluids {
 
-    public static final List<FluidHolder> FLUIDS = new ArrayList<>();
+    public static final Map<Fluid, List<TagKey<Fluid>>> FLUID_TAGS = new HashMap<>();
 
-    public static final FluidHolder
-            BEER = AlcoholFluid.create(),
-            WHEAT_BEER = AlcoholFluid.create(),
-            DARK_BEER = AlcoholFluid.create(),
-            MEAD = AlcoholFluid.create(),
-            APPLE_MEAD = AlcoholFluid.create(),
-            RED_WINE = AlcoholFluid.create(),
-            WHITE_WINE = AlcoholFluid.create(),
-            CRIMSON_WINE = AlcoholFluid.create(),
-            WARPED_WINE = AlcoholFluid.create(),
-            APPLE_LIQUEUR = AlcoholFluid.create(),
-            VODKA = AlcoholFluid.create(),
-            RUM = AlcoholFluid.create(),
-            COFFEE_LIQUEUR = AlcoholFluid.create(),
-            GIN = AlcoholFluid.create(),
-            TEQUILA = AlcoholFluid.create(),
-            DRY_VERMOUTH = AlcoholFluid.create(),
-            SWEET_VERMOUTH = AlcoholFluid.create(),
-            ORANGE_LIQUEUR = AlcoholFluid.create(),
-            ABSINTHE = AlcoholFluid.create(),
-            WHISKEY = AlcoholFluid.create();
+    public static final AlcoholFluid ALCOHOL = AlcoholFluid.create("alcohol",
+                    new ResourceLocation("block/water_still"), new ResourceLocation("block/water_flow"))
+            .attributes(AlcoholFluidVariantAttributeHandler::new)
+            .tag(FluidTags.WATER)
+            .register();
 
-    public static void init() {
-        BEER.register("beer");
-        WHEAT_BEER.register("wheat_beer");
-        DARK_BEER.register("dark_beer");
-        MEAD.register("mead");
-        APPLE_MEAD.register("apple_mead");
-        RED_WINE.register("red_wine");
-        WHITE_WINE.register("white_wine");
-        CRIMSON_WINE.register("crimson_wine");
-        WARPED_WINE.register("warped_wine");
-        APPLE_LIQUEUR.register("apple_liqueur");
-        VODKA.register("vodka");
-        RUM.register("rum");
-        GIN.register("gin");
-        TEQUILA.register("tequila");
-        DRY_VERMOUTH.register("dry_vermouth");
-        SWEET_VERMOUTH.register("sweet_vermouth");
-        COFFEE_LIQUEUR.register("coffee_liqueur");
-        ORANGE_LIQUEUR.register("orange_liqueur");
-        ABSINTHE.register("absinthe");
-        WHISKEY.register("whiskey");
+    public static void init() {}
+
+    @Environment(EnvType.CLIENT)
+    public static void initRendering() {
+        AlcoholFluidVariantRenderHandler handler = new AlcoholFluidVariantRenderHandler();
+        FluidVariantRendering.register(ALCOHOL.getSource(), handler);
+        FluidVariantRendering.register(ALCOHOL.getFlowing(), handler);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static class AlcoholFluidVariantRenderHandler implements FluidVariantRenderHandler {
+
+        @Override
+        public int getColor(FluidVariant fluidVariant, @Nullable BlockAndTintGetter view, @Nullable BlockPos pos) {
+            return BrewingUtil.getDrink(Objects.requireNonNull(fluidVariant.getNbt())).color() | 0xff000000;
+        }
+
+    }
+
+    private static class AlcoholFluidVariantAttributeHandler implements FluidVariantAttributeHandler {
+
+        @Override
+        public Component getName(FluidVariant fluidVariant) {
+            return Component.translatable(getTranslationKey(fluidVariant));
+        }
+
+        public String getTranslationKey(FluidVariant stack) {
+            CompoundTag tag = stack.getNbt();
+            if (tag == null)
+                return "alcohol.bartending.empty";
+            AlcoholicDrink drink = BrewingUtil.getDrink(tag);
+            return drink.getLanguageKey();
+        }
+
     }
 
 }

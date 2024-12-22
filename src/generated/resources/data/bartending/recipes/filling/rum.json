@@ -14,13 +14,18 @@
     },
     {
       "amount": 50625,
-      "fluid": "bartending:rum",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:rum"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:rum"
+      "item": "bartending:rum",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }

@@ -18,8 +18,9 @@
       "item": "minecraft:glass_bottle"
     },
     {
-      "amount": 20250.0,
-      "fluid": "bartending:wheat_beer"
+      "amount": 20250,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:wheat_beer\"}"
     }
   ]
 }

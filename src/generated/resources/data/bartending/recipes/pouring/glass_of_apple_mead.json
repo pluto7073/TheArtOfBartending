@@ -4,7 +4,7 @@
   "glass": {
     "item": "bartending:wine_glass"
   },
-  "ounces": 0.0,
+  "ounces": 5.0,
   "result": {
     "item": "bartending:glass_of_apple_mead"
   }

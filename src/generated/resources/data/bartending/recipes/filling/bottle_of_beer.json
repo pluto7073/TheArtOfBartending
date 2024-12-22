@@ -14,13 +14,18 @@
     },
     {
       "amount": 20250,
-      "fluid": "bartending:beer",
-      "nbt": {}
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:beer"
+      }
     }
   ],
   "results": [
     {
-      "item": "bartending:bottle_of_beer"
+      "item": "bartending:bottle_of_beer",
+      "nbt": {
+        "Damage": 0
+      }
     }
   ]
 }
