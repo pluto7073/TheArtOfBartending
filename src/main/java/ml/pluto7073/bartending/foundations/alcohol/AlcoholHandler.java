@@ -35,8 +35,8 @@ import java.util.List;
 
 public class AlcoholHandler extends HalfLifeChemicalHandler {
 
-    public static final int ALCOHOL_HALF_LIFE_TICKS = 4500;
-    public static final AlcoholHandler INSTANCE = new AlcoholHandler(ALCOHOL_HALF_LIFE_TICKS);
+    public static final int PROCESSING_HALF_LIFE_TICKS = 500;
+    public static final AlcoholHandler INSTANCE = new AlcoholHandler(PROCESSING_HALF_LIFE_TICKS);
     public static final StatFormatter ALCOHOL_FORMATTER = value -> {
         AlcDisplayType type = AlcDisplayType.GRAMS;
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
@@ -52,28 +52,17 @@ public class AlcoholHandler extends HalfLifeChemicalHandler {
     }
 
     @Override
+    public void tickPlayer(Player player) {
+        float before = get(player);
+        super.tickPlayer(player);
+        float after = get(player);
+        float absorbed = before - after;
+        AbsorbedAlcoholHandler.INSTANCE.add(player, absorbed);
+    }
+
+    @Override
     public Collection<MobEffectInstance> getEffectsForAmount(float amount, Level level) {
-        float bac = BrewingUtil.calculateBAC(amount);
-        List<MobEffectInstance> list = new ArrayList<>();
-        if (bac >= 0.01f) {
-            list.add(new MobEffectInstance(MobEffects.WEAKNESS, 30 * 20, 0, true, true));
-        }
-        if (bac > 0.05f) {
-            list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 0, true, true));
-        }
-        if (bac > 0.11f) { // Blackouts here
-            list.add(new MobEffectInstance(MobEffects.CONFUSION, 30 * 20, 0, true, true));
-            list.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30 * 20, 0, true, true));
-            list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 1, true, true));
-        }
-        if (bac > 0.21f) {
-            list.add(new MobEffectInstance(MobEffects.MOVEMENT_SLOWDOWN, 30 * 20, 2, true, true));
-            list.add(new MobEffectInstance(MobEffects.DIG_SLOWDOWN, 30 * 20, 1, true, true));
-        }
-        if (bac > 0.35f) {
-            list.add(new MobEffectInstance(BartendingMobEffects.ALCOHOL_POISON, 30 * 20, 0, true, true));
-        }
-        return list;
+        return List.of();
     }
 
     @Override
@@ -123,7 +112,7 @@ public class AlcoholHandler extends HalfLifeChemicalHandler {
 
     @Override
     public @Nullable LiteralArgumentBuilder<CommandSourceStack> createCustomChemicalCommandExtension() {
-        return BartendingCommands.alcohol();
+        return BartendingCommands.alcohol(this);
     }
 
     public static void init() {

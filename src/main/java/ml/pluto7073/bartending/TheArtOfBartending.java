@@ -9,6 +9,7 @@ import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.sound.BartendingSounds;
 import ml.pluto7073.bartending.foundations.BartendingStats;
+import ml.pluto7073.bartending.foundations.alcohol.AbsorbedAlcoholHandler;
 import ml.pluto7073.bartending.foundations.alcohol.BartendingEntityData;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.bartending.foundations.command.BartendingCommands;
@@ -31,6 +32,7 @@ public class TheArtOfBartending implements ModInitializer {
     public void onInitialize() {
         BartendingEntityData.init();
         BartendingGameRules.init();
+        AbsorbedAlcoholHandler.init();
         AlcoholHandler.init();
         Arrays.stream(BartendingRecipes.values()).forEach(BartendingRecipes::register);
         Arrays.stream(BartendingStats.values()).forEach(BartendingStats::register);

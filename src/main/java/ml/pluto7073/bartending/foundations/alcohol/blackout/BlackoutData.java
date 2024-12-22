@@ -2,8 +2,8 @@ package ml.pluto7073.bartending.foundations.alcohol.blackout;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import ml.pluto7073.bartending.TheArtOfBartending;
+import ml.pluto7073.bartending.foundations.alcohol.AbsorbedAlcoholHandler;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
-import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -22,9 +22,8 @@ import java.util.List;
 
 public class BlackoutData {
 
-    public static final float BAC_MULTIPLIER_AFTER_BLACKOUT = (float) Math.pow(0.5, 6000.0 / AlcoholHandler.ALCOHOL_HALF_LIFE_TICKS);
+    public static final float BAC_MULTIPLIER_AFTER_BLACKOUT = (float) Math.pow(0.5, 6000.0 / AbsorbedAlcoholHandler.ALCOHOL_HALF_LIFE_TICKS);
 
-    private final RandomSource random;
     private final ServerPlayer player;
     private short blackoutIn;
     private long blackoutEndsIn;
@@ -32,7 +31,7 @@ public class BlackoutData {
 
     public BlackoutData(ServerPlayer player, boolean fromLoad) {
         this.player = player;
-        random = player.getRandom();
+        RandomSource random = player.getRandom();
         blackoutIn = 600;
         blackoutEndsIn = 0;
         if (!fromLoad) this.player.addEffect(new MobEffectInstance(MobEffects.DARKNESS, 700, 2, true, false, false));
@@ -58,8 +57,8 @@ public class BlackoutData {
             return;
         }
         if (blackoutIn <= -100) {
-            float alc = AlcoholHandler.INSTANCE.get(player);
-            AlcoholHandler.INSTANCE.set(player, alc * BAC_MULTIPLIER_AFTER_BLACKOUT);
+            float alc = AbsorbedAlcoholHandler.INSTANCE.get(player);
+            AbsorbedAlcoholHandler.INSTANCE.set(player, alc * BAC_MULTIPLIER_AFTER_BLACKOUT);
             switch (afterWakeup) {
                 case BED -> {
                     BlockPos respawnPos = player.getRespawnPosition();

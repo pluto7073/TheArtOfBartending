@@ -1,6 +1,10 @@
 
+## Additions
+- A new chemical, Absorbed Alcohol, this chemical is now what determines effects
+
 ## Changes
 - Removed the buckets and distinct fluids for each alcohol type, moving them to a single virtual fluid with NBT data
+- Alcohol is no longer absorbed immediately when drinking, and now it takes some time for the player to feel the effects
 
 ## Fixes
 - Coffee Liqueur once again has a model and recipes

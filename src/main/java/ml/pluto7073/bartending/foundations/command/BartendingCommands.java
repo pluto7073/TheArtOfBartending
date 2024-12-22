@@ -9,6 +9,7 @@ import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
+import ml.pluto7073.chemicals.handlers.HalfLifeChemicalHandler;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
@@ -59,17 +60,17 @@ public final class BartendingCommands {
                         })));
     }
 
-    public static LiteralArgumentBuilder<CommandSourceStack> alcohol() {
-        return literal("bartending:alcohol").then(alcoholGet()).then(alcoholSet());
+    public static LiteralArgumentBuilder<CommandSourceStack> alcohol(HalfLifeChemicalHandler handler) {
+        return literal(handler.getId().toString()).then(alcoholGet(handler)).then(alcoholSet(handler));
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> alcoholGet() {
+    private static LiteralArgumentBuilder<CommandSourceStack> alcoholGet(HalfLifeChemicalHandler handler) {
         return literal("get")
                 .requires(source -> source.hasPermission(2))
                 .then(argument("target", EntityArgument.player())
                         .executes(ctx -> {
                             ServerPlayer target = EntityArgument.getPlayer(ctx, "target");
-                            float bac = BrewingUtil.calculateBAC(AlcoholHandler.INSTANCE.get(target));
+                            float bac = BrewingUtil.calculateBAC(handler.get(target));
                             if (bac < 0.01f) bac = 0.00f;
                             String s = String.valueOf(bac);
                             s = s.length() >= 4 ? s.substring(0, 4) : s;
@@ -80,7 +81,7 @@ public final class BartendingCommands {
                         }));
     }
 
-    private static LiteralArgumentBuilder<CommandSourceStack> alcoholSet() {
+    private static LiteralArgumentBuilder<CommandSourceStack> alcoholSet(HalfLifeChemicalHandler handler) {
         return literal("set")
                 .requires(source -> source.hasPermission(2))
                 .then(argument("target", EntityArgument.player())
@@ -89,7 +90,7 @@ public final class BartendingCommands {
                             ServerPlayer target = EntityArgument.getPlayer(ctx, "target");
                             float bac = FloatArgumentType.getFloat(ctx, "bac");
                             float grams = BrewingUtil.gramsFromBAC(bac);
-                            AlcoholHandler.INSTANCE.set(target, grams);
+                            handler.set(target, grams);
                             ctx.getSource().sendSuccess(() -> Component.translatable("command.drink.alcohol.set",
                                     target.getDisplayName(), bac), true);
                             return 1;

@@ -1,6 +1,7 @@
 package ml.pluto7073.bartending.foundations.mixin;
 
 import com.mojang.authlib.GameProfile;
+import ml.pluto7073.bartending.foundations.alcohol.AbsorbedAlcoholHandler;
 import ml.pluto7073.bartending.foundations.config.BartendingGameRules;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
@@ -28,7 +29,8 @@ public abstract class ServerPlayerMixin extends Player {
 
     @Inject(at = @At("TAIL"), method = "tick")
     public void bartending$TickBlackouts(CallbackInfo ci) {
-        float alc = BrewingUtil.calculateBAC(AlcoholHandler.INSTANCE.get(this));
+        if (!level().getGameRules().getBoolean(BartendingGameRules.DO_BLACKOUT)) return;
+        float alc = BrewingUtil.calculateBAC(AbsorbedAlcoholHandler.INSTANCE.get(this));
         if (alc < 0.11f) {
             bartending$BlackoutData = null;
             bartending$BlackoutAttemptCooldown = 600;
@@ -37,7 +39,7 @@ public abstract class ServerPlayerMixin extends Player {
 
         if (bartending$BlackoutData == null) {
             --bartending$BlackoutAttemptCooldown;
-            if (bartending$BlackoutAttemptCooldown <= 0 && level().getGameRules().getBoolean(BartendingGameRules.DO_BLACKOUT)) {
+            if (bartending$BlackoutAttemptCooldown <= 0) {
                 bartending$BlackoutAttemptCooldown = 600;
                 int chance = random.nextInt(0, alc > 0.20f ? 1 : 7);
                 if (chance == 0) bartending$BlackoutData = new BlackoutData((ServerPlayer) (Object) this, false);
