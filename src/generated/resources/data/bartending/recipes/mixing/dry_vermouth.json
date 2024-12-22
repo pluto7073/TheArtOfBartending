@@ -17,21 +17,25 @@
       "tag": "bartending:botanical_elements"
     },
     {
-      "tag": "bartending:botanical_elements"
+      "amount": 10125,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:white_wine"
+      }
     },
     {
-      "fluid": "bartending:white_wine",
-      "amount": 20250
-    },
-    {
-      "fluid": "bartending:vodka",
-      "amount": 20250
+      "amount": 10125,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:vodka"
+      }
     }
   ],
   "results": [
     {
-      "fluid": "bartending:dry_vermouth",
-      "amount": 40500
+      "amount": 40500,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:dry_vermouth\"}"
     }
   ]
 }

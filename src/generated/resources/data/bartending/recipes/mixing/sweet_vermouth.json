@@ -1,0 +1,53 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:mixing",
+  "heatRequirement": "heated",
+  "ingredients": [
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "item": "minecraft:sugar"
+    },
+    {
+      "tag": "bartending:botanical_elements"
+    },
+    {
+      "tag": "bartending:botanical_elements"
+    },
+    {
+      "tag": "bartending:botanical_elements"
+    },
+    {
+      "amount": 10125,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:red_wine"
+      }
+    },
+    {
+      "amount": 10125,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:vodka"
+      }
+    }
+  ],
+  "results": [
+    {
+      "amount": 40500,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:sweet_vermouth\"}"
+    }
+  ]
+}

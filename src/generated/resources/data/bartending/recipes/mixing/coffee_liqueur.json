@@ -3,7 +3,8 @@
     {
       "condition": "fabric:all_mods_loaded",
       "values": [
-        "create"
+        "create",
+        "plutoscoffee"
       ]
     }
   ],
@@ -20,27 +21,27 @@
       "item": "minecraft:sugar"
     },
     {
-      "tag": "bartending:botanical_elements"
+      "tag": "plutoscoffee:ground_coffee_beans"
     },
     {
-      "tag": "bartending:botanical_elements"
+      "tag": "plutoscoffee:ground_coffee_beans"
     },
     {
-      "tag": "bartending:botanical_elements"
+      "tag": "plutoscoffee:ground_coffee_beans"
     },
     {
-      "fluid": "bartending:red_wine",
-      "amount": 10125
-    },
-    {
-      "fluid": "bartending:vodka",
-      "amount": 10125
+      "amount": 20250,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:rum"
+      }
     }
   ],
   "results": [
     {
-      "fluid": "bartending:sweet_vermouth",
-      "amount": 40500
+      "amount": 20250,
+      "fluid": "bartending:alcohol",
+      "nbt": "{Alcohol:\"bartending:coffee_liqueur\"}"
     }
   ]
 }

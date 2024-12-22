@@ -1,18 +1,21 @@
 package ml.pluto7073.bartending.foundations.datagen;
 
 import com.simibubi.create.AllRecipeTypes;
+import com.simibubi.create.content.processing.recipe.HeatCondition;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipe;
 import com.simibubi.create.content.processing.recipe.ProcessingRecipeBuilder;
 import com.simibubi.create.foundation.data.recipe.ProcessingRecipeGen;
 import com.simibubi.create.foundation.fluid.FluidIngredient;
 import com.simibubi.create.foundation.recipe.IRecipeTypeInfo;
 import io.github.fabricators_of_create.porting_lib.fluids.FluidStack;
+import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.datagen.builders.PouringRecipeBuilder;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.pdapi.datagen.builder.WorkstationRecipeBuilder;
 import ml.pluto7073.pdapi.tag.PDTags;
@@ -22,9 +25,13 @@ import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 
 import java.util.function.Consumer;
@@ -40,6 +47,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
     public void buildRecipes(Consumer<FinishedRecipe> exporter) {
         BartendingEmptyingGen emptying = new BartendingEmptyingGen(output);
         BartendingFillingGen filling = new BartendingFillingGen(output);
+        BartendingMixinGen mixing = new BartendingMixinGen(output);
 
         BartendingItems.BOTTLES.forEach((alc, bottle) -> {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(bottle);
@@ -125,6 +133,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
 
         emptying.buildRecipes(createExporter);
         filling.buildRecipes(createExporter);
+        mixing.buildRecipes(exporter);
     }
 
     private static FluidStack createAlcoholFluid(int amount, AlcoholicDrink alcohol) {
@@ -171,6 +180,44 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
         @Override
         protected IRecipeTypeInfo getRecipeType() {
             return AllRecipeTypes.FILLING;
+        }
+
+    }
+
+    public static class BartendingMixinGen extends BartendingProcessingGen {
+
+        private static final TagKey<Item> COFFEE_GROUNDS = TagKey.create(Registries.ITEM, new ResourceLocation("plutoscoffee:ground_coffee_beans"));
+
+        public GeneratedRecipe COFFEE_LIQUEUR = create(TheArtOfBartending.asId("coffee_liqueur"), recipe ->
+                recipe.withCondition(DefaultResourceConditions.allModsLoaded("create", "plutoscoffee"))
+                        .require(Ingredient.of(Items.SUGAR)).require(Ingredient.of(Items.SUGAR)).require(Ingredient.of(Items.SUGAR))
+                        .require(COFFEE_GROUNDS).require(COFFEE_GROUNDS).require(COFFEE_GROUNDS)
+                        .require(FluidIngredient.fromFluidStack(createAlcoholFluid(20250, AlcoholicDrinks.RUM)))
+                        .output(createAlcoholFluid(20250, AlcoholicDrinks.COFFEE_LIQUEUR))
+                        .requiresHeat(HeatCondition.HEATED));
+
+        public GeneratedRecipe SWEET_VERMOUTH = create(TheArtOfBartending.asId("sweet_vermouth"), recipe ->
+                recipe.whenModLoaded("create").require(Items.SUGAR).require(Items.SUGAR).require(Items.SUGAR)
+                        .require(BartendingTags.BOTANICAL_ELEMENTS).require(BartendingTags.BOTANICAL_ELEMENTS).require(BartendingTags.BOTANICAL_ELEMENTS)
+                        .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.RED_WINE)))
+                        .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.VODKA)))
+                        .requiresHeat(HeatCondition.HEATED)
+                        .output(createAlcoholFluid(40500, AlcoholicDrinks.SWEET_VERMOUTH)));
+
+        public GeneratedRecipe DRY_VERMOUTH = create(TheArtOfBartending.asId("dry_vermouth"), recipe ->
+                recipe.whenModLoaded("create").require(BartendingTags.BOTANICAL_ELEMENTS).require(BartendingTags.BOTANICAL_ELEMENTS)
+                        .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.WHITE_WINE)))
+                        .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.VODKA)))
+                        .requiresHeat(HeatCondition.HEATED)
+                        .output(createAlcoholFluid(40500, AlcoholicDrinks.DRY_VERMOUTH)));
+
+        public BartendingMixinGen(FabricDataOutput generator) {
+            super(generator);
+        }
+
+        @Override
+        protected IRecipeTypeInfo getRecipeType() {
+            return AllRecipeTypes.MIXING;
         }
 
     }
