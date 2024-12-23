@@ -6,6 +6,8 @@ import ml.pluto7073.bartending.foundations.fluid.SimpleFlowableFluid;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
+import net.fabricmc.fabric.api.client.render.fluid.v1.SimpleFluidRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -27,8 +29,7 @@ public final class BartendingFluids {
 
     public static final Map<Fluid, List<TagKey<Fluid>>> FLUID_TAGS = new HashMap<>();
 
-    public static final AlcoholFluid ALCOHOL = AlcoholFluid.create("alcohol",
-                    new ResourceLocation("block/water_still"), new ResourceLocation("block/water_flow"))
+    public static final AlcoholFluid ALCOHOL = AlcoholFluid.create("alcohol")
             .attributes(AlcoholFluidVariantAttributeHandler::new)
             .tag(FluidTags.WATER)
             .register();
@@ -37,6 +38,10 @@ public final class BartendingFluids {
 
     @Environment(EnvType.CLIENT)
     public static void initRendering() {
+        FluidRenderHandlerRegistry.INSTANCE
+                .register(ALCOHOL.getSource(), ALCOHOL,
+                        new SimpleFluidRenderHandler(new ResourceLocation("block/water_still"),
+                                new ResourceLocation("block/water_flow")));
         AlcoholFluidVariantRenderHandler handler = new AlcoholFluidVariantRenderHandler();
         FluidVariantRendering.register(ALCOHOL.getSource(), handler);
         FluidVariantRendering.register(ALCOHOL.getFlowing(), handler);

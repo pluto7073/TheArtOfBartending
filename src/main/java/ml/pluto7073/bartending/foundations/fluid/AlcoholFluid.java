@@ -79,8 +79,8 @@ public class AlcoholFluid extends SimpleFlowableFluid {
         return Blocks.AIR.defaultBlockState();
     }
 
-    public static Builder create(String name, ResourceLocation stillId, ResourceLocation flowId) {
-        return new Builder(AlcoholFluid::new, stillId, flowId, name);
+    public static Builder create(String name) {
+        return new Builder(AlcoholFluid::new, name);
     }
 
     @SuppressWarnings("UnstableApiUsage")
@@ -91,14 +91,11 @@ public class AlcoholFluid extends SimpleFlowableFluid {
         private NonNullConsumer<SimpleFlowableFluid.Properties> properties;
         private Supplier<FluidVariantAttributeHandler> fluidAttributes;
         private final List<TagKey<Fluid>> tags = new ArrayList<>();
-        private final ResourceLocation stillId, flowId;
         private final String name;
 
-        public Builder(Function<SimpleFlowableFluid.Properties, ? extends SimpleFlowableFluid> factory, ResourceLocation stillId, ResourceLocation flowId, String name) {
+        public Builder(Function<SimpleFlowableFluid.Properties, ? extends SimpleFlowableFluid> factory, String name) {
             source = new StaticSupplier<SimpleFlowableFluid>(() -> factory.apply(createProperties()));
             flowing = new StaticSupplier<SimpleFlowableFluid>(() -> factory.apply(createProperties()));
-            this.stillId = stillId;
-            this.flowId = flowId;
             this.name = name;
             this.properties = p -> p.bucket(() -> BuiltInRegistries.ITEM.get(TheArtOfBartending.asId(name + "_bucket")))
                     .block(() -> (LiquidBlock) BuiltInRegistries.BLOCK.get(TheArtOfBartending.asId(name)));
@@ -135,9 +132,6 @@ public class AlcoholFluid extends SimpleFlowableFluid {
                 FluidVariantAttributes.register(fluid, attributes);
                 FluidVariantAttributes.register(fluid.getSource(), attributes);
             }
-
-            BrewingUtil.runOn(EnvType.CLIENT, () -> () ->
-                    FluidRenderHandlerRegistry.INSTANCE.register(fluid.getSource(), fluid, new SimpleFluidRenderHandler(stillId, flowId)));
 
             BartendingFluids.FLUID_TAGS.computeIfAbsent(fluid, k -> new ArrayList<>()).addAll(tags);
             BartendingFluids.FLUID_TAGS.computeIfAbsent(fluid.getSource(), k -> new ArrayList<>()).addAll(tags);
