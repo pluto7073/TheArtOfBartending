@@ -1,4 +1,4 @@
-// 1.20.1	2024-12-22T18:27:55.7453049	The Art of Bartending/Recipes
+// 1.20.1	2024-12-22T20:44:56.0029834	The Art of Bartending/Recipes
 e2293821af84fc766e5a19d55fd398253a92c615 data\bartending\recipes\pouring\bottle_of_wheat_beer.json
 dcc2a8032467251acaaf718171388b13ad79ab35 data\bartending\advancements\recipes\workstation\drink_workstation\add_vodka.json
 95335881106c61212ceff96f9c741b62113ce2ac data\bartending\recipes\filling\coffee_liqueur.json
@@ -77,8 +77,8 @@ d968a4b243d33a123b098a31888ce6c1ada5766e data\bartending\recipes\filling\shot_of
 6a01ec510cd5afa053d83a4995bbe87e6c60bd6d data\bartending\recipes\filling\warped_wine.json
 b68559adfe789053e391c43b0ef7f79447d2790b data\bartending\recipes\emptying\glass_of_apple_mead.json
 85cd40c51d5c8f0e818b0f53489ac88af6c6770e data\bartending\recipes\filling\absinthe.json
-333cf0674a65363b75ad7803e29b62a93a62c24a data\bartending\recipes\emptying\glass_of_white_wine.json
 dc7961a5a7c49770f335b83d600fda50e4636266 data\bartending\recipes\filling\whiskey.json
+333cf0674a65363b75ad7803e29b62a93a62c24a data\bartending\recipes\emptying\glass_of_white_wine.json
 9d2bc16975e549b3e692b2b372a1b867966422c0 data\bartending\recipes\pouring\shot_of_tequila.json
 0274d39cd92d6ee84e33637cd3a9468bd0c9ecc2 data\bartending\advancements\recipes\workstation\drink_workstation\add_tequila.json
 852dd16017e4548119d5a2f93e280370f06cc837 data\bartending\advancements\recipes\workstation\drink_workstation\add_absinthe.json
@@ -114,8 +114,8 @@ ce64683cd6f397ea2e3381a112caabf638dbb92d data\bartending\advancements\recipes\wo
 e0bbae411995015a69af0905957b74fe735dc6e2 data\bartending\recipes\drink_workstation\add_absinthe.json
 174888fb25054b2579e278c9021a4bb2b73c2711 data\bartending\advancements\recipes\pouring\glass_of_warped_wine.json
 be5dcf7b5fcd10bad457077085c3acaf024e2e80 data\bartending\recipes\filling\shot_of_absinthe.json
-b12f1cf72ac266421ed5e4d47e1c084b57bb62e1 data\bartending\advancements\recipes\pouring\glass_of_dark_beer.json
 a568cae8c49f3321b6176fe50b41f84ca147f36e data\bartending\recipes\pouring\shot_of_rum.json
+b12f1cf72ac266421ed5e4d47e1c084b57bb62e1 data\bartending\advancements\recipes\pouring\glass_of_dark_beer.json
 fd8df6f426e4434527792f0503139ef0c873119d data\bartending\advancements\recipes\pouring\glass_of_sweet_vermouth.json
 9acb0c5e746d51c11ef7c2f52b0b939fa68abb5b data\bartending\advancements\recipes\pouring\shot_of_whiskey.json
 8f295daae9c78ef5a24fda73b539bddf8b829157 data\bartending\recipes\emptying\crimson_wine.json

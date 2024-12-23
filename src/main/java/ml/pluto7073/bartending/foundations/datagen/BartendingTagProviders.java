@@ -56,11 +56,12 @@ public class BartendingTagProviders {
         @Override
         protected void addTags(HolderLookup.Provider arg) {
             FabricTagBuilder workstationDrinks = getOrCreateTagBuilder(PDTags.WORKSTATION_DRINKS);
+            workstationDrinks.add(BartendingItems.COCKTAIL_GLASS, BartendingItems.MIXED_DRINK);
             BartendingItems.GLASSES.values().forEach(workstationDrinks::add);
             FabricTagBuilder uprightOnBelt = getOrCreateTagBuilder(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag);
             uprightOnBelt.add(BartendingItems.SHOT_GLASS, BartendingItems.WINE_GLASS, BartendingItems.COCKTAIL_GLASS,
                     BartendingItems.CONCOCTION, BartendingItems.BEER_BOTTLE, BartendingItems.WINE_BOTTLE,
-                    BartendingItems.LIQUOR_BOTTLE, BartendingItems.JUG);
+                    BartendingItems.LIQUOR_BOTTLE, BartendingItems.JUG, BartendingItems.MIXED_DRINK);
 
             BartendingItems.SHOTS.values().forEach(uprightOnBelt::add);
             BartendingItems.BOTTLES.values().forEach(uprightOnBelt::add);
