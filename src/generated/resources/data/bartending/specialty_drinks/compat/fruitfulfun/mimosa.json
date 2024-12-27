@@ -1,0 +1,29 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "fruitfulfun"
+      ]
+    }
+  ],
+  "additions": [
+    "bartending:compat/fruitfulfun/orange"
+  ],
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:glass_of_champagne"
+  },
+  "chemicals": {
+    "bartending:alcohol": 14.0
+  },
+  "color": 15908929,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 3,
+      "saturation": 1
+    }
+  ]
+}

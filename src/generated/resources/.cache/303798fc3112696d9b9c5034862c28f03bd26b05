@@ -1,4 +1,4 @@
-// 1.20.1	2024-12-27T15:01:58.2522601	The Art of Bartending/Drink Additions
+// 1.20.1	2024-12-27T18:32:25.8639069	The Art of Bartending/Drink Additions
 18e2b0349a8ca98f79b75e0b8a229b48b20e70fc data\bartending\drink_additions\shot_of_tequila.json
 d63ab030aa942033749b3d124240f593ef5066db data\bartending\drink_additions\shot_of_gin.json
 898a0ed5066cb03de0df530a7dc76b3043933855 data\bartending\drink_additions\shot_of_coffee_liqueur.json
@@ -7,10 +7,12 @@ c6b4f42da7d602156a143bf172562da819176b19 data\bartending\drink_additions\shot_of
 d00b323a532f50822061825e3c0af624ee632205 data\bartending\drink_additions\shot_of_vodka.json
 22393e62724eeb89b8c99a4331cdf0dfafa93176 data\bartending\drink_additions\cocoa_beans.json
 4c7d91743283d2ef841bdbc1e4f1d3d28f51e5a3 data\bartending\drink_additions\shot_of_dry_vermouth.json
+f776694d50d147ccbc9b396f7a4544fec53b450e data\bartending\drink_additions\compat\fruitfulfun\orange.json
 405526fc16bc1b57c8a4b8027a313a0c66982497 data\bartending\drink_additions\shot_of_rum.json
+4f8cf23074b984b6511d6c27880f85124ec7a53f data\bartending\drink_additions\sweet_berries.json
 f54a36ae688ae74b9ec634b6bcf031dd0c76028f data\bartending\drink_additions\shot_of_whiskey.json
 99b328733ecd822ba59f53012a80051849b042b1 data\bartending\drink_additions\compat\plutoscoffee\coffee_bean.json
 53da9916eea71a91efc62fa6ba1363d2cfd89f58 data\bartending\drink_additions\apple.json
-66a63ebb3e731a0265829f8017f833778856a690 data\bartending\drink_additions\shot_of_orange_liqueur.json
+c30761a167cfeb59e4bdabd1d92c67e18c7d6786 data\bartending\drink_additions\shot_of_orange_liqueur.json
 ba19d9e67267225b65d791dcd435eb861ed36100 data\bartending\drink_additions\shot_of_sweet_vermouth.json
 4c2675fadc96766986a7e00051aac05e447f6aeb data\bartending\drink_additions\compat\fruitfulfun\lime.json

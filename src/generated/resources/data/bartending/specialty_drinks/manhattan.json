@@ -1,0 +1,17 @@
+{
+  "additions": [
+    "bartending:shot_of_whiskey",
+    "bartending:shot_of_whiskey",
+    "bartending:shot_of_sweet_vermouth"
+  ],
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {
+    "bartending:alcohol": 34.0
+  },
+  "color": 12871734,
+  "name": "",
+  "onDrinkActions": []
+}

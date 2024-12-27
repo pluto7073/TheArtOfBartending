@@ -1,5 +1,11 @@
-// 1.20.1	2024-12-27T15:01:58.2297544	The Art of Bartending/
+// 1.20.1	2024-12-27T18:32:25.8619085	The Art of Bartending/
 b049ea6906152d397042b25771e3e22e72936ed6 data\bartending\specialty_drinks\martini.json
 cbc116cbd9e5a6b64fef4e8e254c3b4524ec4efe data\bartending\specialty_drinks\appletini.json
-bc3d0b77207e1ec49dbc89ea47ef08965dadfe02 data\bartending\specialty_drinks\compat\fruitfulfun\margarita.json
+9b21a44f8cbf3a5836a0385ee023e4eb6dac89a5 data\bartending\specialty_drinks\old_fashioned.json
+f4e0c58d49f1267840bfa91b01b003d371dffe58 data\bartending\specialty_drinks\compat\fruitfulfun\margarita.json
+2675b42323533686aebc2d7e88e89ef5f40c8ca6 data\bartending\specialty_drinks\compat\fruitfulfun\kamikaze.json
+7fa4aea635c3a7683de888f9533fbf108800c96d data\bartending\specialty_drinks\death_in_the_afternoon.json
+7f1ae52521893e9211a2def07ac157dea3929378 data\bartending\specialty_drinks\manhattan.json
+5ba5cf5b37fa084d0736a47e4ba6f18d875c714a data\bartending\specialty_drinks\vodka_martini.json
 db3c7d5dd2101b0c7c7386a262a054f7028d3bc3 data\bartending\specialty_drinks\compat\plutoscoffee\espresso_martini.json
+399e3633a34b0acf3a04a5761ac573e14f15f799 data\bartending\specialty_drinks\compat\fruitfulfun\mimosa.json

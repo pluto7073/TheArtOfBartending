@@ -35,6 +35,12 @@ public class BartendingAdditionProvider extends DrinkAdditionProvider {
     private static final Builder LIME = builder()
             .changesColor(true).color(14149836)
             .addAction(new RestoreHungerAction(3, 2));
+    private static final Builder SWEET_BERRIES = builder()
+            .changesColor(true).color(0x93203b)
+            .addAction(new RestoreHungerAction(1, 1));
+    private static final Builder ORANGE = builder()
+            .changesColor(true).color(0xe8b025)
+            .addAction(new RestoreHungerAction(3, 1));
 
     public BartendingAdditionProvider(FabricDataOutput out) {
         super(out);
@@ -42,6 +48,7 @@ public class BartendingAdditionProvider extends DrinkAdditionProvider {
 
     @Override
     public void buildAdditions(BiConsumer<ResourceLocation, DrinkAddition> consumer) {
+        BiConsumer<ResourceLocation, DrinkAddition> fruitfulfun = withConditions(consumer, DefaultResourceConditions.allModsLoaded("fruitfulfun"));
         BartendingItems.SHOTS.forEach((alc, shot) -> {
             int amount = BrewingUtil.getAlcohol(alc, 1.5f);
             builder().changesColor(alc.color() != 0xFFFFFF)
@@ -53,8 +60,9 @@ public class BartendingAdditionProvider extends DrinkAdditionProvider {
         COCOA_BEAN.save(asId("cocoa_beans"), consumer);
         COFFEE_BEAN.save(asId("compat/plutoscoffee/coffee_bean"),
                 withConditions(consumer, DefaultResourceConditions.allModsLoaded("plutoscoffee")));
-        LIME.save(asId("compat/fruitfulfun/lime"),
-                withConditions(consumer, DefaultResourceConditions.allModsLoaded("fruitfulfun")));
+        LIME.save(asId("compat/fruitfulfun/lime"), fruitfulfun);
+        SWEET_BERRIES.save(asId("sweet_berries"), consumer);
+        ORANGE.save(asId("compat/fruitfulfun/orange"), fruitfulfun);
     }
 
 }

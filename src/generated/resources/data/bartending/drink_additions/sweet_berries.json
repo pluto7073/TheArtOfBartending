@@ -1,0 +1,15 @@
+{
+  "changesColor": true,
+  "chemicals": {},
+  "color": 9642043,
+  "maxAmount": 0,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 1,
+      "saturation": 1
+    }
+  ],
+  "weight": 0
+}

@@ -1,0 +1,15 @@
+{
+  "additions": [
+    "bartending:shot_of_absinthe"
+  ],
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:glass_of_champagne"
+  },
+  "chemicals": {
+    "bartending:alcohol": 34.0
+  },
+  "color": 14736976,
+  "name": "",
+  "onDrinkActions": []
+}

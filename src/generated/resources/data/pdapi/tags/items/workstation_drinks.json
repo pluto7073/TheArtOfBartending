@@ -3,18 +3,18 @@
   "values": [
     "bartending:cocktail_glass",
     "bartending:mixed_drink",
-    "bartending:glass_of_sweet_vermouth",
-    "bartending:glass_of_champagne",
-    "bartending:glass_of_beer",
-    "bartending:glass_of_wheat_beer",
-    "bartending:glass_of_mead",
-    "bartending:glass_of_warped_wine",
-    "bartending:glass_of_white_wine",
-    "bartending:glass_of_absinthe",
-    "bartending:glass_of_apple_mead",
-    "bartending:glass_of_red_wine",
     "bartending:glass_of_crimson_wine",
     "bartending:glass_of_dry_vermouth",
-    "bartending:glass_of_dark_beer"
+    "bartending:glass_of_beer",
+    "bartending:glass_of_mead",
+    "bartending:glass_of_red_wine",
+    "bartending:glass_of_wheat_beer",
+    "bartending:glass_of_apple_mead",
+    "bartending:glass_of_warped_wine",
+    "bartending:glass_of_dark_beer",
+    "bartending:glass_of_white_wine",
+    "bartending:glass_of_absinthe",
+    "bartending:glass_of_sweet_vermouth",
+    "bartending:glass_of_champagne"
   ]
 }

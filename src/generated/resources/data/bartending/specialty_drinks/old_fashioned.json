@@ -1,0 +1,23 @@
+{
+  "additions": [
+    "pdapi:sugar",
+    "bartending:shot_of_whiskey",
+    "bartending:sweet_berries"
+  ],
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {
+    "bartending:alcohol": 14.0
+  },
+  "color": 4466194,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 1,
+      "saturation": 1
+    }
+  ]
+}

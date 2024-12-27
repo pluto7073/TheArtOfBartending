@@ -34,6 +34,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import snownee.fruits.CoreFruitTypes;
+import snownee.fruits.CoreModule;
 import snownee.fruits.FruitType;
 
 import java.util.function.Consumer;
@@ -148,10 +149,11 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
                 .save(withConditions(exporter, DefaultResourceConditions.allModsLoaded("plutoscoffee")),
                         asId("drink_workstation/compat/plutoscoffee/add_coffee_bean"));
 
-        Item lime = CoreFruitTypes.LIME.get().fruit.get();
+        Consumer<FinishedRecipe> fruitfulfun = withConditions(exporter, DefaultResourceConditions.allModsLoaded("fruitfulfun"));
 
-        simpleItemAddition(lime, asId("compat/fruitfulfun/lime"),
-                withConditions(exporter, DefaultResourceConditions.allModsLoaded("fruitfulfun")));
+        simpleItemAddition(CoreModule.LIME.get(), asId("compat/fruitfulfun/lime"), fruitfulfun);
+        simpleItemAddition(Items.SWEET_BERRIES, exporter);
+        simpleItemAddition(CoreModule.ORANGE.get(), asId("compat/fruitfulfun/orange"), fruitfulfun);
 
         Consumer<FinishedRecipe> createExporter =
                 withConditions(exporter, DefaultResourceConditions.allModsLoaded("create"));

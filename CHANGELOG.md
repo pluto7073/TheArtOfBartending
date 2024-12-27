@@ -2,6 +2,13 @@
 ## Additions
 - Champagne!
   - Made by fermenting a bottle of White Wine for at least a day, then placing it in the bottler
+- Various New Cocktails:
+  - Mimosa (Requires Fruitful Fun): Add an Orange to a class of Champagne
+  - Death in the Afternoon: Add a shot of Absinthe to a glass of Champagne
+  - Old Fashioned: Sugar + Whiskey Shot + Sweet Berries for Garnish
+  - Kamikaze (Requires Fruitful Fun): Vodka + Orange Liqueur + Lime
+  - Manhattan: 2 Shots of Whiskey + Sweet Vermouth
+  - Vodka Martini: 3 shots of Vodka + Dry Vermouth
 
 ## Changes
 - Updated structure of drinks/additions for new PDAPI syntax (0.3.3+)
