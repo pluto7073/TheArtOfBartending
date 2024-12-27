@@ -1,3 +1,7 @@
+# Fixes
+- Specialty Drinks based off of Mixed Drinks now give the player an empty cocktail glass when drank
+
+---
 
 ## Additions
 - A new chemical, Absorbed Alcohol, this chemical is now what determines effects
