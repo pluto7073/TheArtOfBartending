@@ -5,6 +5,7 @@
 
 ## Changes
 - Updated structure of drinks/additions for new PDAPI syntax (0.3.3+)
+- ABV of Orange Liqueur has been raised to 40% (from 25%)
 
 ## Fixes
 - Specialty Drinks based off of Mixed Drinks now give the player an empty cocktail glass when drank
