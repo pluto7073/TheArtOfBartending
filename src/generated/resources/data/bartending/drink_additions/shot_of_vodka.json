@@ -1,4 +1,14 @@
 {
-  "bartending:alcohol": 13,
-  "onDrinkActions": []
+  "changesColor": false,
+  "chemicals": {
+    "bartending:absorbed_alcohol": 0,
+    "bartending:alcohol": 13,
+    "chemicals:empty": 0,
+    "pdapi:caffeine": 0
+  },
+  "color": 16777215,
+  "maxAmount": 0,
+  "name": "",
+  "onDrinkActions": [],
+  "weight": 0
 }

@@ -1,6 +1,12 @@
 {
-  "type": "pdapi:specialty_drink",
-  "base": "bartending:mixed_drink",
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "fruitfulfun"
+      ]
+    }
+  ],
   "additions": [
     "pdapi:ice",
     "bartending:shot_of_tequila",
@@ -8,27 +14,26 @@
     "bartending:shot_of_orange_liqueur",
     "bartending:compat/fruitfulfun/lime"
   ],
-  "bartending:alcohol": 34,
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {
+    "bartending:alcohol": 34.0
+  },
   "color": 14808274,
+  "name": "",
   "onDrinkActions": [
     {
       "type": "pdapi:apply_status_effect",
-      "effect": "minecraft:fire_resistance",
+      "amplifier": 1,
       "duration": 200,
-      "amplifier": 1
+      "effect": "minecraft:fire_resistance"
     },
     {
       "type": "pdapi:restore_hunger",
       "food": 3,
-      "saturation": 2
-    }
-  ],
-  "fabric:load_conditions": [
-    {
-      "condition": "fabric:all_mods_loaded",
-      "values": [
-        "fruitfulfun"
-      ]
+      "saturation": 3
     }
   ]
 }

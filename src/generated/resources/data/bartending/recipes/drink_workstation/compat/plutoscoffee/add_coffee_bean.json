@@ -1,0 +1,18 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "plutoscoffee"
+      ]
+    }
+  ],
+  "type": "pdapi:drink_workstation",
+  "addition": {
+    "tag": "plutoscoffee:roasted_coffee_beans"
+  },
+  "base": {
+    "tag": "pdapi:workstation_drinks"
+  },
+  "result": "bartending:compat/plutoscoffee/coffee_bean"
+}

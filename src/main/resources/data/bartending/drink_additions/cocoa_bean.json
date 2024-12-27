@@ -1,9 +1,0 @@
-{
-  "onDrinkActions": [
-    {
-      "type": "pdapi:restore_hunger",
-      "food": 1,
-      "saturation": 0
-    }
-  ]
-}

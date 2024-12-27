@@ -33,9 +33,13 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import snownee.fruits.CoreFruitTypes;
+import snownee.fruits.FruitType;
 
 import java.util.function.Consumer;
 import java.util.function.UnaryOperator;
+
+import static ml.pluto7073.bartending.TheArtOfBartending.asId;
 
 public class BartendingRecipeProviders extends FabricRecipeProvider {
 
@@ -129,11 +133,42 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
                     .save(exporter, AlcoholicDrinks.getId(alc).withPrefix("drink_workstation/add_"));
         });
 
-        Consumer<FinishedRecipe> createExporter = withConditions(exporter, DefaultResourceConditions.allModsLoaded("create"));
+        simpleItemAddition(Items.APPLE, exporter);
+
+        simpleItemAddition(Items.COCOA_BEANS, exporter);
+
+        TagKey<Item> coffeeBeans = TagKey.create(Registries.ITEM,
+                new ResourceLocation("plutoscoffee:roasted_coffee_beans"));
+
+        new WorkstationRecipeBuilder(
+                Ingredient.of(PDTags.WORKSTATION_DRINKS),
+                Ingredient.of(coffeeBeans),
+                asId("compat/plutoscoffee/coffee_bean")
+        ).unlockedBy("has_input", has(coffeeBeans))
+                .save(withConditions(exporter, DefaultResourceConditions.allModsLoaded("plutoscoffee")),
+                        asId("drink_workstation/compat/plutoscoffee/add_coffee_bean"));
+
+        Item lime = CoreFruitTypes.LIME.get().fruit.get();
+
+        simpleItemAddition(lime, asId("compat/fruitfulfun/lime"),
+                withConditions(exporter, DefaultResourceConditions.allModsLoaded("fruitfulfun")));
+
+        Consumer<FinishedRecipe> createExporter =
+                withConditions(exporter, DefaultResourceConditions.allModsLoaded("create"));
 
         emptying.buildRecipes(createExporter);
         filling.buildRecipes(createExporter);
         mixing.buildRecipes(exporter);
+    }
+
+    private void simpleItemAddition(Item item, Consumer<FinishedRecipe> output) {
+        simpleItemAddition(item, BuiltInRegistries.ITEM.getKey(item), output);
+    }
+
+    private void simpleItemAddition(Item item, ResourceLocation id, Consumer<FinishedRecipe> output) {
+        new WorkstationRecipeBuilder(Ingredient.of(PDTags.WORKSTATION_DRINKS), Ingredient.of(item), id)
+                .unlockedBy("has_input", has(item))
+                .save(output, id.withPrefix("drink_workstation/"));
     }
 
     private static FluidStack createAlcoholFluid(int amount, AlcoholicDrink alcohol) {
@@ -188,7 +223,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
 
         private static final TagKey<Item> COFFEE_GROUNDS = TagKey.create(Registries.ITEM, new ResourceLocation("plutoscoffee:ground_coffee_beans"));
 
-        public GeneratedRecipe COFFEE_LIQUEUR = create(TheArtOfBartending.asId("coffee_liqueur"), recipe ->
+        public GeneratedRecipe COFFEE_LIQUEUR = create(asId("coffee_liqueur"), recipe ->
                 recipe.withCondition(DefaultResourceConditions.allModsLoaded("create", "plutoscoffee"))
                         .require(Ingredient.of(Items.SUGAR)).require(Ingredient.of(Items.SUGAR)).require(Ingredient.of(Items.SUGAR))
                         .require(COFFEE_GROUNDS).require(COFFEE_GROUNDS).require(COFFEE_GROUNDS)
@@ -196,7 +231,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
                         .output(createAlcoholFluid(20250, AlcoholicDrinks.COFFEE_LIQUEUR))
                         .requiresHeat(HeatCondition.HEATED));
 
-        public GeneratedRecipe SWEET_VERMOUTH = create(TheArtOfBartending.asId("sweet_vermouth"), recipe ->
+        public GeneratedRecipe SWEET_VERMOUTH = create(asId("sweet_vermouth"), recipe ->
                 recipe.whenModLoaded("create").require(Items.SUGAR).require(Items.SUGAR).require(Items.SUGAR)
                         .require(BartendingTags.BOTANICAL_ELEMENTS).require(BartendingTags.BOTANICAL_ELEMENTS).require(BartendingTags.BOTANICAL_ELEMENTS)
                         .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.RED_WINE)))
@@ -204,7 +239,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
                         .requiresHeat(HeatCondition.HEATED)
                         .output(createAlcoholFluid(40500, AlcoholicDrinks.SWEET_VERMOUTH)));
 
-        public GeneratedRecipe DRY_VERMOUTH = create(TheArtOfBartending.asId("dry_vermouth"), recipe ->
+        public GeneratedRecipe DRY_VERMOUTH = create(asId("dry_vermouth"), recipe ->
                 recipe.whenModLoaded("create").require(BartendingTags.BOTANICAL_ELEMENTS).require(BartendingTags.BOTANICAL_ELEMENTS)
                         .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.WHITE_WINE)))
                         .require(FluidIngredient.fromFluidStack(createAlcoholFluid(10125, AlcoholicDrinks.VODKA)))

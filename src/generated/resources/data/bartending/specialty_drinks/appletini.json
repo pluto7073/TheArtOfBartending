@@ -1,6 +1,4 @@
 {
-  "type": "pdapi:specialty_drink",
-  "base": "bartending:mixed_drink",
   "additions": [
     "pdapi:ice",
     "bartending:shot_of_vodka",
@@ -8,13 +6,18 @@
     "bartending:shot_of_vodka",
     "bartending:shot_of_vodka",
     "bartending:shot_of_apple_liqueur",
-    "bartending:shot_of_apple_liqueur",
-    "pdapi:sugar",
-    "bartending:apple"
+    "bartending:shot_of_apple_liqueur"
   ],
-  "bartending:alcohol": 72,
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {
+    "bartending:alcohol": 72.0
+  },
   "color": 12356169,
-  "onDrinkActions":[
+  "name": "",
+  "onDrinkActions": [
     {
       "type": "pdapi:restore_hunger",
       "food": 6,
@@ -22,9 +25,9 @@
     },
     {
       "type": "pdapi:apply_status_effect",
-      "effect": "minecraft:fire_resistance",
+      "amplifier": 1,
       "duration": 200,
-      "amplifier": 1
+      "effect": "minecraft:fire_resistance"
     }
   ]
 }

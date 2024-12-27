@@ -1,6 +1,4 @@
 {
-  "type": "pdapi:specialty_drink",
-  "base": "bartending:mixed_drink",
   "additions": [
     "pdapi:ice",
     "bartending:shot_of_dry_vermouth",
@@ -8,14 +6,21 @@
     "bartending:shot_of_gin",
     "bartending:shot_of_gin"
   ],
-  "bartending:alcohol": 51,
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {
+    "bartending:alcohol": 51.0
+  },
   "color": 15724527,
+  "name": "",
   "onDrinkActions": [
     {
       "type": "pdapi:apply_status_effect",
-      "effect": "minecraft:fire_resistance",
+      "amplifier": 1,
       "duration": 200,
-      "amplifier": 1
+      "effect": "minecraft:fire_resistance"
     }
   ]
 }

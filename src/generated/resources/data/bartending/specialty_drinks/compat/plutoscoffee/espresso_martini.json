@@ -1,0 +1,35 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "plutoscoffee"
+      ]
+    }
+  ],
+  "additions": [
+    "bartending:shot_of_vodka",
+    "bartending:shot_of_coffee_liqueur",
+    "plutoscoffee:espresso_shot",
+    "pdapi:sugar",
+    "bartending:cocoa_beans",
+    "bartending:compat/plutoscoffee/coffee_bean"
+  ],
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {
+    "bartending:alcohol": 26.0,
+    "pdapi:caffeine": 80.0
+  },
+  "color": 2167556,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 3,
+      "saturation": 0
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "fruitfulfun"
+      ]
+    }
+  ],
+  "changesColor": true,
+  "chemicals": {
+    "bartending:absorbed_alcohol": 0,
+    "bartending:alcohol": 0,
+    "chemicals:empty": 0,
+    "pdapi:caffeine": 0
+  },
+  "color": 14149836,
+  "maxAmount": 0,
+  "name": "",
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 3,
+      "saturation": 2
+    }
+  ],
+  "weight": 0
+}

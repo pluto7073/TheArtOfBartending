@@ -2,13 +2,19 @@
   "changesColor": false,
   "chemicals": {
     "bartending:absorbed_alcohol": 0,
-    "bartending:alcohol": 15,
+    "bartending:alcohol": 0,
     "chemicals:empty": 0,
     "pdapi:caffeine": 0
   },
-  "color": 16777215,
+  "color": 0,
   "maxAmount": 0,
   "name": "",
-  "onDrinkActions": [],
+  "onDrinkActions": [
+    {
+      "type": "pdapi:restore_hunger",
+      "food": 1,
+      "saturation": 0
+    }
+  ],
   "weight": 0
 }

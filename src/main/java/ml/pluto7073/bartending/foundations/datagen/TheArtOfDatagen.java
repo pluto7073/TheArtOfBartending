@@ -17,6 +17,7 @@ public class TheArtOfDatagen implements DataGeneratorEntrypoint {
         pack.addProvider(BartendingEnglishProvider::new);
         pack.addProvider(BartendingRecipeProviders::new);
         pack.addProvider(BartendingAdditionProvider::new);
+        pack.addProvider(BartendingDrinks::new);
     }
 
 }

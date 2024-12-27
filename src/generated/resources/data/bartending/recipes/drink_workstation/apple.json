@@ -1,10 +1,10 @@
 {
   "type": "pdapi:drink_workstation",
-  "base": {
-    "tag": "pdapi:workstation_drinks"
-  },
   "addition": {
     "item": "minecraft:apple"
   },
-  "result": "bartending:apple"
+  "base": {
+    "tag": "pdapi:workstation_drinks"
+  },
+  "result": "minecraft:apple"
 }
