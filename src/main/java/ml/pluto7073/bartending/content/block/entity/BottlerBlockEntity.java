@@ -150,7 +150,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
                 BrewingUtil.setAlcoholDeviation(entity.currentResult, deviation);
                 entity.bottleTick++;
             }
-        } else if (!display.isEmpty() || concoction.isEmpty() || concoction.is(Items.GLASS_BOTTLE) || !concoction.getOrCreateTag().contains("BrewingSteps")) {
+        } else if (!display.isEmpty() || concoction.isEmpty() || concoction.is(Items.GLASS_BOTTLE) || !(concoction.getOrCreateTag().contains("BrewingSteps") || concoction.getOrCreateTag().contains("ExtraFermentingData"))) {
             entity.bottleTick = 0;
             entity.currentResult = ItemStack.EMPTY;
             setChanged(level, pos, state);
