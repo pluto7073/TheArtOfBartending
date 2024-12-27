@@ -30,7 +30,7 @@ repositories {
 	maven { url = "https://maven.jamieswhiteshirt.com/libs-release" } // Reach Entity Attributes
 	maven { url = "https://jitpack.io/" } // MixinExtras, ASM
 	maven { url = "https://maven.tterrag.com/" } // Flywheel
-	maven { url = "https://api.modrinth.com/maven" } // Fruitful fun, Lychee
+	maven { url = "https://api.modrinth.com/maven" } // Fruitful fun, Lychee, Carpet
 }
 
 sourceSets {
@@ -82,6 +82,9 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modImplementation "ml.pluto7073:pdapi:${project.minecraft_version}+${project.pdapi_version}"
+
+	// Dev Env
+	modLocalRuntime "maven.modrinth:carpet:${carpet_version}"
 
 	// Optional Addons
 
