@@ -9,9 +9,6 @@
   ],
   "changesColor": false,
   "chemicals": {
-    "bartending:absorbed_alcohol": 0,
-    "bartending:alcohol": 0,
-    "chemicals:empty": 0,
     "pdapi:caffeine": 5
   },
   "color": 0,

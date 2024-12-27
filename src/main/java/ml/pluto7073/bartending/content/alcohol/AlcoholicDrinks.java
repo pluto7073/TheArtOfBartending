@@ -67,6 +67,12 @@ public final class AlcoholicDrinks {
             .addStep(new FermentingBrewerStep(BarrelPredicate.ANY, 36000, 18000))
             .bottle(BartendingItems.WINE_BOTTLE).name("White Wine")
             .color(0xe2c36c).build());
+    public static final AlcoholicDrink CHAMPAGNE = register("champagne", new AlcoholicDrink.Builder().proof(24).ounces(5)
+            .addStep(new ExtraFermentingBrewerStep(
+                    new FermentingBrewerStep(BarrelPredicate.ANY, 36000, 35999),
+                    () -> BartendingItems.WHITE_WINE
+            )).name("Champagne").color(0xe2c36c)
+            .bottle(BartendingItems.WINE_BOTTLE).build());
     public static final AlcoholicDrink CRIMSON_WINE = register("crimson_wine", new AlcoholicDrink.Builder().proof(52).ounces(5)
             .addStep(new BoilingBrewerStep.Builder()
                     .addIngredient(Ingredient.of(BartendingTags.CRIMSON_BOTANICALS), 32, 8)

@@ -29,6 +29,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.*;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -122,6 +124,28 @@ public class BrewingUtil {
             if (j < list.size()) {
                 list.set(j, stackFromTag(compoundTag));
             }
+        }
+    }
+
+    public static <T extends Tag> T compute(CompoundTag tag, String key, BiFunction<String, T, T> remapper) {
+        Tag oldValue = tag.get(key);
+        //noinspection unchecked
+        T newVal = remapper.apply(key, oldValue == null ? null : (T) oldValue);
+        tag.put(key, newVal);
+        return newVal;
+    }
+
+    public static <T extends Tag> T computeIfAbsent(CompoundTag tag, String key, Function<String, T> computer) {
+        if (tag.contains(key)) //noinspection unchecked
+            return (T) tag.get(key);
+        T val = computer.apply(key);
+        tag.put(key, val);
+        return val;
+    }
+
+    public static void computeAllIfAbsent(CompoundTag tag, Collection<String> keys, Function<String, Tag> computer) {
+        for (String key : keys) {
+            computeIfAbsent(tag, key, computer);
         }
     }
 

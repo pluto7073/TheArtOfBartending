@@ -22,6 +22,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.WoodType;
 
+import java.util.Comparator;
+import java.util.Map;
+
 public class BartendingCreativeTabs {
 
     public static final ResourceKey<CreativeModeTab> MAIN_TAB =
@@ -73,6 +76,7 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.APPLE_MEAD);
             stacks.accept(BartendingItems.RED_WINE);
             stacks.accept(BartendingItems.WHITE_WINE);
+            stacks.accept(BartendingItems.CHAMPAGNE);
             stacks.accept(BartendingItems.CRIMSON_WINE);
             stacks.accept(BartendingItems.WARPED_WINE);
             stacks.accept(BartendingItems.SWEET_VERMOUTH);
@@ -98,6 +102,7 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.GLASS_OF_APPLE_MEAD);
             stacks.accept(BartendingItems.GLASS_OF_RED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_WHITE_WINE);
+            stacks.accept(BartendingItems.GLASS_OF_CHAMPAGNE);
             stacks.accept(BartendingItems.GLASS_OF_CRIMSON_WINE);
             stacks.accept(BartendingItems.GLASS_OF_WARPED_WINE);
             stacks.accept(BartendingItems.GLASS_OF_DRY_VERMOUTH);

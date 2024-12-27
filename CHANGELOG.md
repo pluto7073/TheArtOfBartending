@@ -1,4 +1,12 @@
-# Fixes
+
+## Additions
+- Champagne!
+  - Made by fermenting a bottle of White Wine for at least a day, then placing it in the bottler
+
+## Changes
+- Updated structure of drinks/additions for new PDAPI syntax (0.3.3+)
+
+## Fixes
 - Specialty Drinks based off of Mixed Drinks now give the player an empty cocktail glass when drank
 
 ---

@@ -3,14 +3,14 @@ package ml.pluto7073.bartending.content.block.entity;
 import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.block.FermentingBarrelBlock;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
 import ml.pluto7073.bartending.foundations.step.FermentingBrewerStep;
+import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.*;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -92,7 +92,18 @@ public class FermentingBarrelBlockEntity extends RandomizableContainerBlockEntit
 
     public static void tick(Level level, BlockPos pos, BlockState state, FermentingBarrelBlockEntity entity) {
         for (ItemStack stack : entity.getItems()) {
-            if (!stack.is(BartendingItems.CONCOCTION)) continue;
+            if (!stack.is(BartendingItems.CONCOCTION)) {
+                if (stack.getItem() instanceof PourableBottleItem) {
+                    CompoundTag data = stack.getOrCreateTagElement("ExtraFermentingData");
+                    BrewingUtil.computeIfAbsent(data, "type", key ->
+                            StringTag.valueOf(FermentingBrewerStep.TYPE_ID));
+                    BrewingUtil.computeIfAbsent(data, "barrel", key ->
+                            StringTag.valueOf(TheArtOfBartending.asId(entity.woodType.name() + "_fermenting_barrel").toString()));
+                    BrewingUtil.<IntTag>compute(data, "ticks", (key, val) ->
+                            val == null ? IntTag.valueOf(0) : IntTag.valueOf(val.getAsInt() + 1));
+                }
+                continue;
+            }
             ListTag steps = stack.getOrCreateTag().getList("BrewingSteps", Tag.TAG_COMPOUND);
             CompoundTag data = steps.getCompound(steps.size() - 1);
             if (!FermentingBrewerStep.TYPE_ID.equals(data.getString("type")) ||

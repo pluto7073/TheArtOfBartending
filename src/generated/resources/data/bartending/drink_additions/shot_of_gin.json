@@ -1,10 +1,7 @@
 {
   "changesColor": false,
   "chemicals": {
-    "bartending:absorbed_alcohol": 0,
-    "bartending:alcohol": 15,
-    "chemicals:empty": 0,
-    "pdapi:caffeine": 0
+    "bartending:alcohol": 15
   },
   "color": 16777215,
   "maxAmount": 0,

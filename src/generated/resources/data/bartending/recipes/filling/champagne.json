@@ -1,0 +1,31 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "create"
+      ]
+    }
+  ],
+  "type": "create:filling",
+  "ingredients": [
+    {
+      "item": "bartending:wine_bottle"
+    },
+    {
+      "amount": 42187,
+      "fluid": "bartending:alcohol",
+      "nbt": {
+        "Alcohol": "bartending:champagne"
+      }
+    }
+  ],
+  "results": [
+    {
+      "item": "bartending:champagne",
+      "nbt": {
+        "Damage": 0
+      }
+    }
+  ]
+}

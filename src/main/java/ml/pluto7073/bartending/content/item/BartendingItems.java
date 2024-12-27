@@ -63,6 +63,9 @@ public class BartendingItems {
     public static final Item GLASS_OF_WHITE_WINE = glass(AlcoholicDrinks.WHITE_WINE, WINE_GLASS);
     public static final Item WHITE_WINE = bottle(AlcoholicDrinks.WHITE_WINE);
 
+    public static final Item GLASS_OF_CHAMPAGNE = glass(AlcoholicDrinks.CHAMPAGNE, WINE_GLASS);
+    public static final Item CHAMPAGNE = bottle(AlcoholicDrinks.CHAMPAGNE);
+
     public static final Item GLASS_OF_CRIMSON_WINE = glass(AlcoholicDrinks.CRIMSON_WINE, COCKTAIL_GLASS);
     public static final Item CRIMSON_WINE = bottle(AlcoholicDrinks.CRIMSON_WINE);
 

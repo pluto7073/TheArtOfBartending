@@ -3,6 +3,8 @@ package ml.pluto7073.bartending.content.block.entity;
 import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.gui.BottlerMenu;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.step.BrewerStep;
+import ml.pluto7073.bartending.foundations.step.ExtraFermentingBrewerStep;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
@@ -32,6 +34,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
@@ -126,6 +129,27 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
                 entity.bottleTick++;
             }
             setChanged(level, pos, state);
+        } else if (concoction.getItem() instanceof PourableBottleItem && display.isEmpty() && concoction.getOrCreateTag().contains("ExtraFermentingData") && entity.bottleTick == 0) {
+            AlcoholicDrink match = null;
+            drinkLoop: for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
+                if (drink.steps().length != 1) continue;
+                for (BrewerStep step : drink.steps()) {
+                    if (!(step instanceof ExtraFermentingBrewerStep extra)) continue drinkLoop;
+                    if (!extra.matches(concoction.getOrCreateTagElement("ExtraFermentingData")))
+                        continue drinkLoop;
+                    if (!extra.testItem(concoction)) continue drinkLoop;
+                    match = drink;
+                }
+            }
+            if (match != null) {
+                entity.currentResult = new ItemStack(AlcoholicDrinks.getFinalDrink(match));
+                ListTag stepList = new ListTag();
+                stepList.add(concoction.getOrCreateTagElement("ExtraFermentingData"));
+                int deviation = match.getTotalDeviation(stepList);
+                deviation += BrewingUtil.getAlcoholDeviation(concoction);
+                BrewingUtil.setAlcoholDeviation(entity.currentResult, deviation);
+                entity.bottleTick++;
+            }
         } else if (!display.isEmpty() || concoction.isEmpty() || concoction.is(Items.GLASS_BOTTLE) || !concoction.getOrCreateTag().contains("BrewingSteps")) {
             entity.bottleTick = 0;
             entity.currentResult = ItemStack.EMPTY;
@@ -143,7 +167,11 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
         // Test for finish bottling
         if (entity.bottleTick >= MAX_BOTTLE_TIME && !entity.currentResult.isEmpty()) {
             display = entity.currentResult;
-            concoction = new ItemStack(Items.GLASS_BOTTLE);
+            Item bottleItem = Items.GLASS_BOTTLE;
+            if (concoction.getItem() instanceof PourableBottleItem pourable) {
+                bottleItem = pourable.emptyBottleItem;
+            }
+            concoction = new ItemStack(bottleItem);
             entity.bottleTick = 0;
             entity.currentResult = ItemStack.EMPTY;
             setChanged(level, pos, state);
@@ -151,8 +179,8 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
 
         // Test for bottle
         if (!display.isEmpty()) {
-            AlcoholicDrink drink = display.getItem() instanceof PourableBottleItem pour ? pour.drink :
-                    display.getItem() instanceof AlcoholicDrinkItem alc ? alc.source : null;
+            AlcoholicDrink drink = display.getItem() instanceof PourableBottleItem pour
+                    ? pour.drink : null;
             if (drink != null && !bottle.isEmpty() && output.isEmpty()) {
                 if (bottle.is(drink.bottle())) {
                     bottle.shrink(1);
