@@ -52,7 +52,9 @@ public final class BartendingFluids {
 
         @Override
         public int getColor(FluidVariant fluidVariant, @Nullable BlockAndTintGetter view, @Nullable BlockPos pos) {
-            return BrewingUtil.getDrink(Objects.requireNonNull(fluidVariant.getNbt())).color() | 0xff000000;
+            CompoundTag nbt = fluidVariant.getNbt();
+            if (nbt == null) return 0xFFFFFFFF;
+            return BrewingUtil.getDrink(Objects.requireNonNull(nbt)).color() | 0xff000000;
         }
 
     }
