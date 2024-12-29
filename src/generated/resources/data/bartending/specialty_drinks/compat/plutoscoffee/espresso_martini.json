@@ -19,17 +19,8 @@
     "type": "pdapi:item",
     "item": "bartending:mixed_drink"
   },
-  "chemicals": {
-    "bartending:alcohol": 26.0,
-    "pdapi:caffeine": 80.0
-  },
+  "chemicals": {},
   "color": 2167556,
   "name": "",
-  "onDrinkActions": [
-    {
-      "type": "pdapi:restore_hunger",
-      "food": 3,
-      "saturation": 0
-    }
-  ]
+  "onDrinkActions": []
 }

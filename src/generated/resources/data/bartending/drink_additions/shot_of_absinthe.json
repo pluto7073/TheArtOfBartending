@@ -1,7 +1,7 @@
 {
   "changesColor": true,
   "chemicals": {
-    "bartending:alcohol": 20
+    "bartending:alcohol": 20.0
   },
   "color": 6789939,
   "maxAmount": 0,

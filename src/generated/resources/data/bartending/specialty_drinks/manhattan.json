@@ -8,9 +8,7 @@
     "type": "pdapi:item",
     "item": "bartending:mixed_drink"
   },
-  "chemicals": {
-    "bartending:alcohol": 34.0
-  },
+  "chemicals": {},
   "color": 12871734,
   "name": "",
   "onDrinkActions": []

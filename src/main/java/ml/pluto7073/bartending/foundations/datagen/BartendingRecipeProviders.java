@@ -152,7 +152,7 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
         Consumer<FinishedRecipe> fruitfulfun = withConditions(exporter, DefaultResourceConditions.allModsLoaded("fruitfulfun"));
 
         simpleItemAddition(CoreModule.LIME.get(), asId("compat/fruitfulfun/lime"), fruitfulfun);
-        simpleItemAddition(Items.SWEET_BERRIES, exporter);
+        simpleItemAddition(Items.SWEET_BERRIES, asId("sweet_berries"),  exporter);
         simpleItemAddition(CoreModule.ORANGE.get(), asId("compat/fruitfulfun/orange"), fruitfulfun);
 
         Consumer<FinishedRecipe> createExporter =

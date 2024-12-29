@@ -18,22 +18,8 @@
     "type": "pdapi:item",
     "item": "bartending:mixed_drink"
   },
-  "chemicals": {
-    "bartending:alcohol": 42.0
-  },
+  "chemicals": {},
   "color": 14808274,
   "name": "",
-  "onDrinkActions": [
-    {
-      "type": "pdapi:apply_status_effect",
-      "amplifier": 1,
-      "duration": 200,
-      "effect": "minecraft:fire_resistance"
-    },
-    {
-      "type": "pdapi:restore_hunger",
-      "food": 3,
-      "saturation": 3
-    }
-  ]
+  "onDrinkActions": []
 }

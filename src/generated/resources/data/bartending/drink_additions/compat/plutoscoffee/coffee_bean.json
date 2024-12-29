@@ -9,7 +9,7 @@
   ],
   "changesColor": false,
   "chemicals": {
-    "pdapi:caffeine": 5
+    "pdapi:caffeine": 5.0
   },
   "color": 0,
   "maxAmount": 0,

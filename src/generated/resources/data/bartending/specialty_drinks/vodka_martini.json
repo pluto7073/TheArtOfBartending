@@ -10,17 +10,8 @@
     "type": "pdapi:item",
     "item": "bartending:mixed_drink"
   },
-  "chemicals": {
-    "bartending:alcohol": 48.0
-  },
+  "chemicals": {},
   "color": 15724527,
   "name": "",
-  "onDrinkActions": [
-    {
-      "type": "pdapi:apply_status_effect",
-      "amplifier": 1,
-      "duration": 600,
-      "effect": "minecraft:fire_resistance"
-    }
-  ]
+  "onDrinkActions": []
 }

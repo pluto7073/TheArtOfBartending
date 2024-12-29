@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:workstation/drink_workstation/sweet_berries"
+        "recipe": "bartending:workstation/drink_workstation/sweet_berries"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:workstation/drink_workstation/sweet_berries"
+      "bartending:workstation/drink_workstation/sweet_berries"
     ]
   },
   "sends_telemetry_event": false
