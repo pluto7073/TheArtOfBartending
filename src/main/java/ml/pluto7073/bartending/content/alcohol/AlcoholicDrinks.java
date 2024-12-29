@@ -69,7 +69,8 @@ public final class AlcoholicDrinks {
             .color(0xe2c36c).build());
     public static final AlcoholicDrink CHAMPAGNE = register("champagne", new AlcoholicDrink.Builder().proof(24).ounces(5)
             .addStep(new ExtraFermentingBrewerStep(
-                    new FermentingBrewerStep(BarrelPredicate.ANY, 36000, 35999),
+                    24000,
+                    BarrelPredicate.ANY,
                     () -> BartendingItems.WHITE_WINE
             )).name("Champagne").color(0xe2c36c)
             .bottle(BartendingItems.WINE_BOTTLE).build());

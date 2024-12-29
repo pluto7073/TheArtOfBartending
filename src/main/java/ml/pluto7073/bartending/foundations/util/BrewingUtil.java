@@ -252,9 +252,9 @@ public class BrewingUtil {
         return 12;
     }
 
-    public static void runOn(EnvType type, Supplier<Runnable> run) {
+    public static void runOn(EnvType type, Supplier<Supplier<Runnable>> run) {
         if (FabricLoader.getInstance().getEnvironmentType() == type) {
-            run.get().run();
+            run.get().get().run();
         }
     }
 
@@ -322,15 +322,15 @@ public class BrewingUtil {
         return failed;
     }
 
-    public static void runIfLoaded(String modid, Runnable r) {
+    public static void runIfLoaded(String modid, Supplier<Runnable> r) {
         if (FabricLoader.getInstance().isModLoaded(modid)) {
-            r.run();
+            r.get().run();
         }
     }
 
-    public static <T> Optional<T> supplyIfLoaded(String modid, Supplier<T> t) {
+    public static <T> Optional<T> supplyIfLoaded(String modid, Supplier<Supplier<T>> t) {
         if (FabricLoader.getInstance().isModLoaded(modid)) {
-            return Optional.of(t.get());
+            return Optional.of(t.get().get());
         } else return Optional.empty();
     }
 

@@ -113,8 +113,8 @@ public class TheArtOfClient implements ClientModInitializer {
         ItemProperties.register(PDItems.SPECIALTY_DRINK, TheArtOfBartending.asId("mixed_drink"), (stack, level, entity, i) -> {
             if (!stack.getOrCreateTag().contains("Drink")) return 0;
             SpecialtyDrink drink = DrinkUtil.getSpecialDrink(stack);
-            if (drink.base() == BartendingItems.MIXED_DRINK) return 1;
-            if (drink.base() instanceof AlcoholicDrinkItem item) {
+            if (drink.base().buildItemStack().getItem() == BartendingItems.MIXED_DRINK) return 1;
+            if (drink.base().buildItemStack().getItem() instanceof AlcoholicDrinkItem item) {
                 return BartendingItems.GLASSES.containsValue(item) ? 1 : 0;
             }
             return 0;

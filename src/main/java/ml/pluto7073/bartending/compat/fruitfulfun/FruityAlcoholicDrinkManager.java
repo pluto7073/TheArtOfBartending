@@ -28,7 +28,7 @@ public final class FruityAlcoholicDrinkManager {
         BrewerStep boiling;
 
         @SuppressWarnings("Convert2MethodRef")
-        Optional<Item> orange = BrewingUtil.supplyIfLoaded("fruitfulfun", () -> CoreModule.ORANGE.getOrCreate());
+        Optional<Item> orange = BrewingUtil.supplyIfLoaded("fruitfulfun", () -> () -> CoreModule.ORANGE.getOrCreate());
 
         if (orange.isPresent()) {
             boiling = new BoilingBrewerStep.Builder().addIngredient(Ingredient.of(orange.get()), 40, 10)
