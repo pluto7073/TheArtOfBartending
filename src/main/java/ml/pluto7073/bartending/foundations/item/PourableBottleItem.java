@@ -105,7 +105,7 @@ public class PourableBottleItem extends Item {
         amount += BrewingUtil.getAlcoholDeviation(stack);
         if (isAdvanced.isAdvanced() || isAdvanced.isCreative()) AlcoholHandler.INSTANCE.appendTooltip(tooltip, amount, stack, AlcDisplayType.PROOF);
         if (stack.getOrCreateTag().contains("ExtraFermentingData")) {
-            FermentingBrewerStep.appendInProgressText(stack.getOrCreateTagElement("ExtraFermentingData"), tooltip);
+            FermentingBrewerStep.appendInProgressText(stack.getOrCreateTagElement("ExtraFermentingData"), tooltip, level);
         }
         super.appendHoverText(stack, level, tooltip, isAdvanced);
     }

@@ -53,9 +53,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * TODO REWORKING HOW BOILER WORKS TO ADD MULTIPLE ITEMS INTO ONE CONCOCTION, TURN currentBoilingStack INTO A NonNullList OF MAX 4 FOR BOILING STACKS
- */
 @SuppressWarnings("UnstableApiUsage")
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault

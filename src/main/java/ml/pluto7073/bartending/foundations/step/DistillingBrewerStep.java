@@ -3,7 +3,7 @@ package ml.pluto7073.bartending.foundations.step;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ public class DistillingBrewerStep implements BrewerStep {
     }
 
     @Override
-    public boolean mightMatch(CompoundTag data) {
+    public boolean mightMatch(CompoundTag data, Level level) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int runs = data.getInt("runs");
         return runs <= this.runs + leeway;
@@ -39,20 +39,20 @@ public class DistillingBrewerStep implements BrewerStep {
     }
 
     @Override
-    public boolean matches(CompoundTag data) {
+    public boolean matches(CompoundTag data, Level level) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int runs = data.getInt("runs");
         return runs <= this.runs + leeway && runs >= this.runs - leeway;
     }
 
     @Override
-    public int getDeviation(CompoundTag data, float standard) {
+    public int getDeviation(CompoundTag data, float standard, Level level) {
         int runs = data.getInt("runs");
         return 4 * (runs - this.runs);
     }
 
     @Override
-    public void createExactMatchData(CompoundTag tag) {
+    public void createExactMatchData(CompoundTag tag, Level level) {
         tag.putInt("runs", runs);
     }
 

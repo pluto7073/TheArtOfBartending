@@ -14,6 +14,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 
 import java.util.*;
 
@@ -32,7 +33,7 @@ public class BoilingBrewerStep implements BrewerStep {
     }
 
     @Override
-    public boolean mightMatch(CompoundTag data) {
+    public boolean mightMatch(CompoundTag data, Level level) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int ticks = data.getInt("ticks");
         if (ticks > wantedTicks + tickLeeway) return false;
@@ -80,7 +81,7 @@ public class BoilingBrewerStep implements BrewerStep {
 
 
     @Override
-    public boolean matches(CompoundTag data) {
+    public boolean matches(CompoundTag data, Level level) {
         if (!TYPE_ID.equals(data.getString("type"))) return false;
         int ticks = data.getInt("ticks");
         if (Math.abs(wantedTicks - ticks) > tickLeeway) return false;
@@ -88,7 +89,7 @@ public class BoilingBrewerStep implements BrewerStep {
     }
 
     @Override
-    public int getDeviation(CompoundTag data, float standard) {
+    public int getDeviation(CompoundTag data, float standard, Level level) {
         int fromCount = 0;
         if (data.contains("item", Tag.TAG_STRING)) {
             int count = data.getInt("count");
@@ -118,7 +119,7 @@ public class BoilingBrewerStep implements BrewerStep {
     }
 
     @Override
-    public void createExactMatchData(CompoundTag tag) {
+    public void createExactMatchData(CompoundTag tag, Level level) {
         tag.putInt("ticks", wantedTicks);
         if (ingredients.size() <= 1) {
             Ingredient i = ingredients.keySet().iterator().next();

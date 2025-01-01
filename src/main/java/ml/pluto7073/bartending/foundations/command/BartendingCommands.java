@@ -2,13 +2,10 @@ package ml.pluto7073.bartending.foundations.command;
 
 import com.mojang.brigadier.arguments.FloatArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import ml.pluto7073.bartending.TheArtOfBartending;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
 import ml.pluto7073.bartending.foundations.step.BrewerStep;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
-import ml.pluto7073.bartending.foundations.alcohol.AlcoholHandler;
 import ml.pluto7073.chemicals.handlers.HalfLifeChemicalHandler;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.commands.CommandBuildContext;
@@ -18,10 +15,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 
 import static net.minecraft.commands.Commands.argument;
@@ -47,7 +40,7 @@ public final class BartendingCommands {
                             for (BrewerStep step : drink.steps()) {
                                 CompoundTag data = new CompoundTag();
                                 data.putString("type", step.id());
-                                step.createExactMatchData(data);
+                                step.createExactMatchData(data, stack.getLevel());
                                 tag.add(data);
                             }
                             concoction.getOrCreateTag().put("BrewingSteps", tag);

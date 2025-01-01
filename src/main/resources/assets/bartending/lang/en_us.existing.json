@@ -59,7 +59,7 @@
   "tooltip.bartending.boilTime": "Boiling Time: %1$s",
   "tooltip.bartending.water": "Water: %1$s / 1000mb",
   "tooltip.bartending.fermenting_in": "Fermenting in ",
-  "tooltip.bartending.fermenting_for": "for %1$s days",
+  "tooltip.bartending.fermenting_for": "for %1$s years",
   "tooltip.bartending.alcohol_content": "Contains: %1$s of Alcohol",
   "tooltip.bartending.proof": "%1$s proof",
   "tooltip.bartending.distilled": "Distilled",
@@ -84,5 +84,9 @@
   "command.concoction.response": "Gave %1$s the matching concoction for ",
   "disconnect.bartending.blacked_out": "You have blacked out! Come back in 5 minutes",
   "disconnect.bartending.still_blacked_out": "You are currently blacked out! Come back in %1$s",
-  "pack.bartending.pdapi_overrides": "PDAPI Overrides"
+  "pack.bartending.pdapi_overrides": "PDAPI Overrides",
+  "gamerule.doBlackout": "Players Blackout",
+  "gamerule.doBlackout": "Should players have a chance to blackout after drinking too much alcohol",
+  "gamerule.yearLengthTicks": "Year Length in Ticks",
+  "gamerule.yearLengthTicks.description": "How many ticks is considered a year in fermenting"
 }

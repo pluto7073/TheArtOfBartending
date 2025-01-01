@@ -127,16 +127,17 @@ public class BrewingUtil {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Tag> T compute(CompoundTag tag, String key, BiFunction<String, T, T> remapper) {
         Tag oldValue = tag.get(key);
-        //noinspection unchecked
         T newVal = remapper.apply(key, oldValue == null ? null : (T) oldValue);
         tag.put(key, newVal);
         return newVal;
     }
 
+    @SuppressWarnings("unchecked")
     public static <T extends Tag> T computeIfAbsent(CompoundTag tag, String key, Function<String, T> computer) {
-        if (tag.contains(key)) //noinspection unchecked
+        if (tag.contains(key))
             return (T) tag.get(key);
         T val = computer.apply(key);
         tag.put(key, val);

@@ -7,17 +7,8 @@ import ml.pluto7073.bartending.foundations.step.BrewerStep;
 import ml.pluto7073.bartending.foundations.step.ExtraFermentingBrewerStep;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.foundations.alcohol.AlcoholicDrink;
-import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
 import ml.pluto7073.bartending.foundations.tags.BartendingTags;
-import ml.pluto7073.pdapi.item.AbstractCustomizableDrinkItem;
-import ml.pluto7073.pdapi.util.BasicSingleStorage;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
-import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.FilteringStorage;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleVariantStorage;
-import net.fabricmc.fabric.api.transfer.v1.transaction.Transaction;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -25,8 +16,6 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
@@ -117,14 +106,14 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
             ListTag steps = concoction.getOrCreateTag().getList("BrewingSteps", CompoundTag.TAG_COMPOUND);
             AlcoholicDrink match = null;
             for (AlcoholicDrink drink : AlcoholicDrinks.values()) {
-                if (drink.matches(steps)) match = drink;
+                if (drink.matches(steps, level)) match = drink;
             }
             if (match == null) {
                 display = BrewingUtil.constructFailedConcoction(concoction);
                 concoction = new ItemStack(Items.GLASS_BOTTLE);
             } else {
                 entity.currentResult = new ItemStack(AlcoholicDrinks.getFinalDrink(match));
-                int deviation = match.getTotalDeviation(steps);
+                int deviation = match.getTotalDeviation(steps, level);
                 BrewingUtil.setAlcoholDeviation(entity.currentResult, deviation);
                 entity.bottleTick++;
             }
@@ -135,7 +124,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
                 if (drink.steps().length != 1) continue;
                 for (BrewerStep step : drink.steps()) {
                     if (!(step instanceof ExtraFermentingBrewerStep extra)) continue drinkLoop;
-                    if (!extra.matches(concoction.getOrCreateTagElement("ExtraFermentingData")))
+                    if (!extra.matches(concoction.getOrCreateTagElement("ExtraFermentingData"), level))
                         continue drinkLoop;
                     if (!extra.testItem(concoction)) continue drinkLoop;
                     match = drink;
@@ -145,7 +134,7 @@ public class BottlerBlockEntity extends BaseContainerBlockEntity implements Worl
                 entity.currentResult = new ItemStack(AlcoholicDrinks.getFinalDrink(match));
                 ListTag stepList = new ListTag();
                 stepList.add(concoction.getOrCreateTagElement("ExtraFermentingData"));
-                int deviation = match.getTotalDeviation(stepList);
+                int deviation = match.getTotalDeviation(stepList, level);
                 deviation += BrewingUtil.getAlcoholDeviation(concoction);
                 BrewingUtil.setAlcoholDeviation(entity.currentResult, deviation);
                 entity.bottleTick++;

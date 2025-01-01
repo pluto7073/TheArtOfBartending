@@ -13,6 +13,7 @@ import ml.pluto7073.bartending.content.gui.BartendingMenuTypes;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.content.item.ConcoctionItem;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
+import ml.pluto7073.bartending.foundations.network.BartendingClientboundPackets;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
 import ml.pluto7073.bartending.client.config.ClientConfig;
 import ml.pluto7073.bartending.foundations.util.ColorUtil;
@@ -53,6 +54,7 @@ public class TheArtOfClient implements ClientModInitializer {
         registerScreens();
         initRendering();
         registerItemProperties();
+        BartendingClientboundPackets.registerReceivers();
     }
 
     public static ClientConfig config() {

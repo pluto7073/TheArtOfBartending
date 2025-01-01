@@ -92,29 +92,31 @@ public class ConcoctionItem extends Item {
         }
         ListTag steps = stack.getOrCreateTag().getList("BrewingSteps", ListTag.TAG_COMPOUND);
 
-        List<AlcoholicDrink> matches = AlcoholicDrinks.values().stream().filter(drink -> drink.mightMatch(steps)).toList();
+        if (level != null) {
+            List<AlcoholicDrink> matches = AlcoholicDrinks.values().stream().filter(drink -> drink.mightMatch(steps, level)).toList();
 
-        if (!matches.isEmpty()) {
-            int index = matches.size();
+            if (!matches.isEmpty()) {
+                int index = matches.size();
 
-            if (stack.getOrCreateTag().contains("suggestIndex")) {
-                index = stack.getOrCreateTag().getInt("suggestIndex");
+                if (stack.getOrCreateTag().contains("suggestIndex")) {
+                    index = stack.getOrCreateTag().getInt("suggestIndex");
+                }
+
+                if (index >= matches.size()) {
+                    index = level.random.nextInt(matches.size());
+                }
+
+                stack.getOrCreateTag().putInt("suggestIndex", index);
+
+                AlcoholicDrink match = matches.get(index);
+                ResourceLocation id = AlcoholicDrinks.getId(match);
+
+                tooltip.add(Component.translatable("tooltip.bartending.might_create").withStyle(ChatFormatting.GRAY)
+                        .append(Component.translatable(id.toLanguageKey("alcohol")).withStyle(ChatFormatting.AQUA)));
+            } else {
+                tooltip.add(Component.translatable("tooltip.bartending.might_create").withStyle(ChatFormatting.GRAY)
+                        .append(Component.translatable("item.bartending.concoction")).withStyle(ChatFormatting.AQUA));
             }
-
-            if (index >= matches.size()) {
-                index = level != null ? level.random.nextInt(matches.size()) : 0;
-            }
-
-            stack.getOrCreateTag().putInt("suggestIndex", index);
-
-            AlcoholicDrink match = matches.get(index);
-            ResourceLocation id = AlcoholicDrinks.getId(match);
-
-            tooltip.add(Component.translatable("tooltip.bartending.might_create").withStyle(ChatFormatting.GRAY)
-                    .append(Component.translatable(id.toLanguageKey("alcohol")).withStyle(ChatFormatting.AQUA)));
-        } else {
-            tooltip.add(Component.translatable("tooltip.bartending.might_create").withStyle(ChatFormatting.GRAY)
-                    .append(Component.translatable("item.bartending.concoction")).withStyle(ChatFormatting.AQUA));
         }
 
         for (Tag tag : steps) {
@@ -122,7 +124,7 @@ public class ConcoctionItem extends Item {
             String type = data.getString("type");
             switch (type) {
                 case BoilingBrewerStep.TYPE_ID -> BoilingBrewerStep.appendInProgressText(data, tooltip);
-                case FermentingBrewerStep.TYPE_ID -> FermentingBrewerStep.appendInProgressText(data, tooltip);
+                case FermentingBrewerStep.TYPE_ID -> FermentingBrewerStep.appendInProgressText(data, tooltip, level);
                 case DistillingBrewerStep.TYPE_ID -> DistillingBrewerStep.appendInProgressText(data, tooltip);
             }
         }

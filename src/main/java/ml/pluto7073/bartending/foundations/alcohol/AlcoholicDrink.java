@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -73,13 +74,13 @@ public class AlcoholicDrink {
         return englishName;
     }
 
-    public boolean matches(ListTag steps) {
+    public boolean matches(ListTag steps, Level level) {
         if (steps.size() != this.steps.length) return false;
 
         for (int i = 0; i < steps.size(); i++) {
             BrewerStep step = this.steps[i];
             CompoundTag data = steps.getCompound(i);
-            if (!step.matches(data)) return false;
+            if (!step.matches(data, level)) return false;
         }
 
         return true;
@@ -88,15 +89,16 @@ public class AlcoholicDrink {
     /**
      * Determines whether a list of steps <em>might</em> match this alcoholic drink
      * @param steps The list of steps to test against
+     * @param level The current level
      * @return <code>true</code> if the steps present are in the correct order and match even if a few steps at the end are missing<br>
      * <code>false</code> if a step provided doesn't match an existing step or there are more steps than required for this drink
      */
-    public boolean mightMatch(ListTag steps) {
+    public boolean mightMatch(ListTag steps, Level level) {
         if (steps.size() > this.steps.length) return false;
         for (int i = 0; i < steps.size(); i++) {
             BrewerStep step = this.steps[i];
             CompoundTag data = steps.getCompound(i);
-            if (!step.mightMatch(data)) return false;
+            if (!step.mightMatch(data, level)) return false;
         }
 
         return true;
@@ -106,15 +108,16 @@ public class AlcoholicDrink {
      * Returns the total deviation in grams of alcohol from the standard recipe.
      * This should only be performed on a list of steps that is known to match this Alcoholic drink, as this method does not check whether the list of steps is correct or not
      * @param steps The <code>ListTag</code> of steps from the concoction
+     * @param level The current Level
      * @return The amount of alcohol in grams to be added or removed from the standard amount
      */
-    public int getTotalDeviation(ListTag steps) {
+    public int getTotalDeviation(ListTag steps, Level level) {
         int deviation = 0;
         float standard = BrewingUtil.getStandardAlcohol(this);
         for (int i = 0; i < steps.size(); i++) {
             BrewerStep step = this.steps[i];
             CompoundTag data = steps.getCompound(i);
-            deviation += step.getDeviation(data, standard);
+            deviation += step.getDeviation(data, standard, level);
         }
         return deviation;
     }

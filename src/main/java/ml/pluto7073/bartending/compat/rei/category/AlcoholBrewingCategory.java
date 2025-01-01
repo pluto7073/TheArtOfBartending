@@ -88,7 +88,7 @@ public class AlcoholBrewingCategory implements DisplayCategory<AlcoholBrewingDis
         widgets.add(Widgets.createRecipeBase(new Rectangle(bounds.x, baseY - 12, bounds.width, 52)));
         widgets.add(Widgets.createSlot(new Point(bounds.x + 8, baseY + 6))
                 .entries(EntryIngredients.ofIngredient(step.predicate.asIngredient())).markInput());
-        widgets.add(new TextWidget(Component.translatable("tooltip.bartending.fermenting_for", BrewingUtil.getMinecraftDays(step.wantedTicks - 12000)),
+        widgets.add(new TextWidget(Component.translatable("tooltip.bartending.fermenting_for", step.years),
                 ChatFormatting.WHITE, new Point(bounds.x + 28, baseY + 8)));
     }
 
