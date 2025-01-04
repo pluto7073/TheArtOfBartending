@@ -40,11 +40,10 @@ public class AlcoholicDrinkItem extends AbstractCustomizableDrinkItem {
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
         Player player = user instanceof Player ? (Player) user : null;
         if (player == null) return stack;
-        float mul = (sipAmount / 2f) / source.standardOunces();
 
-        stack.hurtAndBreak(sipAmount, player, p -> {});
+        //stack.hurtAndBreak(sipAmount, player, p -> {});
         player.awardStat(BartendingStats.CONSUME_ALCOHOL.get(),
-                (int) Math.ceil(getChemicalContent(AlcoholHandler.INSTANCE.getId(), stack) * mul));
+                (int) Math.ceil(getChemicalContent(AlcoholHandler.INSTANCE.getId(), stack)));
 
 
         if (!stack.isEmpty()) return stack;
@@ -74,15 +73,11 @@ public class AlcoholicDrinkItem extends AbstractCustomizableDrinkItem {
         return 16;
     }
 
-    public float getBaseChemicalContent(ResourceLocation id, ItemStack stack) {
+    @Override
+    public float getChemicalContent(ResourceLocation id, ItemStack stack) {
         return super.getChemicalContent(id, stack) + ("bartending:alcohol".equals(id.toString()) ? alcohol +
                 (stack.getOrCreateTagElement(DRINK_DATA_NBT_KEY).contains("Deviation") ?
                         stack.getOrCreateTagElement(DRINK_DATA_NBT_KEY).getInt("Deviation") : 0) : 0);
-    }
-
-    @Override
-    public float getChemicalContent(ResourceLocation id, ItemStack stack) {
-        return getBaseChemicalContent(id, stack) * ((sipAmount / 2f) / source.standardOunces());
     }
 
 }

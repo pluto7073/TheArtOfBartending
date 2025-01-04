@@ -75,9 +75,6 @@ public class AlcoholHandler extends HalfLifeChemicalHandler {
     }
 
     public void appendTooltip(List<Component> tooltip, float amount, ItemStack stack, AlcDisplayType display) {
-        if (stack.getItem() instanceof AlcoholicDrinkItem item) {
-            amount = item.getBaseChemicalContent(getId(), stack);
-        }
         if (amount <= 0) return;
         if (DrinkUtil.getAdditionsFromStack(stack).length > 0 || stack.is(PDItems.SPECIALTY_DRINK)) {
             tooltip.add(Component.translatable("tooltip.bartending.alcohol_content", amount + "g").withStyle(ChatFormatting.GOLD));
