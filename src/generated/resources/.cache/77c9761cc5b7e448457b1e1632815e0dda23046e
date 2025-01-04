@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-04T13:47:22.3668476	The Art of Bartending/Recipes
+// 1.20.1	2025-01-04T13:49:49.1485783	The Art of Bartending/Recipes
 f269d06fbdf4b421139d079689b804f846747f03 data\bartending\advancements\recipes\tools\stonecutting\short_glass_from_glass_bottle.json
 87322fd07c7177fa3eef7a743497f475939608ea data\bartending\recipes\filling\shot_of_tequila.json
 a81921144831c59b7d4a948ee425cd06d68777c7 data\bartending\recipes\drink_workstation\add_gin.json
@@ -156,8 +156,8 @@ d968a4b243d33a123b098a31888ce6c1ada5766e data\bartending\recipes\filling\shot_of
 b68559adfe789053e391c43b0ef7f79447d2790b data\bartending\recipes\emptying\glass_of_apple_mead.json
 85cd40c51d5c8f0e818b0f53489ac88af6c6770e data\bartending\recipes\filling\absinthe.json
 dc7961a5a7c49770f335b83d600fda50e4636266 data\bartending\recipes\filling\whiskey.json
-9d2bc16975e549b3e692b2b372a1b867966422c0 data\bartending\recipes\pouring\shot_of_tequila.json
 0274d39cd92d6ee84e33637cd3a9468bd0c9ecc2 data\bartending\advancements\recipes\workstation\drink_workstation\add_tequila.json
+9d2bc16975e549b3e692b2b372a1b867966422c0 data\bartending\recipes\pouring\shot_of_tequila.json
 80e06e4140cfe72e114079adfc5bb97d60fd47b8 data\bartending\recipes\stonecutting\jug_from_glass.json
 57be5ea9dfe10fc0a92fe9cfdc59772de55abf20 data\bartending\recipes\emptying\mead.json
 fa4e7af7f5d78d9f6ef917059822fec8eca87bf4 data\bartending\advancements\recipes\pouring\bottle_of_wheat_beer.json
