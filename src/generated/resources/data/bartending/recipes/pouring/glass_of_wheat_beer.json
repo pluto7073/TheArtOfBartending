@@ -2,7 +2,7 @@
   "type": "bartending:pouring",
   "alcoholType": "bartending:wheat_beer",
   "glass": {
-    "item": "minecraft:glass_bottle"
+    "item": "bartending:tall_glass"
   },
   "ounces": 12.0,
   "result": {

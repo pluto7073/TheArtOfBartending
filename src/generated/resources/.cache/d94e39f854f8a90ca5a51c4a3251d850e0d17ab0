@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-04T13:17:12.9061226	The Art of Bartending/Model Definitions
+// 1.20.1	2025-01-04T13:34:24.3257884	The Art of Bartending/Model Definitions
 a9061f74c37f6f8d8852e661a67bfec7d33a46a9 assets\bartending\models\item\dark_beer.json
 020b77856c78b4f829e3923b86b8e742e5830bbf assets\bartending\models\item\oak_fermenting_barrel.json
 8fa6178c42606c8ed536845c16f2573fd66e2e62 assets\bartending\blockstates\cherry_fermenting_barrel.json
@@ -62,8 +62,8 @@ d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\red_wine.
 87bf569bbdfa8cc17c6e804282babc235627035f assets\bartending\models\item\glass_of_red_wine.json
 87bf569bbdfa8cc17c6e804282babc235627035f assets\bartending\models\item\glass_of_mead.json
 8fa6178c42606c8ed536845c16f2573fd66e2e62 assets\bartending\blockstates\warped_fermenting_barrel.json
-4beceeea1adfd15a4b99358dbe9b533c0d258375 assets\bartending\models\item\rum.json
 87bf569bbdfa8cc17c6e804282babc235627035f assets\bartending\models\item\glass_of_sweet_vermouth.json
+4beceeea1adfd15a4b99358dbe9b533c0d258375 assets\bartending\models\item\rum.json
 8fa6178c42606c8ed536845c16f2573fd66e2e62 assets\bartending\blockstates\bamboo_fermenting_barrel.json
 8fa6178c42606c8ed536845c16f2573fd66e2e62 assets\bartending\blockstates\birch_fermenting_barrel.json
 d72e828409b4058835acbb4ce146c3c2150f4256 assets\bartending\models\item\champagne.json
