@@ -121,6 +121,8 @@ dependencies {
 
 	modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}" // Required for ModMenu
 
+	modRuntimeOnly "maven.modrinth:plutos-coffee-mod:$minecraft_version+$plutoscoffee_version"
+
 }
 
 tasks.register("buildOrPublish") {
