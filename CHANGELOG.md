@@ -3,6 +3,12 @@
 - Two new glasses, the Tall and Short glass
   - The tall glass is the same that beer appeared to have been in
   - The short glass is the kind the rich people in soap operas pour whiskey
+- When making a Specialty drink from a Mixed Drink in a datapack, use the `"bartending:glass_base"` base to specify the specific type of glass needed for that drink.  This takes the argument `"glass"` which is the glass's ID  Can be one of:
+  - `minecraft:glass_bottle`
+  - `bartending:tall_glass`
+  - `bartending:short_glass`
+  - `bartending:wine_glass`
+  - `bartending:cocktail_glass`
 
 ## Changes
 - Temporarily removed the Sipping feature, will be re-added later

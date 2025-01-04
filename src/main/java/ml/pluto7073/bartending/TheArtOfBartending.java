@@ -16,6 +16,7 @@ import ml.pluto7073.bartending.foundations.command.BartendingCommands;
 import ml.pluto7073.bartending.foundations.config.BartendingGameRules;
 import ml.pluto7073.bartending.foundations.item.BartendingCreativeTabs;
 import ml.pluto7073.bartending.foundations.recipe.BartendingRecipes;
+import ml.pluto7073.bartending.foundations.specialty.GlassDrinkBaseSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,7 @@ public class TheArtOfBartending implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        GlassDrinkBaseSerializer.init();
         BartendingEntityData.init();
         BartendingGameRules.init();
         AbsorbedAlcoholHandler.init();
