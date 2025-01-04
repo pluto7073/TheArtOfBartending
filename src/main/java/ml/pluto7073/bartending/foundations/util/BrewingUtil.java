@@ -1,7 +1,6 @@
 package ml.pluto7073.bartending.foundations.util;
 
 import ml.pluto7073.bartending.compat.create.TheArtOfCreate;
-import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.bartending.foundations.BartendingRegistries;
 import ml.pluto7073.bartending.foundations.alcohol.AlcDisplayType;
@@ -20,7 +19,6 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -34,8 +32,14 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BrewingUtil {
+
+    @SafeVarargs
+    public static <T> Stream<T> collectionsToStream(Collection<? extends T>... lists) {
+        return Arrays.stream(lists).flatMap(Collection::stream);
+    }
 
     public static ItemStack createConcoctionFromBaseTicks(NonNullList<ItemStack> base, int ticks) {
         CompoundTag data = new CompoundTag();

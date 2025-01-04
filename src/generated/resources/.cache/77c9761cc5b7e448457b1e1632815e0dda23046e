@@ -1,4 +1,4 @@
-// 1.20.1	2025-01-04T13:34:24.3228511	The Art of Bartending/Recipes
+// 1.20.1	2025-01-04T13:47:22.3668476	The Art of Bartending/Recipes
 f269d06fbdf4b421139d079689b804f846747f03 data\bartending\advancements\recipes\tools\stonecutting\short_glass_from_glass_bottle.json
 87322fd07c7177fa3eef7a743497f475939608ea data\bartending\recipes\filling\shot_of_tequila.json
 a81921144831c59b7d4a948ee425cd06d68777c7 data\bartending\recipes\drink_workstation\add_gin.json
@@ -129,8 +129,8 @@ f2e9446598100281d290c15be491d218946e5f68 data\bartending\recipes\emptying\shot_o
 e5270a56102e447f1d24c66c88305949059ccbb3 data\bartending\recipes\emptying\glass_of_dark_beer.json
 038a442e94d334d80589a2f97683de462a450b31 data\bartending\advancements\recipes\workstation\drink_workstation\cocoa_beans.json
 4b671e207ef340f8338fcbec30a0e7d1566fc1cd data\bartending\recipes\filling\crimson_wine.json
-4c4207b96fa71a9b4a7b14def079c93275db04d5 data\bartending\recipes\pouring\shot_of_dry_vermouth.json
 49d6287a7160cf9b08fbaba9d39138d3b6ad9a70 data\bartending\advancements\recipes\workstation\drink_workstation\add_coffee_liqueur.json
+4c4207b96fa71a9b4a7b14def079c93275db04d5 data\bartending\recipes\pouring\shot_of_dry_vermouth.json
 ed28425ea2e30f80a671d7540fe6248a9033c816 data\bartending\recipes\emptying\dark_beer.json
 f5d1746e3505165b338fc546ce27c1d93f42157d data\bartending\recipes\filling\vodka.json
 0678f0a78a611ff24fb70c80927ff9251dd0fab6 data\bartending\recipes\filling\red_wine.json
@@ -147,8 +147,8 @@ f06707454925ea04e792097aa3fd3af2eda8ad51 data\bartending\recipes\filling\rum.jso
 1444d6f6268a0c9d4bf9e22aaf756ce516541535 data\bartending\recipes\emptying\gin.json
 e75b61f12f8893603ab12a6218385807ee67c317 data\bartending\recipes\filling\shot_of_coffee_liqueur.json
 557fc977772f5303a952fd7e1833189cee1c8778 data\bartending\recipes\drink_workstation\add_coffee_liqueur.json
-94af083a6f0cf1f8eca54c48b6b866d0abe85841 data\bartending\recipes\pouring\glass_of_champagne.json
 4d288d763d36688f289645c1fffb19e6b28f6cdc data\bartending\advancements\recipes\pouring\glass_of_wheat_beer.json
+94af083a6f0cf1f8eca54c48b6b866d0abe85841 data\bartending\recipes\pouring\glass_of_champagne.json
 2ecc9d4bb6b0d450a109d5ec4fd57c7577b07fcb data\bartending\recipes\emptying\shot_of_tequila.json
 06e0c87502694e7773e484dac68effaa65666897 data\bartending\recipes\stonecutting\tall_glass_from_glass_bottle.json
 d968a4b243d33a123b098a31888ce6c1ada5766e data\bartending\recipes\filling\shot_of_sweet_vermouth.json
