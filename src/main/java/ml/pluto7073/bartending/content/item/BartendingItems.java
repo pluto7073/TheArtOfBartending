@@ -41,15 +41,15 @@ public class BartendingItems {
     public static final Item SHORT_GLASS = new Item(new Item.Properties());
 
     public static final Item BOTTLE_OF_BEER = servingBottle(AlcoholicDrinks.BEER);
-    public static final Item GLASS_OF_BEER = glass(AlcoholicDrinks.BEER, GLASS_BOTTLE);
+    public static final Item GLASS_OF_BEER = glass(AlcoholicDrinks.BEER, TALL_GLASS);
     public static final Item JUG_OF_BEER = bottle(AlcoholicDrinks.BEER);
 
     public static final Item BOTTLE_OF_WHEAT_BEER = servingBottle(AlcoholicDrinks.WHEAT_BEER);
-    public static final Item GLASS_OF_WHEAT_BEER = glass(AlcoholicDrinks.WHEAT_BEER, GLASS_BOTTLE);
+    public static final Item GLASS_OF_WHEAT_BEER = glass(AlcoholicDrinks.WHEAT_BEER, TALL_GLASS);
     public static final Item JUG_OF_WHEAT_BEER = bottle(AlcoholicDrinks.WHEAT_BEER);
 
     public static final Item BOTTLE_OF_DARK_BEER = servingBottle(AlcoholicDrinks.DARK_BEER);
-    public static final Item GLASS_OF_DARK_BEER = glass(AlcoholicDrinks.DARK_BEER, GLASS_BOTTLE);
+    public static final Item GLASS_OF_DARK_BEER = glass(AlcoholicDrinks.DARK_BEER, TALL_GLASS);
     public static final Item JUG_OF_DARK_BEER = bottle(AlcoholicDrinks.DARK_BEER);
 
     public static final Item GLASS_OF_MEAD = glass(AlcoholicDrinks.MEAD, WINE_GLASS);

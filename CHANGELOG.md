@@ -6,6 +6,7 @@
 
 ## Changes
 - Temporarily removed the Sipping feature, will be re-added later
+- Tall glasses are now used to pour beer into
 
 ## Fixes
 - Appletini recipe once again requires sugar and an apple
