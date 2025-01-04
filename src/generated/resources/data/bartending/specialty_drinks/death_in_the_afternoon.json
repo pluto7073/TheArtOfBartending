@@ -6,9 +6,7 @@
     "type": "pdapi:item",
     "item": "bartending:glass_of_champagne"
   },
-  "chemicals": {
-    "bartending:alcohol": 14.0
-  },
+  "chemicals": {},
   "color": 14736976,
   "name": "",
   "onDrinkActions": []
