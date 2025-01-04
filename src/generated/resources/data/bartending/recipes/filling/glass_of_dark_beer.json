@@ -10,7 +10,7 @@
   "type": "create:filling",
   "ingredients": [
     {
-      "item": "bartending:glass_of_beer"
+      "item": "minecraft:glass_bottle"
     },
     {
       "amount": 20250,

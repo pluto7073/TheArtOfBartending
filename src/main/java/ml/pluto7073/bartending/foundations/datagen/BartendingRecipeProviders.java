@@ -134,9 +134,9 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
                     .save(exporter, AlcoholicDrinks.getId(alc).withPrefix("drink_workstation/add_"));
         });
 
-        simpleItemAddition(Items.APPLE, exporter);
+        simpleItemAddition(Items.APPLE, asId("apple"), exporter);
 
-        simpleItemAddition(Items.COCOA_BEANS, exporter);
+        simpleItemAddition(Items.COCOA_BEANS, asId("cocoa_beans"), exporter);
 
         TagKey<Item> coffeeBeans = TagKey.create(Registries.ITEM,
                 new ResourceLocation("plutoscoffee:roasted_coffee_beans"));

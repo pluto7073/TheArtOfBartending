@@ -15,7 +15,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:workstation/drink_workstation/cocoa_beans"
+        "recipe": "bartending:workstation/drink_workstation/cocoa_beans"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -28,7 +28,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:workstation/drink_workstation/cocoa_beans"
+      "bartending:workstation/drink_workstation/cocoa_beans"
     ]
   },
   "sends_telemetry_event": false

@@ -6,5 +6,5 @@
   "base": {
     "tag": "pdapi:workstation_drinks"
   },
-  "result": "minecraft:cocoa_beans"
+  "result": "bartending:cocoa_beans"
 }
