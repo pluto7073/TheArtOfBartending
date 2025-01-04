@@ -48,7 +48,7 @@ public class BartendingItems {
     public static final Item JUG_OF_WHEAT_BEER = bottle(AlcoholicDrinks.WHEAT_BEER);
 
     public static final Item BOTTLE_OF_DARK_BEER = servingBottle(AlcoholicDrinks.DARK_BEER);
-    public static final Item GLASS_OF_DARK_BEER = glass(AlcoholicDrinks.DARK_BEER, GLASS_OF_BEER);
+    public static final Item GLASS_OF_DARK_BEER = glass(AlcoholicDrinks.DARK_BEER, GLASS_BOTTLE);
     public static final Item JUG_OF_DARK_BEER = bottle(AlcoholicDrinks.DARK_BEER);
 
     public static final Item GLASS_OF_MEAD = glass(AlcoholicDrinks.MEAD, WINE_GLASS);

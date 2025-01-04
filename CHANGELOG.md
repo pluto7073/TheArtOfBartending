@@ -1,4 +1,9 @@
 
+## Fixes
+- Dark beer's glass is now the Glass Bottle, instead of Glass of Beer
+
+---
+
 ## Additions
 - Champagne!
   - Made by fermenting a bottle of White Wine for at least a day, then placing it in the bottler
