@@ -22,6 +22,8 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
             .step(asId("shot_of_vodka"))
             .step(asId("shot_of_apple_liqueur"))
             .step(asId("shot_of_apple_liqueur"))
+            .step(PDAPI.asId("sugar"))
+            .step(asId("apple"))
             .color(12356169);
 
     private static final DrinkBuilder MARTINI = staticBaseBuilder(BartendingItems.MIXED_DRINK)
@@ -51,7 +53,6 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
 
     private static final DrinkBuilder DEATH_IN_THE_AFTERNOON = staticBaseBuilder(BartendingItems.GLASS_OF_CHAMPAGNE)
             .step(asId("shot_of_absinthe"))
-            .chemical(asId("alcohol"), 14)
             .color(0xe0de50);
 
     private static final DrinkBuilder OLD_FASHIONED = staticBaseBuilder(BartendingItems.MIXED_DRINK)
@@ -62,7 +63,6 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
 
     private static final DrinkBuilder MIMOSA = staticBaseBuilder(BartendingItems.GLASS_OF_CHAMPAGNE)
             .step(asId("compat/fruitfulfun/orange"))
-            .chemical(asId("alcohol"), 14)
             .color(0xf2c041);
 
     private static final DrinkBuilder KAMIKAZE = staticBaseBuilder(BartendingItems.MIXED_DRINK)

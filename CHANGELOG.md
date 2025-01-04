@@ -1,3 +1,5 @@
+# Fixes
+- Appletini recipe once again requires sugar and an apple
 
 ## Fixes
 - Dark beer's glass is now the Glass Bottle, instead of Glass of Beer
