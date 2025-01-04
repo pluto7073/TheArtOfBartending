@@ -1,6 +1,7 @@
 
 ## Fixes
 - Dark beer's glass is now the Glass Bottle, instead of Glass of Beer
+- Fixed Workstation recipes for Apple and Cocoa Bean additions
 
 ---
 
