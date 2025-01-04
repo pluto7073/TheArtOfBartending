@@ -1,8 +1,13 @@
 
-# Changes
+## Additions
+- Two new glasses, the Tall and Short glass
+  - The tall glass is the same that beer appeared to have been in
+  - The short glass is the kind the rich people in soap operas pour whiskey
+
+## Changes
 - Temporarily removed the Sipping feature, will be re-added later
 
-# Fixes
+## Fixes
 - Appletini recipe once again requires sugar and an apple
 
 ---

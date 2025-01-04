@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "bartending:item/short_glass_liquid",
+    "layer1": "bartending:item/short_glass"
+  }
+}

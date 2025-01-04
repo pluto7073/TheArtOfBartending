@@ -27,6 +27,8 @@
   "item.bartending.shot_glass": "Shot Glass",
   "item.bartending.wine_glass": "Wine Glass",
   "item.bartending.cocktail_glass": "Cocktail Glass",
+  "item.bartending.tall_glass": "Tall Glass",
+  "item.bartending.short_glass": "Short Glass",
   "item.bartending.mixed_drink": "Mixed Drink",
   "enchantment.bartending.vineyard_walker": "Vineyard Walker",
   "enchantment.bartending.vineyard_walker.desc": "Allows the wearer to walk among sweet berries and other bush blocks without being slowed or taking damage",

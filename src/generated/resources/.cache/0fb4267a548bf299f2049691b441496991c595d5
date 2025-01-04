@@ -1,3 +1,4 @@
-// 1.20.1	2025-01-03T17:52:16.6615247	The Art of Bartending/Tags for minecraft:item
-9a43ec74794591ab4ef38685f6e0a96e5c54d10b data\pdapi\tags\items\workstation_drinks.json
-f61a15e1c16fe86f9f8af284a91d55729e57324e data\create\tags\items\upright_on_belt.json
+// 1.20.1	2025-01-04T13:17:12.8961248	The Art of Bartending/Tags for minecraft:item
+6cec9c4cf8d84124a8a31adafde9690e66f9de05 data\pdapi\tags\items\workstation_drinks.json
+676e0f36f6ac0187702ca6491642731c08844ad3 data\bartending\tags\items\glasses.json
+a7926922916da1baa77d2efe2da17422560d9fba data\create\tags\items\upright_on_belt.json

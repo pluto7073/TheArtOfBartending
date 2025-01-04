@@ -8,7 +8,6 @@ import ml.pluto7073.bartending.foundations.item.AlcoholicShotItem;
 import ml.pluto7073.bartending.foundations.item.AlcoholicDrinkItem;
 import ml.pluto7073.bartending.foundations.item.PourableBottleItem;
 import ml.pluto7073.bartending.foundations.util.BrewingUtil;
-import ml.pluto7073.pdapi.specialty.InProgressItemRegistry;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -38,6 +37,8 @@ public class BartendingItems {
     public static final Item SHOT_GLASS = new Item(new Item.Properties());
     public static final Item COCKTAIL_GLASS = new Item(new Item.Properties());
     public static final Item WINE_GLASS = new Item(new Item.Properties());
+    public static final Item TALL_GLASS = new Item(new Item.Properties());
+    public static final Item SHORT_GLASS = new Item(new Item.Properties());
 
     public static final Item BOTTLE_OF_BEER = servingBottle(AlcoholicDrinks.BEER);
     public static final Item GLASS_OF_BEER = glass(AlcoholicDrinks.BEER, GLASS_BOTTLE);
@@ -193,6 +194,8 @@ public class BartendingItems {
         register("shot_glass", SHOT_GLASS);
         register("cocktail_glass", COCKTAIL_GLASS);
         register("wine_glass", WINE_GLASS);
+        register("tall_glass", TALL_GLASS);
+        register("short_glass", SHORT_GLASS);
         register("mixed_drink", MIXED_DRINK);
 
         register("boiler", BOILER);
@@ -200,8 +203,6 @@ public class BartendingItems {
         register("distillery", DISTILLERY);
         register("countertop", COUNTER_TOP);
         FERMENTING_BARRELS.forEach((type, item) -> register(type.name() + "_fermenting_barrel", item));
-
-        InProgressItemRegistry.register(COCKTAIL_GLASS, MIXED_DRINK);
     }
 
 }

@@ -27,12 +27,16 @@ import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.SingleItemRecipeBuilder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import snownee.fruits.CoreFruitTypes;
 import snownee.fruits.CoreModule;
 import snownee.fruits.FruitType;
@@ -155,12 +159,28 @@ public class BartendingRecipeProviders extends FabricRecipeProvider {
         simpleItemAddition(Items.SWEET_BERRIES, asId("sweet_berries"),  exporter);
         simpleItemAddition(CoreModule.ORANGE.get(), asId("compat/fruitfulfun/orange"), fruitfulfun);
 
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS_BOTTLE, BartendingItems.TALL_GLASS, 1);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS_BOTTLE, BartendingItems.SHORT_GLASS, 1);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS_BOTTLE, BartendingItems.WINE_GLASS, 1);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS_BOTTLE, BartendingItems.COCKTAIL_GLASS, 1);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS_BOTTLE, BartendingItems.SHOT_GLASS, 2);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.BROWN_STAINED_GLASS, BartendingItems.BEER_BOTTLE, 4);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS, BartendingItems.JUG, 1);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GREEN_STAINED_GLASS, BartendingItems.WINE_BOTTLE, 2);
+        stonecutting(exporter, RecipeCategory.TOOLS, Items.GLASS, BartendingItems.LIQUOR_BOTTLE, 2);
+
         Consumer<FinishedRecipe> createExporter =
                 withConditions(exporter, DefaultResourceConditions.allModsLoaded("create"));
 
         emptying.buildRecipes(createExporter);
         filling.buildRecipes(createExporter);
         mixing.buildRecipes(exporter);
+    }
+
+    private void stonecutting(Consumer<FinishedRecipe> exporter, RecipeCategory category, ItemLike in, ItemLike out, int count) {
+        SingleItemRecipeBuilder var10000 = SingleItemRecipeBuilder.stonecutting(Ingredient.of(in), category, out, count).unlockedBy(getHasName(in), has(in));
+        String var10002 = getConversionRecipeName(out, in);
+        var10000.save(exporter, asId("stonecutting/" + var10002));
     }
 
     private void simpleItemAddition(Item item, Consumer<FinishedRecipe> output) {

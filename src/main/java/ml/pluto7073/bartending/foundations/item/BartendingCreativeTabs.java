@@ -64,6 +64,8 @@ public class BartendingCreativeTabs {
             stacks.accept(BartendingItems.JUG);
             stacks.accept(BartendingItems.LIQUOR_BOTTLE);
             stacks.accept(Items.GLASS_BOTTLE);
+            stacks.accept(BartendingItems.TALL_GLASS);
+            stacks.accept(BartendingItems.SHORT_GLASS);
             stacks.accept(BartendingItems.WINE_GLASS);
             stacks.accept(BartendingItems.COCKTAIL_GLASS);
             stacks.accept(BartendingItems.SHOT_GLASS);
