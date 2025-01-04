@@ -7,6 +7,8 @@
 ## Changes
 - Temporarily removed the Sipping feature, will be re-added later
 - Tall glasses are now used to pour beer into
+- Any empty glass can now be used as a base for a Mixed Drink and Specialty Drinks based on Mixed Drinks
+  - This does not include drinks like the Mimosa or Death in the Afternoon as those are based on the Champagne item
 
 ## Fixes
 - Appletini recipe once again requires sugar and an apple

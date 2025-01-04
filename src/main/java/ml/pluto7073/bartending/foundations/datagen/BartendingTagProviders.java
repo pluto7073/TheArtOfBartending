@@ -4,12 +4,14 @@ import com.simibubi.create.AllTags;
 import ml.pluto7073.bartending.content.block.BartendingBlocks;
 import ml.pluto7073.bartending.content.fluid.BartendingFluids;
 import ml.pluto7073.bartending.content.item.BartendingItems;
+import ml.pluto7073.bartending.foundations.tags.BartendingTags;
 import ml.pluto7073.pdapi.tag.PDTags;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.FluidTags;
+import net.minecraft.world.item.Items;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -55,13 +57,15 @@ public class BartendingTagProviders {
 
         @Override
         protected void addTags(HolderLookup.Provider arg) {
+            getOrCreateTagBuilder(BartendingTags.GLASSES).add(Items.GLASS_BOTTLE, BartendingItems.COCKTAIL_GLASS,
+                    BartendingItems.WINE_GLASS, BartendingItems.TALL_GLASS, BartendingItems.SHORT_GLASS);
             FabricTagBuilder workstationDrinks = getOrCreateTagBuilder(PDTags.WORKSTATION_DRINKS);
-            workstationDrinks.add(BartendingItems.COCKTAIL_GLASS, BartendingItems.MIXED_DRINK);
+            workstationDrinks.add(BartendingItems.MIXED_DRINK).addTag(BartendingTags.GLASSES);
             BartendingItems.GLASSES.values().forEach(workstationDrinks::add);
             FabricTagBuilder uprightOnBelt = getOrCreateTagBuilder(AllTags.AllItemTags.UPRIGHT_ON_BELT.tag);
-            uprightOnBelt.add(BartendingItems.SHOT_GLASS, BartendingItems.WINE_GLASS, BartendingItems.COCKTAIL_GLASS,
-                    BartendingItems.CONCOCTION, BartendingItems.BEER_BOTTLE, BartendingItems.WINE_BOTTLE,
-                    BartendingItems.LIQUOR_BOTTLE, BartendingItems.JUG, BartendingItems.MIXED_DRINK);
+            uprightOnBelt.add(BartendingItems.SHOT_GLASS, BartendingItems.CONCOCTION, BartendingItems.BEER_BOTTLE,
+                    BartendingItems.WINE_BOTTLE, BartendingItems.LIQUOR_BOTTLE, BartendingItems.JUG,
+                    BartendingItems.MIXED_DRINK).addTag(BartendingTags.GLASSES);
 
             BartendingItems.SHOTS.values().forEach(uprightOnBelt::add);
             BartendingItems.BOTTLES.values().forEach(uprightOnBelt::add);

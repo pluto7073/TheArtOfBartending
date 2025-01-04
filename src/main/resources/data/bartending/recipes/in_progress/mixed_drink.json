@@ -1,0 +1,9 @@
+{
+  "type": "pdapi:in_progress_item",
+  "base": {
+    "tag": "bartending:glasses"
+  },
+  "result": {
+    "item": "bartending:mixed_drink"
+  }
+}

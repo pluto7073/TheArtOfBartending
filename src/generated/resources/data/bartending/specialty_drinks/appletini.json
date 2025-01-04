@@ -6,7 +6,9 @@
     "bartending:shot_of_vodka",
     "bartending:shot_of_vodka",
     "bartending:shot_of_apple_liqueur",
-    "bartending:shot_of_apple_liqueur"
+    "bartending:shot_of_apple_liqueur",
+    "pdapi:sugar",
+    "bartending:apple"
   ],
   "base": {
     "type": "pdapi:item",

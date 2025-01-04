@@ -3,5 +3,31 @@
   "textures": {
     "layer0": "bartending:item/mixed_drink_overlay",
     "layer1": "bartending:item/mixed_drink"
-  }
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "bartending:glass": 1
+      },
+      "model": "item/potion"
+    },
+    {
+      "predicate": {
+        "bartending:glass": 2
+      },
+      "model": "bartending:item/glass_of_alc"
+    },
+    {
+      "predicate": {
+        "bartending:glass": 3
+      },
+      "model": "bartending:item/simple_glass"
+    },
+    {
+      "predicate": {
+        "bartending:glass": 4
+      },
+      "model": "bartending:item/short_glass_full"
+    }
+  ]
 }

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:glass_bottle",
+    "bartending:cocktail_glass",
+    "bartending:wine_glass",
+    "bartending:tall_glass",
+    "bartending:short_glass"
+  ]
+}

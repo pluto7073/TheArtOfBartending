@@ -32,24 +32,34 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.item.ClampedItemPropertyFunction;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+@ParametersAreNonnullByDefault
 @Environment(EnvType.CLIENT)
 public class TheArtOfClient implements ClientModInitializer {
 
     private static ClientConfig CONFIG = null;
+    private static final List<Item> GLASSES = new ArrayList<>();
 
     @Override
     public void onInitializeClient() {
-        FabricLoader.getInstance().getModContainer(TheArtOfBartending.MOD_ID).ifPresent(container ->
-                ResourceManagerHelper.registerBuiltinResourcePack(TheArtOfBartending.asId("pdapi_overrides"), container,
-                        Component.translatable("pack.bartending.pdapi_overrides"), ResourcePackActivationType.ALWAYS_ENABLED));
         initColors();
         registerScreens();
         initRendering();
@@ -112,15 +122,30 @@ public class TheArtOfClient implements ClientModInitializer {
     }
 
     private static void registerItemProperties() {
-        ItemProperties.register(PDItems.SPECIALTY_DRINK, TheArtOfBartending.asId("mixed_drink"), (stack, level, entity, i) -> {
-            if (!stack.getOrCreateTag().contains("Drink")) return 0;
-            SpecialtyDrink drink = DrinkUtil.getSpecialDrink(stack);
-            if (drink.base().buildItemStack().getItem() == BartendingItems.MIXED_DRINK) return 1;
-            if (drink.base().buildItemStack().getItem() instanceof AlcoholicDrinkItem item) {
-                return BartendingItems.GLASSES.containsValue(item) ? 1 : 0;
-            }
-            return 0;
-        });
+        GLASSES.add(BartendingItems.COCKTAIL_GLASS);
+        GLASSES.add(Items.GLASS_BOTTLE);
+        GLASSES.add(BartendingItems.WINE_GLASS);
+        GLASSES.add(BartendingItems.TALL_GLASS);
+        GLASSES.add(BartendingItems.SHORT_GLASS);
+
+        ItemProperties.register(BartendingItems.MIXED_DRINK, TheArtOfBartending.asId("glass"),
+                new ClampedItemPropertyFunction() {
+
+                    @SuppressWarnings("deprecation")
+                    @Override
+                    public float call(ItemStack itemStack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int i) {
+                        return unclampedCall(itemStack, clientLevel, livingEntity, i);
+                    }
+
+                    @Override
+                    public float unclampedCall(ItemStack stack, @Nullable ClientLevel clientLevel, @Nullable LivingEntity livingEntity, int i) {
+                        if (!stack.getOrCreateTag().contains("FromItem")) return 0;
+                        Item glass = BuiltInRegistries.ITEM.get(
+                                new ResourceLocation(stack.getOrCreateTag().getString("FromItem")));
+                        if (glass == Items.AIR) return 0;
+                        return GLASSES.indexOf(glass);
+                    }
+                });
 
         ItemProperties.register(BartendingItems.CONCOCTION, TheArtOfBartending.asId("just_liquid"), (itemStack, clientLevel, livingEntity, i) -> {
             if (!itemStack.getOrCreateTag().contains("JustLiquid")) return 0;
