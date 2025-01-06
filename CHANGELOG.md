@@ -9,6 +9,9 @@
   - `bartending:short_glass`
   - `bartending:wine_glass`
   - `bartending:cocktail_glass`
+- Two Tea based cocktails when TeaTime is installed
+  - Earl Grey Old Fashioned (Requires Fruitfulfun and Tea Time): A combination of Whiskey and Earl Grey tea with orange garnish
+  - Bourbon Sweet Tea (Requires Tea Time): Sweet black tea with a hint of Whiskey
 
 ## Changes
 - Temporarily removed the Sipping feature, will be re-added later

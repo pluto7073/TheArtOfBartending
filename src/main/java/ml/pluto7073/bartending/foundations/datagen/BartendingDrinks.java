@@ -1,11 +1,17 @@
 package ml.pluto7073.bartending.foundations.datagen;
 
+import ml.pluto7073.bartending.content.alcohol.AlcoholicDrinks;
 import ml.pluto7073.bartending.content.item.BartendingItems;
 import ml.pluto7073.pdapi.PDAPI;
 import ml.pluto7073.pdapi.datagen.provider.SpecialtyDrinkProvider;
 import ml.pluto7073.pdapi.specialty.SpecialtyDrink;
+import ml.pluto7073.plutoscoffee.PlutosCoffee;
+import ml.pluto7073.teatime.TeaTime;
+import ml.pluto7073.teatime.teatypes.TeaSpecialtyBase;
+import ml.pluto7073.teatime.teatypes.TeaTypeManager;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.resource.conditions.v1.DefaultResourceConditions;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 
 import java.util.function.BiConsumer;
@@ -45,7 +51,7 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
     private static final DrinkBuilder ESPRESSO_MARTINI = staticBaseBuilder(BartendingItems.MIXED_DRINK)
             .step(asId("shot_of_vodka"))
             .step(asId("shot_of_coffee_liqueur"))
-            .step(new ResourceLocation("plutoscoffee:espresso_shot"))
+            .step(PlutosCoffee.asId("espresso_shot"))
             .step(PDAPI.asId("sugar"))
             .step(asId("cocoa_beans"))
             .step(asId("compat/plutoscoffee/coffee_bean"))
@@ -85,6 +91,24 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
             .step(asId("shot_of_dry_vermouth"))
             .color(15724527);
 
+    private static final DrinkBuilder EARL_GRAY_OLD_FASHIONED = staticBaseBuilder(BartendingItems.MIXED_DRINK)
+            .step(asId("shot_of_whiskey"))
+            .step(asId("shot_of_whiskey"))
+            .step(PDAPI.asId("sugar"))
+            .step(TeaTime.asId("earl_gray"))
+            .step(TeaTime.asId("earl_gray"))
+            .step(PDAPI.asId("ice"))
+            .step(asId("compat/fruitfulfun/orange"))
+            .color(AlcoholicDrinks.WHISKEY.color());
+
+    private static final DrinkBuilder BOURBON_SWEET_TEA = builder(new TeaSpecialtyBase(ResourceKey.create(TeaTypeManager.TEA_TYPE, TeaTime.asId("black_tea"))))
+            .step(PDAPI.asId("sugar"))
+            .step(PDAPI.asId("sugar"))
+            .step(PDAPI.asId("sugar"))
+            .step(asId("shot_of_whiskey"))
+            .step(PDAPI.asId("ice"))
+            .color(5048069);
+
     public BartendingDrinks(FabricDataOutput out) {
         super(out);
     }
@@ -93,6 +117,8 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
     public void buildDrinks(BiConsumer<ResourceLocation, SpecialtyDrink> output) {
         BiConsumer<ResourceLocation, SpecialtyDrink> fruitfulfun = withConditions(output, DefaultResourceConditions.allModsLoaded("fruitfulfun"));
         BiConsumer<ResourceLocation, SpecialtyDrink> plutoscoffee = withConditions(output, DefaultResourceConditions.allModsLoaded("plutoscoffee"));
+        BiConsumer<ResourceLocation, SpecialtyDrink> teatimeFFF = withConditions(output, DefaultResourceConditions.allModsLoaded("teatime", "fruitfulfun"));
+        BiConsumer<ResourceLocation, SpecialtyDrink> teatime = withConditions(output, DefaultResourceConditions.allModsLoaded("teatime"));
         APPLETINI.save(asId("appletini"), output);
         MARTINI.save(asId("martini"), output);
         MARGARITA.save(asId("compat/fruitfulfun/margarita"), fruitfulfun);
@@ -103,6 +129,8 @@ public class BartendingDrinks extends SpecialtyDrinkProvider {
         KAMIKAZE.save(asId("compat/fruitfulfun/kamikaze"), fruitfulfun);
         MANHATTAN.save(asId("manhattan"), output);
         VODKA_MARTINI.save(asId("vodka_martini"), output);
+        EARL_GRAY_OLD_FASHIONED.save(asId("compat/teatime/earl_gray_old_fashioned"), teatimeFFF);
+        BOURBON_SWEET_TEA.save(asId("compat/teatime/bourbon_sweet_tea"), teatime);
     }
 
 }

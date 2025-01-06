@@ -104,6 +104,10 @@ dependencies {
 
 	modCompileOnly "maven.modrinth:kiwi:$kiwi_version"
 
+	modCompileOnly "maven.modrinth:plutos-coffee-mod:$minecraft_version+$plutoscoffee_version"
+
+	modCompileOnly "ml.pluto7073:teatime:$minecraft_version+$teatime_version"
+
 	// Optional Integration Testing Toggles (these can be safely commented out... except when stated)
 	modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}"
 
@@ -121,7 +125,9 @@ dependencies {
 
 	modRuntimeOnly "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_version}" // Required for ModMenu
 
-	modRuntimeOnly "maven.modrinth:plutos-coffee-mod:$minecraft_version+$plutoscoffee_version"
+	modRuntimeOnly "maven.modrinth:plutos-coffee-mod:$minecraft_version+$plutoscoffee_version" // Datagen
+
+	modRuntimeOnly "ml.pluto7073:teatime:$minecraft_version+$teatime_version" // Datagen
 
 }
 

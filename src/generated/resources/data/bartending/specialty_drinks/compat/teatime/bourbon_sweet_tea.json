@@ -1,0 +1,25 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "teatime"
+      ]
+    }
+  ],
+  "additions": [
+    "pdapi:sugar",
+    "pdapi:sugar",
+    "pdapi:sugar",
+    "bartending:shot_of_whiskey",
+    "pdapi:ice"
+  ],
+  "base": {
+    "type": "teatime:tea",
+    "tea": "teatime:black_tea"
+  },
+  "chemicals": {},
+  "color": 5048069,
+  "name": "",
+  "onDrinkActions": []
+}

@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "teatime",
+        "fruitfulfun"
+      ]
+    }
+  ],
+  "additions": [
+    "bartending:shot_of_whiskey",
+    "bartending:shot_of_whiskey",
+    "pdapi:sugar",
+    "teatime:earl_gray",
+    "teatime:earl_gray",
+    "pdapi:ice",
+    "bartending:compat/fruitfulfun/orange"
+  ],
+  "base": {
+    "type": "pdapi:item",
+    "item": "bartending:mixed_drink"
+  },
+  "chemicals": {},
+  "color": 4466194,
+  "name": "",
+  "onDrinkActions": []
+}
