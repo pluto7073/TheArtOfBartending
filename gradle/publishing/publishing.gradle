@@ -22,7 +22,7 @@ githubRelease {
     token = System.getenv("GH_TOKEN") ?: ""
     targetCommitish = "1.20"
     body = changelog_text
-    releaseAssets = [file("build/libs/${remapJar.archiveBaseName.get()}-${version}.jar") , file("build/libs/${remapJar.archiveBaseName.get()}-${version}-sources.jar")]
+    releaseAssets = [file("build/libs/${archives_base_name}-${version}.jar") , file("build/libs/${archives_base_name}-${version}-sources.jar")]
 }
 
 modrinth {
