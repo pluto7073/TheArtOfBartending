@@ -18,6 +18,8 @@ static String getChangelog(File bugs, File changelog) {
     return log
 }
 
+tasks.githubRelease.dependsOn(tasks.build)
+
 githubRelease {
     token = System.getenv("GH_TOKEN") ?: ""
     targetCommitish = "1.20"
