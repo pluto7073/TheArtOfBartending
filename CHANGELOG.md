@@ -22,6 +22,7 @@
 
 ## Fixes
 - Appletini recipe once again requires sugar and an apple
+- Sweet berries addition now has a translation
 
 ---
 
