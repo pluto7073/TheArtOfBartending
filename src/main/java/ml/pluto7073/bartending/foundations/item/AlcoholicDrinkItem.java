@@ -46,7 +46,7 @@ public class AlcoholicDrinkItem extends AbstractCustomizableDrinkItem {
                 (int) Math.ceil(getChemicalContent(AlcoholHandler.INSTANCE.getId(), stack)));
 
 
-        if (!stack.isEmpty()) return stack;
+        //if (!stack.isEmpty()) return stack;
 
         if (player instanceof ServerPlayer) {
             CriteriaTriggers.CONSUME_ITEM.trigger((ServerPlayer) player, stack);
