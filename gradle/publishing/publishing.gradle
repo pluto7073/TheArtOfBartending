@@ -1,3 +1,4 @@
+//file:noinspection GroovyAssignabilityCheck
 import java.nio.file.Files
 
 ext {
@@ -8,6 +9,7 @@ tasks.register("publishMod") {
     group = "publishing"
     dependsOn(tasks.modrinth)
     dependsOn(tasks.githubRelease)
+    dependsOn(tasks.curseforge)
 }
 
 static String getChangelog(File bugs, File changelog) {
@@ -18,7 +20,7 @@ static String getChangelog(File bugs, File changelog) {
     return log
 }
 
-tasks.githubRelease.dependsOn(tasks.build)
+tasks.githubRelease.dependsOn(tasks.remapJar)
 
 githubRelease {
     token = System.getenv("GH_TOKEN") ?: ""
@@ -42,4 +44,28 @@ modrinth {
     }
     loaders = [ "fabric" ]
     changelog = changelog_text
+}
+
+curseforge {
+    apiKey = System.getenv("CURSE_TOKEN") ?: "unset"
+    project {
+        id = "1179007"
+        changelog = changelog_text
+        releaseType = 'release'
+        for (final def version in project.minecraft_dependency.split(',')) {
+            addGameVersion(version)
+        }
+        addGameVersion("Fabric")
+        relations {
+            requiredDependency("fabric-api")
+            requiredDependency("pdapi")
+        }
+        mainArtifact(file("build/libs/${remapJar.archiveBaseName.get()}-${version}.jar")) {
+            displayName = version
+        }
+        afterEvaluate {
+            uploadTask.dependsOn(tasks.remapJar)
+        }
+    }
+    curseGradleOptions.forgeGradleIntegration = false
 }
